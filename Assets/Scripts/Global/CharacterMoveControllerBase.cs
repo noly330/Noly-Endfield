@@ -8,7 +8,7 @@ namespace Global
     public class CharacterMovementControlBase : MonoBehaviour
     {
         protected CharacterController _characterController;
-        protected Animator _animator;
+        [SerializeField] protected Animator _animator;
         public Animator animator => _animator;
         protected Vector3 _moveDirection;
 
