@@ -8,7 +8,7 @@ namespace Endfield
         public OperatorIdlingState idlingState { get; private set; }
         public OperatorWalkingState walkingState { get; private set; }
         public OperatorRunningState runningState { get; private set; }
-        public OperatorDodgingState dodgingState { get; private set; }
+        public OperatorDashingState dashingState { get; private set; }
 
         public OperatorMovementStateMachine(Operator operatorCharacter)
         {
@@ -18,7 +18,7 @@ namespace Endfield
             idlingState = new OperatorIdlingState(this);
             walkingState = new OperatorWalkingState(this);
             runningState = new OperatorRunningState(this);
-            dodgingState = new OperatorDodgingState(this);
+            dashingState = new OperatorDashingState(this);
         }
     }
 }

@@ -10,8 +10,17 @@ namespace Endfield
     {
         [SerializeField] private float _moveSpeed = 5f;
 
+        /// <summary>
+        /// 当前干员的移动状态机。
+        /// </summary>
         public OperatorMovementStateMachine movementStateMachine { get; private set; }
+        /// <summary>
+        /// 当前干员的移动驱动器。
+        /// 从外部(玩家输入或者ai行为树）读取输入，向移动状态机写入数据。
+        /// </summary>
         public OperatorMovementDriver movementDriver { get; private set; }
+        public OperatorSO operatorSO;
+
 
         public virtual Vector3 GetMovementInput()
         {
@@ -23,11 +32,11 @@ namespace Endfield
             return movementDriver.shouldWalk;
         }
 
-        /// <summary>消耗型：读取闪避触发标记后立刻复位。</summary>
-        public bool GetShouldDodge()
+        /// <summary>消耗型：读取冲刺触发标记后立刻复位。</summary>
+        public bool GetShouldDash()
         {
-            bool result = movementDriver.shouldDodge;
-            movementDriver.shouldDodge = false;
+            bool result = movementDriver.shouldDash;
+            movementDriver.shouldDash = false;
             return result;
         }
 
@@ -37,10 +46,10 @@ namespace Endfield
         /// </summary>
         public virtual void UpdateMovementDriver() { }
 
-        /// <summary>闪避冷却结束回调，由 OperatorDodgingState 调用。</summary>
-        public void ResetDodge()
+        /// <summary>冲刺冷却结束回调，由 OperatorDashingState 调用。</summary>
+        public void ResetDash()
         {
-            movementDriver.canDodge = true;
+            movementDriver.canDash = true;
         }
 
         protected override void Awake()
@@ -62,11 +71,15 @@ namespace Endfield
             UpdateMovementDriver();
             movementStateMachine.HandInput();
             movementStateMachine.Update();
+        }
 
-            Vector3 input = GetMovementInput();
-            if (input != Vector3.zero)
+        public void OnAnimationTranslate(OnEnterAnimationState state)
+        {
+            switch (state)
             {
-                _characterController.Move(input * _moveSpeed * Time.deltaTime);
+                case OnEnterAnimationState.Dash:
+                    movementStateMachine.ChangeState(movementStateMachine.dashingState);
+                    break;
             }
         }
     }

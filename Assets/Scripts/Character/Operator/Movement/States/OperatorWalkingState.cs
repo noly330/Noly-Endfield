@@ -9,8 +9,8 @@ namespace Endfield
         public override void Enter()
         {
             base.Enter();
-            _reusableData.rotationTime = 0.1f;
-            _reusableData.inputMult = 1f;
+            _reusableData.rotationTime = _movementData.walkData.rotationTime;
+            _reusableData.inputMult = _movementData.walkData.inputMult;
             _animator.CrossFadeInFixedTime("WalkStart", 0.14f);
             _animator.SetBool(AnimationID.HasInputID, true);
         }
