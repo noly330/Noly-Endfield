@@ -8,6 +8,7 @@ namespace Endfield
         protected Operator _operator { get; }
         protected Animator _animator { get; }
         protected OperatorStateReusableData _reusableData { get; }
+        protected OperatorMovementData _movementData { get; }
 
         public OperatorMovementState(OperatorMovementStateMachine stateMachine)
         {
@@ -15,6 +16,7 @@ namespace Endfield
             _operator = stateMachine.operatorCharacter;
             _animator = _operator.animator;
             _reusableData = stateMachine.reusableData;
+            _movementData = _operator.operatorSO.movementData;
         }
 
         public virtual void Enter()

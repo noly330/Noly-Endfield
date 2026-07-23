@@ -742,7 +742,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   _verticalVelocity: 0
-  moveSpeed: 5
+  _moveSpeed: 5
+  operatorSO: {fileID: 11400000, guid: c5ef84fd3b2bf014eba1cb698d92d54c, type: 2}
   isMainPlayer: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
