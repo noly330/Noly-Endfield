@@ -9,6 +9,7 @@ public class PlayerInputSystem : MonoBehaviour
     public Vector2 Move => inputActions.Player.MoveMent.ReadValue<Vector2>();
     public Vector2 Look => inputActions.Player.Look.ReadValue<Vector2>();
     public Vector2 Scroll => inputActions.Player.Scroll.ReadValue<Vector2>();
+    public InputAction DashAction => inputActions.Player.Dash;
 
     private void Awake()
     {

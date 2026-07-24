@@ -20,7 +20,12 @@ namespace Endfield
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            base.OnStateExit(animator, stateInfo, layerIndex);
+            if (_enterAnimationState == OnEnterAnimationState.None)
+                return;
+            if (animator.TryGetComponent<Operator>(out Operator operatorComponent))
+            {
+                operatorComponent.OnAnimationEixt();
+            }
         }
     }
 

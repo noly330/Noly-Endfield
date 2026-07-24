@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Endfield
 {
-    public class OperatorMovementState : IState
+    public class OperatorMovementStateBase : IState
     {
         protected OperatorMovementStateMachine _movementStateMachine { get; }
         protected Operator _operator { get; }
@@ -10,7 +10,7 @@ namespace Endfield
         protected OperatorStateReusableData _reusableData { get; }
         protected OperatorMovementData _movementData { get; }
 
-        public OperatorMovementState(OperatorMovementStateMachine stateMachine)
+        public OperatorMovementStateBase(OperatorMovementStateMachine stateMachine)
         {
             _movementStateMachine = stateMachine;
             _operator = stateMachine.operatorCharacter;

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Endfield
 {
-    public class OperatorIdlingState : OperatorMovementState
+    public class OperatorIdlingState : OperatorMovementStateBase
     {
         public OperatorIdlingState(OperatorMovementStateMachine stateMachine) : base(stateMachine) { }
 
