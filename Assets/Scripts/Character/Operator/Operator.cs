@@ -8,8 +8,6 @@ namespace Endfield
     /// </summary>
     public class Operator : CharacterMovementControlBase
     {
-        [SerializeField] private float _moveSpeed = 5f;
-
         /// <summary>
         /// 当前干员的移动状态机。
         /// </summary>

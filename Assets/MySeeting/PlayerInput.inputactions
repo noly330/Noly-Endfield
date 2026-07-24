@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "name": "PlyaerInput",
+    "name": "PlayerInput",
     "maps": [
         {
             "name": "Player",
@@ -10,7 +10,25 @@
                     "name": "MoveMent",
                     "type": "Value",
                     "id": "0a45778b-3ad1-4c09-a8e5-1292dc8ad824",
-                    "expectedControlType": "",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Look",
+                    "type": "Value",
+                    "id": "31e09856-22e9-42a7-ab47-bdce018b1908",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Scroll",
+                    "type": "Value",
+                    "id": "9409a1ec-08a7-49e5-be05-15ae88ff36c9",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -71,6 +89,28 @@
                     "action": "MoveMent",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "5d8db962-a18e-4faf-ac1b-934e0e9c31c7",
+                    "path": "<Pointer>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bce1be1e-ab7e-4974-8cc6-02fff724908b",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scroll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
