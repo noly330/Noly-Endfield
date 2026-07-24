@@ -5,10 +5,10 @@ public class PlayerInputSystem : MonoBehaviour
 {
     public static PlayerInputSystem Instance { get; private set; }
 
-    [SerializeField] private InputActionAsset inputActions;
-
-    private InputAction moveAction;
-    public Vector2 Move { get; private set; }
+    [SerializeField] private PlayerInput inputActions;
+    public Vector2 Move => inputActions.Player.MoveMent.ReadValue<Vector2>();
+    public Vector2 Look => inputActions.Player.Look.ReadValue<Vector2>();
+    public Vector2 Scroll => inputActions.Player.Scroll.ReadValue<Vector2>();
 
     private void Awake()
     {
@@ -18,24 +18,20 @@ public class PlayerInputSystem : MonoBehaviour
             return;
         }
         Instance = this;
+        
+        if(inputActions == null)
+            inputActions = new PlayerInput();
         DontDestroyOnLoad(gameObject);
-
-        moveAction = inputActions.FindAction("MoveMent");
     }
 
     private void OnEnable()
     {
-        moveAction?.Enable();
+        inputActions.Player.Enable();
     }
 
     private void OnDisable()
     {
-        moveAction?.Disable();
+        inputActions.Player.Disable();
     }
 
-    private void Update()
-    {
-        if (moveAction != null)
-            Move = moveAction.ReadValue<Vector2>();
-    }
 }
