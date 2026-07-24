@@ -2,9 +2,8 @@ using UnityEngine;
 
 namespace Endfield
 {
-    public class OperatorDashingState : OperatorMovementState
+    public class OperatorDashingState : OperatorMovementStateBase
     {
-        private readonly float _dashCooldown = 1.5f;
         private float _cooldownTimer;
 
         public OperatorDashingState(OperatorMovementStateMachine stateMachine) : base(stateMachine) { }
@@ -12,21 +11,16 @@ namespace Endfield
         public override void Enter()
         {
             base.Enter();
+            _reusableData.rotationTime = _movementData.dashData.rotationTime;
             _operator.movementDriver.canDash = false;
-            _cooldownTimer = _dashCooldown;
-
-            Vector3 inputDir = _operator.GetMovementInput();
-            if (inputDir != Vector3.zero)
-                _animator.CrossFadeInFixedTime("Dash", 0.1f);
-            else
-                _animator.CrossFadeInFixedTime("DashBack", 0.1f);
-            _animator.SetBool(AnimationID.HasInputID, true);
+            _cooldownTimer = _movementData.dashData.coldTime;
         }
 
         public override void Update()
         {
             base.Update();
 
+            //TODO：计时器放在这里有严重问题，比如状态被打断后，计时器就不会更新
             if (_cooldownTimer > 0f)
             {
                 _cooldownTimer -= Time.deltaTime;

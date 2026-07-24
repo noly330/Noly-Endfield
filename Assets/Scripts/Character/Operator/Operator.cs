@@ -8,13 +8,10 @@ namespace Endfield
     /// </summary>
     public class Operator : CharacterMovementControlBase
     {
-        /// <summary>
-        /// 当前干员的移动状态机。
-        /// </summary>
+        /// <summary>/// 当前干员的移动状态机。/// </summary>
         public OperatorMovementStateMachine movementStateMachine { get; private set; }
         /// <summary>
-        /// 当前干员的移动驱动器。
-        /// 从外部(玩家输入或者ai行为树）读取输入，向移动状态机写入数据。
+        /// 当前干员的移动驱动器。从外部(玩家输入或者ai行为树）读取输入，向移动状态机写入数据。
         /// </summary>
         public OperatorMovementDriver movementDriver { get; private set; }
         public OperatorSO operatorSO;
@@ -78,7 +75,14 @@ namespace Endfield
                 case OnEnterAnimationState.Dash:
                     movementStateMachine.ChangeState(movementStateMachine.dashingState);
                     break;
+                case OnEnterAnimationState.Idle:
+                    movementStateMachine.ChangeState(movementStateMachine.idlingState);
+                    break;
             }
+        }
+        public void OnAnimationEixt()
+        {
+            movementStateMachine.OnAnimationExitEvent();
         }
     }
 }

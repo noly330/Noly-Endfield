@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Endfield
 {
-    public class OperatorWalkingState : OperatorMovementState
+    public class OperatorWalkingState : OperatorMovementStateBase
     {
         public OperatorWalkingState(OperatorMovementStateMachine stateMachine) : base(stateMachine) { }
 

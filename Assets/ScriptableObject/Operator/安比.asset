@@ -12,3 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5e152901f956543aa3745a42e7fa73, type: 3}
   m_Name: "\u5B89\u6BD4"
   m_EditorClassIdentifier: 
+  <movementData>k__BackingField:
+    <runData>k__BackingField:
+      <speedMult>k__BackingField: 1
+      <inputMult>k__BackingField: 2
+      <rotationTime>k__BackingField: 0.08
+    <walkData>k__BackingField:
+      <speedMult>k__BackingField: 1
+      <inputMult>k__BackingField: 1
+      <rotationTime>k__BackingField: 0.08
+    <dashData>k__BackingField:
+      <frontDushAnimationName>k__BackingField: Dash_Front
+      <backDushAnimationName>k__BackingField: Dash_Back
+      <fadeTime>k__BackingField: 0.1555
+      <rotationTime>k__BackingField: 0.09
+      <dodgeBackApplyRotation>k__BackingField: 0
+      <coldTime>k__BackingField: 0.5

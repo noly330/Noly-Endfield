@@ -1,6 +1,6 @@
 namespace Endfield
 {
-    public class OperatorRunningState : OperatorMovementState
+    public class OperatorRunningState : OperatorMovementStateBase
     {
         public OperatorRunningState(OperatorMovementStateMachine stateMachine) : base(stateMachine) { }
 
