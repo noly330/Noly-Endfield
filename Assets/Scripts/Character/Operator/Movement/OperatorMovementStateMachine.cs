@@ -9,6 +9,8 @@ namespace Endfield
         public OperatorWalkingState walkingState { get; private set; }
         public OperatorRunningState runningState { get; private set; }
         public OperatorDashingState dashingState { get; private set; }
+        public OperatorSprintingState sprintingState { get; private set; }
+        public OperatorReturnRunState returnRunState { get; private set; }
 
         public OperatorMovementStateMachine(Operator operatorCharacter)
         {
@@ -19,6 +21,8 @@ namespace Endfield
             walkingState = new OperatorWalkingState(this);
             runningState = new OperatorRunningState(this);
             dashingState = new OperatorDashingState(this);
+            sprintingState = new OperatorSprintingState(this);
+            returnRunState = new OperatorReturnRunState(this);
         }
     }
 }

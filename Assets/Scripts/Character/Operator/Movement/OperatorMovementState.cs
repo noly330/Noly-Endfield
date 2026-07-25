@@ -1,4 +1,5 @@
 using UnityEngine;
+using Endfield.Tools;
 
 namespace Endfield
 {
@@ -9,6 +10,7 @@ namespace Endfield
         protected Animator _animator { get; }
         protected OperatorStateReusableData _reusableData { get; }
         protected OperatorMovementData _movementData { get; }
+        protected bool _canReturnBack = true;
 
         public OperatorMovementStateBase(OperatorMovementStateMachine stateMachine)
         {
@@ -41,6 +43,7 @@ namespace Endfield
         protected void CharacterRotation(Vector3 movementDirection)
         {
             if (movementDirection == Vector3.zero) return;
+            if (!_canReturnBack) return;
 
             _reusableData.targetAngle = Mathf.Atan2(movementDirection.x, movementDirection.z) * Mathf.Rad2Deg;
 

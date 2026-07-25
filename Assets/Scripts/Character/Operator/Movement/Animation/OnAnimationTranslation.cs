@@ -36,5 +36,7 @@ namespace Endfield
         Walk,
         Run,
         Dash,
+        Sprint,
+        ReturnRun,
     }
 }

@@ -78,6 +78,12 @@ namespace Endfield
                 case OnEnterAnimationState.Idle:
                     movementStateMachine.ChangeState(movementStateMachine.idlingState);
                     break;
+                case OnEnterAnimationState.Sprint:
+                    movementStateMachine.ChangeState(movementStateMachine.sprintingState);
+                    break;
+                case OnEnterAnimationState.ReturnRun:
+                    movementStateMachine.ChangeState(movementStateMachine.returnRunState);
+                    break;
             }
         }
         public void OnAnimationEixt()
