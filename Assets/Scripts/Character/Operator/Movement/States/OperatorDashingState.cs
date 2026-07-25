@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using Endfield.Tools;
 namespace Endfield
 {
     public class OperatorDashingState : OperatorMovementStateBase
@@ -14,6 +14,7 @@ namespace Endfield
             _reusableData.rotationTime = _movementData.dashData.rotationTime;
             _operator.movementDriver.canDash = false;
             _cooldownTimer = _movementData.dashData.coldTime;
+            _animator.SetBool(AnimationID.HasInputID,true);
         }
 
         public override void Update()
