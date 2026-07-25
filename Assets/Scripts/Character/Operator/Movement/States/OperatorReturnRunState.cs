@@ -14,6 +14,7 @@ namespace Endfield
             base.Enter();
             //进入到这个状态之后关闭TurenBack，因为只触发一次，注意，这个代码是在OnAnimationTranslate中触发的
             _animator.SetBool(AnimationID.TurnBackID,false);
+            _animator.SetBool(AnimationID.HasInputID,true);
             _reusableData.inputMult = _movementData.returnRunData.inputMult;
             _reusableData.rotationTime = _movementData.returnRunData.rotationTime;
             _canReturnBack = false;

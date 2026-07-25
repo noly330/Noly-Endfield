@@ -21,13 +21,19 @@ namespace Endfield
         private void OnEnable()
         {
             PlayerInputSystem.Instance.DashAction.performed += OnDashStart;
+            Debug.Log("角色名字："+name+"，输入系统已启用");
+        }
+
+        private void OnDisable()
+        {
+            PlayerInputSystem.Instance.DashAction.performed -= OnDashStart;
         }
 
         private void OnDashStart(InputAction.CallbackContext context)
         {
             if(!isMainPlayer)
                 return;
-
+            Debug.Log("DashStart");
             //TODO:后面加上计时器，搞冲刺冷却
             // if (!movementDriver.canDash)
             //     return;
