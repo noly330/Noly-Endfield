@@ -32,7 +32,7 @@ namespace Endfield
         public override void OnAnimationExitEvent()
         {
             if (_operator.GetMovementInput() != Vector3.zero)
-                _movementStateMachine.ChangeState(_movementStateMachine.runningState);
+                _movementStateMachine.ChangeState(_movementStateMachine.sprintingState);
             else
                 _movementStateMachine.ChangeState(_movementStateMachine.idlingState);
         }

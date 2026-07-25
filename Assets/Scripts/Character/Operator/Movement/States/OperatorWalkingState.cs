@@ -1,7 +1,8 @@
 using UnityEngine;
-
+using Endfield.Tools;
 namespace Endfield
 {
+    //TODO:现在没有走路的动画，这个先闲置在这里，以后添加走路的动画
     public class OperatorWalkingState : OperatorMovementStateBase
     {
         public OperatorWalkingState(OperatorMovementStateMachine stateMachine) : base(stateMachine) { }

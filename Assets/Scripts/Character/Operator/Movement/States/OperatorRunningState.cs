@@ -1,3 +1,4 @@
+using Endfield.Tools;
 namespace Endfield
 {
     public class OperatorRunningState : OperatorMovementStateBase
