@@ -35,12 +35,6 @@ namespace Endfield
             return result;
         }
 
-        /// <summary>
-        /// 子类覆写此方法，每帧向 movementDriver 写入数据。
-        /// OperatorInputController 从玩家输入写入；队友 AI/行为树直接写入。
-        /// </summary>
-        public virtual void UpdateMovementDriver() { }
-
         /// <summary>冲刺冷却结束回调，由 OperatorDashingState 调用。</summary>
         public void ResetDash()
         {
@@ -63,7 +57,6 @@ namespace Endfield
         protected override void Update()
         {
             base.Update();
-            UpdateMovementDriver();
             movementStateMachine.HandInput();
             movementStateMachine.Update();
         }

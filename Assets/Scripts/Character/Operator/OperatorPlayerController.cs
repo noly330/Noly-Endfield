@@ -4,18 +4,18 @@ using UnityEngine.InputSystem;
 
 namespace Endfield
 {
-    public class OperatorInputController : Operator
+    public class OperatorPlayerController : MonoBehaviour
     {
         public bool isMainPlayer;
-
         private Transform _cameraTransform;
         private OperatorMovementData _movementData;
 
-        protected override void Awake()
+        private Operator _operator;
+        private void Awake()
         {
-            base.Awake();
             _cameraTransform = Camera.main.transform;
-            _movementData = operatorSO.movementData;
+            _operator = GetComponent<Operator>();
+            _movementData = _operator.operatorSO.movementData;
         }
 
         private void OnEnable()
@@ -29,6 +29,11 @@ namespace Endfield
             PlayerInputSystem.Instance.DashAction.performed -= OnDashStart;
         }
 
+        private void Update()
+        {
+            UpdateMovementDriver();
+        }
+
         private void OnDashStart(InputAction.CallbackContext context)
         {
             if(!isMainPlayer)
@@ -37,12 +42,12 @@ namespace Endfield
             //TODO:后面加上计时器，搞冲刺冷却
             // if (!movementDriver.canDash)
             //     return;
-            if(movementDriver.worldDirection == Vector3.zero)
-                _animator.CrossFadeInFixedTime(_movementData.dashData.backDushAnimationName, _movementData.dashData.fadeTime);
+            if(_operator.movementDriver.worldDirection == Vector3.zero)
+                _operator.animator.CrossFadeInFixedTime(_movementData.dashData.backDushAnimationName, _movementData.dashData.fadeTime);
             else
-                _animator.CrossFadeInFixedTime(_movementData.dashData.frontDushAnimationName, _movementData.dashData.fadeTime);
+                _operator.animator.CrossFadeInFixedTime(_movementData.dashData.frontDushAnimationName, _movementData.dashData.fadeTime);
         }
-        public override void UpdateMovementDriver()
+        public  void UpdateMovementDriver()
         {
             if (!isMainPlayer)
                 return;
@@ -51,14 +56,14 @@ namespace Endfield
 
             if (input.sqrMagnitude < 0.01f)
             {
-                movementDriver.worldDirection = Vector3.zero;
+                _operator.movementDriver.worldDirection = Vector3.zero;
                 return;
             }
 
             Vector3 dir = new Vector3(input.x, 0, input.y);
             Vector3 worldDir = _cameraTransform.TransformDirection(dir);
             worldDir.y = 0;
-            movementDriver.worldDirection = worldDir.normalized;
+            _operator.movementDriver.worldDirection = worldDir.normalized;
         }
 
     }
