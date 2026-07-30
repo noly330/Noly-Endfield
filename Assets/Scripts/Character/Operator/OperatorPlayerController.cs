@@ -21,12 +21,16 @@ namespace Endfield
         private void OnEnable()
         {
             PlayerInputSystem.Instance.DashAction.performed += OnDashStart;
-            Debug.Log("角色名字："+name+"，输入系统已启用");
+            PlayerInputSystem.Instance.AttackAction.performed += OnAttackStart;
+            Debug.Log("角色名字："+name+"，玩家输入系统已启用");
         }
+
+
 
         private void OnDisable()
         {
             PlayerInputSystem.Instance.DashAction.performed -= OnDashStart;
+            PlayerInputSystem.Instance.AttackAction.performed -= OnAttackStart;
         }
 
         private void Update()
@@ -46,6 +50,13 @@ namespace Endfield
                 _operator.animator.CrossFadeInFixedTime(_movementData.dashData.backDushAnimationName, _movementData.dashData.fadeTime);
             else
                 _operator.animator.CrossFadeInFixedTime(_movementData.dashData.frontDushAnimationName, _movementData.dashData.fadeTime);
+        }
+        private void OnAttackStart(InputAction.CallbackContext context)
+        {
+            if(!isMainPlayer)
+                return;
+            Debug.Log("玩家攻击");
+            _operator.combatDriver.normalAttack = true;
         }
         public  void UpdateMovementDriver()
         {

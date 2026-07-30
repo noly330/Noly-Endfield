@@ -38,5 +38,6 @@ namespace Endfield
         Dash,
         Sprint,
         ReturnRun,
+        ATK,
     }
 }

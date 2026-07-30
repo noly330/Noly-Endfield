@@ -8,6 +8,7 @@ namespace Endfield
     public class OperatorSO : ScriptableObject
     {
         [field: SerializeField] public OperatorMovementData movementData{get; private set;}
+        [field: SerializeField] public OperatorCombatData combatData{get; private set;}
     }
 
 }
