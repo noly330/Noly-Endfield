@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Endfield
 {
-    public class OperatorReturnRunState : OperatorMovementStateBase
+    public class OperatorReturnRunState : OperatorMovementState
     {
         public OperatorReturnRunState(OperatorMovementStateMachine stateMachine) : base(stateMachine) { }
 

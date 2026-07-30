@@ -3,7 +3,7 @@ using Endfield.Tools;
 
 namespace Endfield
 {
-    public class OperatorIdlingState : OperatorMovementStateBase
+    public class OperatorIdlingState : OperatorMovementState
     {
         public OperatorIdlingState(OperatorMovementStateMachine stateMachine) : base(stateMachine) { }
 

@@ -2,7 +2,7 @@ using UnityEngine;
 using Endfield.Tools;
 namespace Endfield
 {
-    public class OperatorDashingState : OperatorMovementStateBase
+    public class OperatorDashingState : OperatorMovementState
     {
         private float _cooldownTimer;
 

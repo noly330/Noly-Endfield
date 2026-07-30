@@ -1,7 +1,7 @@
 using Endfield.Tools;
 namespace Endfield
 {
-    public class OperatorRunningState : OperatorMovementStateBase
+    public class OperatorRunningState : OperatorMovementState
     {
         public OperatorRunningState(OperatorMovementStateMachine stateMachine) : base(stateMachine) { }
 

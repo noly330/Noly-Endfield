@@ -3,16 +3,16 @@ using Endfield.Tools;
 
 namespace Endfield
 {
-    public class OperatorMovementStateBase : IState
+    public abstract class OperatorMovementState : IState
     {
         protected OperatorMovementStateMachine _movementStateMachine { get; }
         protected Operator _operator { get; }
         protected Animator _animator { get; }
-        protected OperatorStateReusableData _reusableData { get; }
+        protected OperatorMovementReusableData _reusableData { get; }
         protected OperatorMovementData _movementData { get; }
         protected bool _canReturnBack = true;
 
-        public OperatorMovementStateBase(OperatorMovementStateMachine stateMachine)
+        public OperatorMovementState(OperatorMovementStateMachine stateMachine)
         {
             _movementStateMachine = stateMachine;
             _operator = stateMachine.operatorCharacter;
