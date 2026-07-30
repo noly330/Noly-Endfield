@@ -6,6 +6,7 @@ namespace Endfield
 {
     public class OperatorCombatResuableData
     {
-        
+        public int comboIndex{get;set;} = 0;
+        public int nextComboIndex{get;set;}
     }
 }

@@ -10,48 +10,36 @@ namespace Endfield
     {
         /// <summary>/// 当前干员的移动状态机。/// </summary>
         public OperatorMovementStateMachine movementStateMachine { get; private set; }
+        /// <summary>/// 当前干员的战斗状态机。/// </summary>
+        public OperatorCombatStateMachine combatStateMachine { get; private set; }
+
         /// <summary>
         /// 当前干员的移动驱动器。从外部(玩家输入或者ai行为树）读取输入，向移动状态机写入数据。
         /// </summary>
         public OperatorMovementDriver movementDriver { get; private set; }
+        /// <summary>
+        /// 当前干员的战斗驱动器。从外部(玩家输入或者ai行为树）读取输入，向战斗状态机写入数据。
+        /// </summary>
+        public OperatorCombatDriver combatDriver { get; private set; }
+
         public OperatorSO operatorSO;
 
 
-        public virtual Vector3 GetMovementInput()
-        {
-            return movementDriver.worldDirection;
-        }
-
-        public bool GetShouldWalk()
-        {
-            return movementDriver.shouldWalk;
-        }
-
-        /// <summary>消耗型：读取冲刺触发标记后立刻复位。</summary>
-        public bool GetShouldDash()
-        {
-            bool result = movementDriver.shouldDash;
-            movementDriver.shouldDash = false;
-            return result;
-        }
-
-        /// <summary>冲刺冷却结束回调，由 OperatorDashingState 调用。</summary>
-        public void ResetDash()
-        {
-            movementDriver.canDash = true;
-        }
 
         protected override void Awake()
         {
             base.Awake();
             movementDriver = new OperatorMovementDriver();
+            combatDriver = new OperatorCombatDriver();
             movementStateMachine = new OperatorMovementStateMachine(this);
+            combatStateMachine = new OperatorCombatStateMachine(this);
         }
 
         protected override void Start()
         {
             base.Start();
             movementStateMachine.ChangeState(movementStateMachine.idlingState);
+            combatStateMachine.ChangeState(combatStateMachine.nullState);
         }
 
         protected override void Update()
@@ -59,6 +47,9 @@ namespace Endfield
             base.Update();
             movementStateMachine.HandInput();
             movementStateMachine.Update();
+
+            combatStateMachine.HandInput();
+            combatStateMachine.Update();
         }
 
         public void OnAnimationTranslate(OnEnterAnimationState state)
@@ -82,6 +73,29 @@ namespace Endfield
         public void OnAnimationEixt()
         {
             movementStateMachine.OnAnimationExitEvent();
+        }
+        public virtual Vector3 GetMovementInput()
+        {
+            return movementDriver.worldDirection;
+        }
+
+        public bool GetShouldWalk()
+        {
+            return movementDriver.shouldWalk;
+        }
+
+        /// <summary>消耗型：读取冲刺触发标记后立刻复位。</summary>
+        public bool GetShouldDash()
+        {
+            bool result = movementDriver.shouldDash;
+            movementDriver.shouldDash = false;
+            return result;
+        }
+
+        /// <summary>冲刺冷却结束回调，由 OperatorDashingState 调用。</summary>
+        public void ResetDash()
+        {
+            movementDriver.canDash = true;
         }
     }
 }
