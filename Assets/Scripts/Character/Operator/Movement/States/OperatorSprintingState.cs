@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Endfield
 {
-    public class OperatorSprintingState : OperatorMovementStateBase
+    public class OperatorSprintingState : OperatorMovementState
     {
         private Vector3 _targetDirection;
         private float _turnDeltaAngle;

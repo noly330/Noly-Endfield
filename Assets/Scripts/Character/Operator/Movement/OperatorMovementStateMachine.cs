@@ -3,7 +3,7 @@ namespace Endfield
     public class OperatorMovementStateMachine : StateMachine
     {
         public Operator operatorCharacter { get; }
-        public OperatorStateReusableData reusableData { get; }
+        public OperatorMovementReusableData reusableData { get; }
 
         public OperatorIdlingState idlingState { get; private set; }
         public OperatorWalkingState walkingState { get; private set; }
@@ -15,7 +15,7 @@ namespace Endfield
         public OperatorMovementStateMachine(Operator operatorCharacter)
         {
             this.operatorCharacter = operatorCharacter;
-            reusableData = new OperatorStateReusableData();
+            reusableData = new OperatorMovementReusableData();
 
             idlingState = new OperatorIdlingState(this);
             walkingState = new OperatorWalkingState(this);

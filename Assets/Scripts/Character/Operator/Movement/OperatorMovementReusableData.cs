@@ -3,7 +3,7 @@ namespace Endfield
     /// <summary>
     /// 所有移动状态的共享数据容器。只 new 一次，各状态通过引用读写同一份数据。
     /// </summary>
-    public class OperatorStateReusableData
+    public class OperatorMovementReusableData
     {
         /// <summary>
         /// 输入倍率。Idle 设低值（≈0），降低摇杆微推时的误触；Walk/Run 设高值（≈1-3），
