@@ -68,7 +68,6 @@ public class ThirdPersonCamera : MonoBehaviour
 
     /// <summary>
     /// 在 LateUpdate 中更新相机，确保在角色 Animator 之后执行，避免抖动。
-    /// 只控制 cameraTarget 的旋转，位置/距离/碰撞由 Cinemachine Body 自动处理。
     /// </summary>
     private void LateUpdate()
     {
@@ -92,10 +91,6 @@ public class ThirdPersonCamera : MonoBehaviour
         HandleFovZoom(scroll.y);
     }
 
-    /// <summary>
-    /// 处理滚轮 FOV 缩放。目标 FOV 受 _fovMin / _fovMax 限制，
-    /// 当前 FOV 每帧 Lerp 逼近目标值。
-    /// </summary>
     private void HandleFovZoom(float scroll)
     {
         if (_virtualCamera == null) return;
@@ -111,7 +106,7 @@ public class ThirdPersonCamera : MonoBehaviour
         }
     }
     /// <summary>
-    /// 角度限制，正确处理 ±360 之外的缠绕值。
+    /// 角度限制，处理 ±360 之外的缠绕值。
     /// </summary>
     private static float ClampAngle(float angle, float min, float max)
     {

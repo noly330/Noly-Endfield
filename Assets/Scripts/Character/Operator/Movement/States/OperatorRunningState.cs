@@ -1,6 +1,7 @@
 using Endfield.Tools;
 namespace Endfield
 {
+    
     public class OperatorRunningState : OperatorMovementState
     {
         public OperatorRunningState(OperatorMovementStateMachine stateMachine) : base(stateMachine) { }
@@ -20,6 +21,7 @@ namespace Endfield
 
             if (_operator.GetMovementInput() == UnityEngine.Vector3.zero)
             {
+                //这里就不用加缓冲了，就当转身动画了
                 _movementStateMachine.ChangeState(_movementStateMachine.idlingState);
                 return;
             }
