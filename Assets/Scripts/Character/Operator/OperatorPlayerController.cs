@@ -42,10 +42,10 @@ namespace Endfield
         {
             if(!isMainPlayer)
                 return;
-            Debug.Log("DashStart");
-            //TODO:后面加上计时器，搞冲刺冷却
-            // if (!_operator.movementDriver.canDash)
-            //     return;
+
+            if (!_operator.movementDriver.canDash)
+                return;
+
             if(_operator.movementDriver.worldDirection == Vector3.zero)
                 _operator.animator.CrossFadeInFixedTime(_movementData.dashData.backDushAnimationName, _movementData.dashData.fadeTime);
             else

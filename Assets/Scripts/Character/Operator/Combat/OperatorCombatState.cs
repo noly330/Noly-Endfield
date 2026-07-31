@@ -48,7 +48,7 @@ namespace Endfield
                 Debug.Log("进行普攻第" + index + "段");
                 _resuableData.comboIndex = index;
                 _resuableData.nextComboIndex = (index + 1) % _combatData.normalAttackData.TryGetCombatCount();
-                _animator.CrossFadeInFixedTime(_combatData.normalAttackData.TryGetCombatName(index), 0.1f);
+                _animator.CrossFadeInFixedTime(_combatData.normalAttackData.TryGetCombatName(index), 0.1555f);
             }
         }
 

@@ -4,7 +4,7 @@ namespace Endfield
 {
     public class OperatorDashingState : OperatorMovementState
     {
-        private float _cooldownTimer;
+
 
         public OperatorDashingState(OperatorMovementStateMachine stateMachine) : base(stateMachine) { }
 
@@ -13,21 +13,14 @@ namespace Endfield
             base.Enter();
             _reusableData.rotationTime = _movementData.dashData.rotationTime;
             _operator.movementDriver.canDash = false;
-            _cooldownTimer = _movementData.dashData.coldTime;
             _animator.SetBool(AnimationID.HasInputID,true);
+            TimerManager.Instance.GetOneTimer(_movementData.dashData.coldTime, _operator.ResetDash);
         }
 
         public override void Update()
         {
             base.Update();
 
-            //TODO：计时器放在这里有严重问题，比如状态被打断后，计时器就不会更新
-            if (_cooldownTimer > 0f)
-            {
-                _cooldownTimer -= Time.deltaTime;
-                if (_cooldownTimer <= 0f)
-                    _operator.ResetDash();
-            }
         }
 
         public override void OnAnimationExitEvent()

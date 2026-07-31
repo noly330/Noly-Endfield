@@ -1,0 +1,117 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using Endfield.Tools;
+
+
+namespace Endfield
+{
+    public class TimerManager : Singleton<TimerManager>
+    {
+        [SerializeField] private int _timerCount = 50;
+
+        private Queue<GameTimer> notWorkTimers = new Queue<GameTimer>();
+        private List<GameTimer> isWorkingTimers = new List<GameTimer>();
+
+
+        protected void Start()
+        {
+            for (int i = 0; i < _timerCount; i++)
+            {
+                CreateTimer();
+            }
+        }
+
+        private void Update()
+        {
+            UpdateTimers();
+        }
+        private void CreateTimer()
+        {
+            var timer = new GameTimer();
+            notWorkTimers.Enqueue(timer);
+        }
+
+        private void UpdateTimers()
+        {
+            if(isWorkingTimers.Count == 0)  
+                return;
+            for(int i = 0; i < isWorkingTimers.Count; i++)
+            {
+                if(isWorkingTimers[i].timerState == TimerState.DoWorking)
+                {
+                    if (isWorkingTimers[i].isRealTime)
+                    {
+                        isWorkingTimers[i].UpdateRealTimer();
+                    }
+                    else
+                    {
+                        isWorkingTimers[i].UpdateTimer();
+                    }
+                }
+                else if(isWorkingTimers[i].timerState == TimerState.DoneWorked)
+                {
+                    isWorkingTimers[i].InitTimer();
+                    notWorkTimers.Enqueue(isWorkingTimers[i]);
+                    isWorkingTimers.Remove(isWorkingTimers[i]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 开启一个游戏时间定时器,直接开始计时，不返回定时器对象
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="action"></param>
+        public void GetOneTimer(float time, Action action)
+        {
+            if (notWorkTimers.Count == 0)
+            {
+                CreateTimer();
+            }
+            GameTimer gameTimer = notWorkTimers.Dequeue();
+            gameTimer.StartTimer(false, time, action);
+            isWorkingTimers.Add(gameTimer);
+        }
+        /// <summary>
+        /// 开启一个游戏时间定时器并且返回定时器对象
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="action"></param>
+        public GameTimer GetTimer(float time, Action action)
+        {
+            if (notWorkTimers.Count == 0) { CreateTimer(); }
+            GameTimer gameTimer = notWorkTimers.Dequeue();
+            gameTimer.StartTimer(false, time, action);
+            isWorkingTimers.Add(gameTimer);
+            return gameTimer;
+        }
+        /// <summary>
+        /// 开启一个真是时间定时器并且返回定时器对象
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="action"></param>
+        public GameTimer GetRealTimer(float time, Action action)
+        {
+            if (notWorkTimers.Count == 0) { CreateTimer(); }
+    
+            GameTimer gameTimer = notWorkTimers.Dequeue();
+            gameTimer.StartTimer(true, time, action);
+            isWorkingTimers.Add(gameTimer);
+            return gameTimer;
+        }
+
+        /// <summary>
+        /// 关闭指定计时器
+        /// </summary>
+        /// <param name="gameTimer"></param>
+        public void UnregisterTimer(GameTimer gameTimer)
+        {
+            if(gameTimer == null)  return; 
+            if(gameTimer.timerState != TimerState.DoWorking)  return;
+            gameTimer.InitTimer();
+            isWorkingTimers.Remove(gameTimer);
+            notWorkTimers.Enqueue(gameTimer);
+        }
+    }
+}

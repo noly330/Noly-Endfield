@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Endfield.Tools;
 
 namespace Endfield
 {
@@ -16,6 +17,7 @@ namespace Endfield
         public override void Enter()
         {
             base.Enter();
+
         }
         public override void Update()
         {
@@ -28,7 +30,16 @@ namespace Endfield
         }
         public override void OnAnimationExitEvent()
         {
-            _combatStateMachine.ChangeState(_combatStateMachine.nullState);
+            TimerManager.Instance.GetTimer(0.2f, OnBufferToNull);
+        }
+
+        private void OnBufferToNull()
+        {
+            if (!_animator.GetCurrentAnimatorStateInfo(0).IsTag("ATK"))
+            {
+                _combatStateMachine.ChangeState(_combatStateMachine.nullState);
+            }
+
         }
     }
 }
