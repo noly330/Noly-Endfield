@@ -23,7 +23,7 @@ namespace Endfield
 
         public virtual void Enter()
         {
-            Debug.Log(_operator.name + " 状态为 " + GetType().Name);
+            Debug.Log(_operator.name + " 移动状态为 " + GetType().Name);
         }
 
         public virtual void Exit() { }

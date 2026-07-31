@@ -28,3 +28,17 @@ MonoBehaviour:
       <rotationTime>k__BackingField: 0.09
       <dodgeBackApplyRotation>k__BackingField: 0
       <coldTime>k__BackingField: 0.5
+    <sprintData>k__BackingField:
+      <speedMult>k__BackingField: 1
+      <inputMult>k__BackingField: 3
+      <rotationTime>k__BackingField: 0.08
+      <turnBackAngle>k__BackingField: 135
+    <returnRunData>k__BackingField:
+      <speedMult>k__BackingField: 1
+      <inputMult>k__BackingField: 2.5
+      <rotationTime>k__BackingField: 0.5
+  <combatData>k__BackingField:
+    <normalAttackData>k__BackingField: {fileID: 11400000, guid: 03f9491ef8d39e648a636d4ea2f23625,
+      type: 2}
+    <skillAttackData>k__BackingField: {fileID: 0}
+    <linkAttackData>k__BackingField: {fileID: 0}

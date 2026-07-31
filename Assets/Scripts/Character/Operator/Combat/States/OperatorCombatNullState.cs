@@ -9,5 +9,19 @@ namespace Endfield
         public OperatorCombatNullState(OperatorCombatStateMachine stateMachine) : base(stateMachine)
         {
         }
+        public override void Enter()
+        {
+            base.Enter();
+            _combatStateMachine.combatController.CancelAttackColdTime();
+        }
+
+        public override void Update()
+        {
+            base.Update();
+        }
+        public override void OnAnimationTranslateEvent(IState state)
+        {
+            _combatStateMachine.ChangeState(state);
+        }
     }
 }
