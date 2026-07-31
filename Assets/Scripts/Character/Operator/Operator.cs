@@ -21,6 +21,10 @@ namespace Endfield
         /// 当前干员的战斗驱动器。从外部(玩家输入或者ai行为树）读取输入，向战斗状态机写入数据。
         /// </summary>
         public OperatorCombatDriver combatDriver { get; private set; }
+        /// <summary>
+        /// 当前干员的战斗控制器。负责处理干员的战斗逻辑。
+        /// </summary>
+        public OperatorCombatController combatController { get; private set; }
 
         public OperatorSO operatorSO;
 
@@ -29,6 +33,7 @@ namespace Endfield
         protected override void Awake()
         {
             base.Awake();
+            combatController = new OperatorCombatController(_animator);
             movementDriver = new OperatorMovementDriver();
             combatDriver = new OperatorCombatDriver();
             movementStateMachine = new OperatorMovementStateMachine(this);
@@ -68,11 +73,15 @@ namespace Endfield
                 case OnEnterAnimationState.ReturnRun:
                     movementStateMachine.ChangeState(movementStateMachine.returnRunState);
                     break;
+                case OnEnterAnimationState.ATK:
+                    combatStateMachine.ChangeState(combatStateMachine.normalATKState);
+                    break;
             }
         }
         public void OnAnimationEixt()
         {
             movementStateMachine.OnAnimationExitEvent();
+            combatStateMachine.OnAnimationExitEvent();
         }
         public virtual Vector3 GetMovementInput()
         {
@@ -96,6 +105,12 @@ namespace Endfield
         public void ResetDash()
         {
             movementDriver.canDash = true;
+        }
+
+        /// <summary>攻击冷却结束回调，由 OperatorCombatNullState 调用。</summary>
+        public void CancelAttackColdTime()
+        {
+            combatController.CancelAttackColdTime();
         }
     }
 }
