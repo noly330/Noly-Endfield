@@ -34,6 +34,7 @@ namespace Endfield
         public override void OnAnimationExitEvent()
         {
             TimerManager.Instance.GetTimer(0.2f, OnBufferToNull);
+            RestartComboResetTimer(_combatData.normalAttackData.TryGetColdTime(_resuableData.combatIndex));
         }
 
         private void OnBufferToNull()
