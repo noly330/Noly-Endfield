@@ -14,8 +14,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combatName: Attack4
   coldTime: 0.4
-  interactionConfigs: []
-  detectConfigs: []
+  interactionConfigs:
+  - hitName: "\u54C8\u673A\u5BC6"
+    damageMul: 0
+  - hitName: "\u5357\u5317\u7EFF\u8C46"
+    damageMul: 0
+  - hitName: "\u963F\u897F\u5676\u54C8"
+    damageMul: 0
+  detectConfigs:
+  - startTime: 0.17
+    position: {x: 0, y: 1, z: 0.5}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 2, y: 1.5, z: 3}
+    detectType: 1
+    targetMask:
+      serializedVersion: 2
+      m_Bits: 128
+  - startTime: 0.3
+    position: {x: 0, y: 1, z: 0.5}
+    rotation: {x: 2, y: 1.5, z: 4}
+    scale: {x: 2, y: 1.5, z: 3}
+    detectType: 1
+    targetMask:
+      serializedVersion: 2
+      m_Bits: 128
+  - startTime: 0.58
+    position: {x: 0, y: 1, z: 0.5}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 2, y: 1.5, z: 3}
+    detectType: 1
+    targetMask:
+      serializedVersion: 2
+      m_Bits: 128
   sfxConfigs: []
   vfxConfigs: []
   recoverEnergyConfigs: []

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Global
+namespace Endfield
 {
     public class CharacterMovementControlBase : MonoBehaviour
     {

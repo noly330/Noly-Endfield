@@ -1,4 +1,3 @@
-using Global;
 using UnityEngine;
 
 namespace Endfield
@@ -6,7 +5,7 @@ namespace Endfield
     /// <summary>
     /// 干员的状态机宿主。主控干员与队友干员共用此移动系统。
     /// </summary>
-    public class Operator : CharacterMovementControlBase
+    public class Operator : CharacterMovementControlBase,IDamageable
     {
         /// <summary>/// 当前干员的移动状态机。/// </summary>
         public OperatorMovementStateMachine movementStateMachine { get; private set; }
@@ -33,7 +32,7 @@ namespace Endfield
         protected override void Awake()
         {
             base.Awake();
-            combatController = new OperatorCombatController(_animator);
+            combatController = new OperatorCombatController(_animator,this.transform);
             movementDriver = new OperatorMovementDriver();
             combatDriver = new OperatorCombatDriver();
             movementStateMachine = new OperatorMovementStateMachine(this);
@@ -93,24 +92,23 @@ namespace Endfield
             return movementDriver.shouldWalk;
         }
 
-        /// <summary>消耗型：读取冲刺触发标记后立刻复位。</summary>
-        public bool GetShouldDash()
-        {
-            bool result = movementDriver.shouldDash;
-            movementDriver.shouldDash = false;
-            return result;
-        }
-
         /// <summary>冲刺冷却结束回调，由 OperatorDashingState 调用。</summary>
         public void ResetDash()
         {
             movementDriver.canDash = true;
         }
 
+        #region 动画帧事件回调
         /// <summary>攻击冷却结束回调，由 OperatorCombatNullState 调用。</summary>
         public void CancelAttackColdTime()
         {
             combatController.CancelAttackColdTime();
         }
+
+        public void TakeDamage(DamageInfo damageInfo)
+        {
+            Debug.Log("我" + name + "被" + damageInfo.attacter.name + "打了，快来救我" );
+        }
+        #endregion
     }
 }

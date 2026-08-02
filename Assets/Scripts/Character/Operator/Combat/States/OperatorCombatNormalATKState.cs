@@ -16,12 +16,15 @@ namespace Endfield
 
         public override void Enter()
         {
-            base.Enter();
+            CombatSetSO combatSet = _combatData.normalAttackData;
+            
+            _combatController.StartAttackDetection(combatSet,_resuableData.combatIndex);
 
         }
         public override void Update()
         {
             base.Update();
+            _combatController.UpdateAttackDetection();
         }
 
         public override void OnAnimationTranslateEvent(IState state)

@@ -24,7 +24,7 @@ namespace Endfield
         }
         public virtual void Enter()
         {
-            Debug.Log(_operatorCharacter.name + " 战斗状态为 " + GetType().Name);
+            //Debug.Log(_operatorCharacter.name + " 战斗状态为 " + GetType().Name);
         }
 
         public virtual void Exit()
@@ -44,10 +44,10 @@ namespace Endfield
                     return;
                 }
                 _combatStateMachine.combatController.SetAttackColdTime();
-                int index = _resuableData.nextComboIndex;
+                int index = _resuableData.nextCombatIndex;
                 Debug.Log("进行普攻第" + index + "段");
-                _resuableData.comboIndex = index;
-                _resuableData.nextComboIndex = (index + 1) % _combatData.normalAttackData.TryGetCombatCount();
+                _resuableData.combatIndex = index;
+                _resuableData.nextCombatIndex = (index + 1) % _combatData.normalAttackData.TryGetCombatCount();
                 _animator.CrossFadeInFixedTime(_combatData.normalAttackData.TryGetCombatName(index), 0.1555f);
             }
         }
