@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Endfield;
+using Endfield.Tools;
 using UnityEngine;
 
 namespace Endfield
@@ -13,6 +14,7 @@ namespace Endfield
         protected OperatorCombatResuableData _resuableData { get; }
         protected OperatorCombatData _combatData { get; }
         protected Animator _animator { get; }
+        private GameTimer _comboResetTimer;
         public OperatorCombatState(OperatorCombatStateMachine combatStateMachine)
         {
             _combatStateMachine = combatStateMachine;
@@ -48,8 +50,20 @@ namespace Endfield
                 Debug.Log("进行普攻第" + index + "段");
                 _resuableData.combatIndex = index;
                 _resuableData.nextCombatIndex = (index + 1) % _combatData.normalAttackData.TryGetCombatCount();
+                if (_comboResetTimer != null) TimerManager.Instance.UnregisterTimer(_comboResetTimer);
                 _animator.CrossFadeInFixedTime(_combatData.normalAttackData.TryGetCombatName(index), 0.1555f);
             }
+        }
+
+        protected void RestartComboResetTimer(float coldTime)
+        {
+            if (_comboResetTimer != null) TimerManager.Instance.UnregisterTimer(_comboResetTimer);
+            _comboResetTimer = TimerManager.Instance.GetTimer(coldTime, OnComboReset);
+        }
+
+        private void OnComboReset()
+        {
+            _resuableData.nextCombatIndex = 0;
         }
 
         public virtual void OnAnimationExitEvent()
