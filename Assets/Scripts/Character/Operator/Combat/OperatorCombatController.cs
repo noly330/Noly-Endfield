@@ -6,7 +6,7 @@ namespace Endfield
 {
     public class OperatorCombatController : CharacterCombatControllerBase
     {
-        public OperatorCombatController(Animator animator) : base(animator)
+        public OperatorCombatController(Animator animator,Transform characterTrans) : base(animator,characterTrans)
         {
         }
 

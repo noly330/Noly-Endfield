@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Endfield/Combat/CombatConfig")]
+
 public class CombatConfigSO : ScriptableObject
 {
     [Header("基础配置")]
@@ -22,6 +23,10 @@ public class CombatConfigSO : ScriptableObject
     [Header("战斗能量恢复配置")]
     public CombatRecoverEnergyConfig[] recoverEnergyConfigs;
 }
+public enum CombatDetectType
+{
+    None,Area,Single
+}
 
 
 [System.Serializable]
@@ -39,6 +44,8 @@ public class CombatDetectConfig
     public Vector3 position;
     public Vector3 rotation;
     public Vector3 scale;
+    public CombatDetectType detectType;
+    public LayerMask targetMask;
 }
 
 [System.Serializable]
@@ -65,3 +72,4 @@ public class CombatRecoverEnergyConfig
     public int attackIndex;  //在第attackIndex段攻击的时候触发
     public float energyRecover;
 }
+
