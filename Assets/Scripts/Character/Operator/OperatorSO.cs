@@ -9,6 +9,7 @@ namespace Endfield
     {
         [field: SerializeField] public OperatorMovementData movementData{get; private set;}
         [field: SerializeField] public OperatorCombatData combatData{get; private set;}
+        [field: SerializeField] public OperatorAttributeData attributeData{get; private set;}
     }
 
 }

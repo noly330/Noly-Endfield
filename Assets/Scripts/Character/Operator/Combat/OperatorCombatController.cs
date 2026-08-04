@@ -7,7 +7,7 @@ namespace Endfield
     public class OperatorCombatController : CharacterCombatControllerBase
     {
         public OperatorCombatController(Animator animator,Transform characterTrans,
-        OperatorCombatData operatorCombatData) : base(animator,characterTrans,operatorCombatData)
+        OperatorCombatData operatorCombatData, CharacterAttribute attribute) : base(animator,characterTrans,operatorCombatData,attribute)
         {
         }
     }

@@ -9,7 +9,7 @@ namespace Endfield
     /// </summary>
     public class CharacterAttribute
     {
-        private readonly CharacterAttributeData _data;   // 基础模板（现为 SO，以后配表行，形状不变）
+        private readonly CharacterAttributeData _data;   // 基础数据（内嵌于角色SO，以后可换配表行，形状不变）
         public float weaponBaseATK;    // 武器基础攻击，默认 0，武器系统以后填
         public float percentATKBonus;  // 百分比攻击加成（buff/装备累加）
 
