@@ -16,7 +16,6 @@ namespace Endfield
 
         public override void Enter()
         {
-            Debug.Log("进入普攻状态");
             CombatSetSO combatSet = _combatData.normalAttackData;
 
             _combatController.StartAttackDetection(combatSet, _resuableData.combatIndex);

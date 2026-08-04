@@ -94,13 +94,94 @@ namespace Endfield
                         damageable.TakeDamage(new DamageInfo { attacter = _characterTrans.transform, damage = interactionConfig.damageMul });
                         Debug.Log("对敌人：" + target.name + "造成了" + interactionConfig.damageMul + "点伤害" + ",并且造成了受击动画：" + interactionConfig.hitName);
                     }
+                    if (target.transform == _cachedTarget)
+                    {
+                        SetCachedTarget(target.transform);   // 打中缓存目标 → 重新计时，不切换到其他敌人
+                    }
                 }
                 _firedDetectCount++;
             }
         }
 
+        #endregion
+
+        #region 索敌
+        private Transform _cachedTarget;  //缓存目标
+        private GameTimer _stickTimer;  //粘性倒计时定时器
+        private float _stickTime = 2f; //索敌时间，TODO:先用硬编码测试
+
+        /// <summary>锁目标并重启 2 秒粘性倒计时（打中缓存目标时也走这个刷新）</summary>
+        private void SetCachedTarget(Transform target)
+        {
+            _cachedTarget = target;
+            if (_stickTimer != null) TimerManager.Instance.UnregisterTimer(_stickTimer);
+            _stickTimer = TimerManager.Instance.GetTimer(_stickTime, OnStickExpired);
+        }
+
+        /// <summary> x秒没打中缓存目标 → 清缓存，下次 GetCurrentTarget 回退最近索敌</summary>
+        private void OnStickExpired()
+        {
+            _cachedTarget = null;
+        }
+
+        public Transform GetCurrentTarget()
+        {
+            if (_cachedTarget)
+            {
+                // 缓存目标超出索敌半径 → 重新最近索敌（GetNearestEnemy 会重新锁定）
+                Vector3 toTarget = _cachedTarget.position - _characterTrans.position;
+                if (toTarget.sqrMagnitude > _targetRadius * _targetRadius)
+                {
+                    return GetNearestEnemy();
+                }
+                return _cachedTarget;
+            }
+            return GetNearestEnemy();
+        }
+
         /// <summary>
-        /// 在 Scene/Game 视图绘制当前攻击检测盒（红色线框），方便调试命中范围。
+        /// 获取最近敌人
+        /// </summary>
+        /// <returns></returns>
+        public Transform GetNearestEnemy()
+        {
+            Collider[] hits = Physics.OverlapSphere(_characterTrans.position, _targetRadius, _targetMask);
+
+            Transform nearest = null;
+            float minSqr = float.MaxValue;   // 用平方距离比较，省掉开平方开销
+
+            foreach (Collider hit in hits)
+            {
+                if (!hit.TryGetComponent<IDamageable>(out _)) continue;
+
+                float sqr = (hit.transform.position - _characterTrans.position).sqrMagnitude;
+                if (sqr < minSqr)
+                {
+                    minSqr = sqr;
+                    nearest = hit.transform;
+                }
+            }
+            if (nearest != null)
+            {
+                SetCachedTarget(nearest);   // 初始锁定最近敌人并开启粘性倒计时
+            }
+            return nearest;
+        }
+
+        /// <summary>平滑转向目标</summary>
+        public void FaceTarget(Transform target, float smoothTime = 60f)
+        {
+            Vector3 dir = target.position - _characterTrans.position;
+            dir.y = 0;
+            if (dir.sqrMagnitude < 0.0001f) return;
+            Quaternion lookRotation = Quaternion.LookRotation(dir);
+            float t = 1 - Mathf.Exp(-smoothTime * Time.deltaTime);   // 帧无关平滑系数
+            _characterTrans.rotation = Quaternion.Slerp(_characterTrans.rotation, lookRotation, t);
+        }
+
+        #endregion
+        /// <summary>
+        /// 在 Scene/Game 视图绘制当前攻击检测盒，方便调试命中范围。
         /// 由 Operator.OnDrawGizmos 调用，仅在普攻动画期间绘制。
         /// </summary>
         public void DrawAttackGizmos()
@@ -134,59 +215,5 @@ namespace Endfield
 
             Gizmos.matrix = Matrix4x4.identity;
         }
-        #endregion
-
-        #region 索敌
-        private Transform _cachedTarget;  //缓存目标
-        private GameTimer _stickTimer;  //索敌定时器
-        private float _stickTime = 2f; //索敌时间，TODO:先用硬编码测试
-
-        public Transform GetCurrentTarget()
-        {
-            if (_cachedTarget)
-            {
-                return _cachedTarget;
-            }
-            return GetNearestEnemy();
-        }
-
-        /// <summary>
-        /// 获取最近敌人
-        /// </summary>
-        /// <returns></returns>
-        public Transform GetNearestEnemy()
-        {
-            Collider[] hits = Physics.OverlapSphere(_characterTrans.position, _targetRadius, _targetMask);
-
-            Transform nearest = null;
-            float minSqr = float.MaxValue;   // 用平方距离比较，省掉开平方开销
-
-            foreach (Collider hit in hits)
-            {
-                if (!hit.TryGetComponent<IDamageable>(out _)) continue;
-
-                float sqr = (hit.transform.position - _characterTrans.position).sqrMagnitude;
-                if (sqr < minSqr)
-                {
-                    minSqr = sqr;
-                    nearest = hit.transform;
-                }
-            }
-            _cachedTarget = nearest;
-            return nearest;
-        }
-
-        /// <summary>平滑转向目标</summary>
-        public void FaceTarget(Transform target, float smoothTime = 60f)
-        {
-            Vector3 dir = target.position - _characterTrans.position;
-            dir.y = 0;
-            if (dir.sqrMagnitude < 0.0001f) return;
-            Quaternion lookRotation = Quaternion.LookRotation(dir);
-            float t = 1 - Mathf.Exp(-smoothTime * Time.deltaTime);   // 帧无关平滑系数
-            _characterTrans.rotation = Quaternion.Slerp(_characterTrans.rotation, lookRotation, t);
-        }
-
-        #endregion
     }
 }
