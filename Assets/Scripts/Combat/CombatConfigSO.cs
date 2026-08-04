@@ -45,7 +45,6 @@ public class CombatDetectConfig
     public Vector3 rotation;
     public Vector3 scale;
     public CombatDetectType detectType;
-    public LayerMask targetMask;
 }
 
 [System.Serializable]

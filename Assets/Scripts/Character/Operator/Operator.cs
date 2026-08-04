@@ -32,7 +32,7 @@ namespace Endfield
         protected override void Awake()
         {
             base.Awake();
-            combatController = new OperatorCombatController(_animator,this.transform);
+            combatController = new OperatorCombatController(_animator,this.transform,operatorSO.combatData);
             movementDriver = new OperatorMovementDriver();
             combatDriver = new OperatorCombatDriver();
             movementStateMachine = new OperatorMovementStateMachine(this);

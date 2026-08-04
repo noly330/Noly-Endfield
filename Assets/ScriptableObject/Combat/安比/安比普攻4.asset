@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\u5B89\u6BD4\u666E\u653B4"
   m_EditorClassIdentifier: 
   combatName: Attack4
-  coldTime: 1.8
+  coldTime: 2
   interactionConfigs:
   - hitName: "\u54C8\u673A\u5BC6"
     damageMul: 0
@@ -27,25 +27,16 @@ MonoBehaviour:
     rotation: {x: 0, y: 0, z: 0}
     scale: {x: 2, y: 1.5, z: 3}
     detectType: 1
-    targetMask:
-      serializedVersion: 2
-      m_Bits: 128
   - startTime: 0.3
     position: {x: 0, y: 1, z: 0.5}
     rotation: {x: 2, y: 1.5, z: 4}
     scale: {x: 2, y: 1.5, z: 3}
     detectType: 1
-    targetMask:
-      serializedVersion: 2
-      m_Bits: 128
   - startTime: 0.58
     position: {x: 0, y: 1, z: 0.5}
     rotation: {x: 0, y: 0, z: 0}
     scale: {x: 2, y: 1.5, z: 3}
     detectType: 1
-    targetMask:
-      serializedVersion: 2
-      m_Bits: 128
   sfxConfigs: []
   vfxConfigs: []
   recoverEnergyConfigs: []

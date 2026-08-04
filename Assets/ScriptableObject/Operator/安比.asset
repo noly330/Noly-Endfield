@@ -38,6 +38,10 @@ MonoBehaviour:
       <inputMult>k__BackingField: 2.5
       <rotationTime>k__BackingField: 0.5
   <combatData>k__BackingField:
+    targetMask:
+      serializedVersion: 2
+      m_Bits: 128
+    targetRadius: 4
     <normalAttackData>k__BackingField: {fileID: 11400000, guid: 03f9491ef8d39e648a636d4ea2f23625,
       type: 2}
     <skillAttackData>k__BackingField: {fileID: 0}

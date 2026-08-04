@@ -17,14 +17,22 @@ namespace Endfield
         public override void Enter()
         {
             CombatSetSO combatSet = _combatData.normalAttackData;
-            
-            _combatController.StartAttackDetection(combatSet,_resuableData.combatIndex);
+
+            _combatController.StartAttackDetection(combatSet, _resuableData.combatIndex);
 
         }
         public override void Update()
         {
             base.Update();
             _combatController.UpdateAttackDetection();
+            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.3f)
+            {
+                Transform target = _combatController.GetCurrentTarget();
+                if (target)
+                {
+                    _combatController.FaceTarget(target);
+                }
+            }
         }
 
         public override void OnAnimationTranslateEvent(IState state)
