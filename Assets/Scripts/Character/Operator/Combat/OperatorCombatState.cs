@@ -42,7 +42,6 @@ namespace Endfield
 
                 if (!_combatStateMachine.combatController.canAttack)
                 {
-                    Debug.Log("攻击冷却中");
                     return;
                 }
                 _combatStateMachine.combatController.SetAttackColdTime();
