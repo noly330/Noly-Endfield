@@ -55,7 +55,6 @@ namespace Endfield
         {
             if(!isMainPlayer)
                 return;
-            Debug.Log("玩家攻击");
             _operator.combatDriver.normalAttack = true;
         }
         public  void UpdateMovementDriver()

@@ -110,5 +110,11 @@ namespace Endfield
             Debug.Log("我" + name + "被" + damageInfo.attacter.name + "打了，快来救我" );
         }
         #endregion
+
+        /// <summary>绘制攻击检测盒（红色线框），Scene 视图常显，Game 视图需打开 Gizmos 按钮。</summary>
+        private void OnDrawGizmos()
+        {
+            combatController?.DrawAttackGizmos();
+        }
     }
 }

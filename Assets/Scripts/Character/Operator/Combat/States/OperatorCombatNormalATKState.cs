@@ -16,6 +16,7 @@ namespace Endfield
 
         public override void Enter()
         {
+            Debug.Log("进入普攻状态");
             CombatSetSO combatSet = _combatData.normalAttackData;
 
             _combatController.StartAttackDetection(combatSet, _resuableData.combatIndex);
@@ -33,6 +34,15 @@ namespace Endfield
                     _combatController.FaceTarget(target);
                 }
             }
+
+            // 攻击动画真正结束后才回 null（不用定时器，避免连段过渡期间误切导致丢检测）
+            // 过渡中、当前动画是 ATK、或正在切入 ATK 动画时都保持攻击状态
+            if (!_animator.IsInTransition(0) &&
+                !_animator.GetCurrentAnimatorStateInfo(0).IsTag("ATK") &&
+                !_animator.GetNextAnimatorStateInfo(0).IsTag("ATK"))
+            {
+                _combatStateMachine.ChangeState(_combatStateMachine.nullState);
+            }
         }
 
         public override void OnAnimationTranslateEvent(IState state)
@@ -41,17 +51,7 @@ namespace Endfield
         }
         public override void OnAnimationExitEvent()
         {
-            TimerManager.Instance.GetTimer(0.2f, OnBufferToNull);
             RestartComboResetTimer(_combatData.normalAttackData.TryGetColdTime(_resuableData.combatIndex));
-        }
-
-        private void OnBufferToNull()
-        {
-            if (!_animator.GetCurrentAnimatorStateInfo(0).IsTag("ATK"))
-            {
-                _combatStateMachine.ChangeState(_combatStateMachine.nullState);
-            }
-
         }
     }
 }

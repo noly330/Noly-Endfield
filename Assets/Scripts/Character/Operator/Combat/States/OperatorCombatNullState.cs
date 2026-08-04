@@ -1,3 +1,8 @@
+
+
+using UnityEngine;
+
+
 namespace Endfield
 {
     /// <summary>
@@ -12,6 +17,7 @@ namespace Endfield
         public override void Enter()
         {
             base.Enter();
+            Debug.Log("进入战斗空状态");
             _combatStateMachine.combatController.CancelAttackColdTime();
         }
 

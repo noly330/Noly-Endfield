@@ -98,6 +98,42 @@ namespace Endfield
                 _firedDetectCount++;
             }
         }
+
+        /// <summary>
+        /// 在 Scene/Game 视图绘制当前攻击检测盒（红色线框），方便调试命中范围。
+        /// 由 Operator.OnDrawGizmos 调用，仅在普攻动画期间绘制。
+        /// </summary>
+        public void DrawAttackGizmos()
+        {
+            if (_currentCombatSet == null) return;
+            if (!_animator.GetCurrentAnimatorStateInfo(0).IsTag("ATK")) return;
+
+            // 当前正在等待触发的检测窗口
+            CombatDetectConfig detectConfig = _currentCombatSet.TryGetDetectConfig(_currentComboIndex, _firedDetectCount);
+            if (detectConfig == null) return;
+
+            // 与 UpdateAreaAttackDetection 完全相同的盒体计算
+            Vector3 boxPosition = _characterTrans.forward * detectConfig.position.z +
+                                  _characterTrans.up * detectConfig.position.y +
+                                  _characterTrans.right * detectConfig.position.x;
+            Quaternion boxRotation = _characterTrans.rotation * Quaternion.Euler(detectConfig.rotation);
+            Vector3 boxCenter = _characterTrans.position + boxPosition;
+
+            // OverlapBox 用 detectConfig.scale 作半尺寸，实际盒体全尺寸 = scale * 2
+            Vector3 boxSize = detectConfig.scale * 2f;
+
+            Gizmos.matrix = Matrix4x4.TRS(boxCenter, boxRotation, Vector3.one);
+
+            // 半透明红色填充：Game 视图比细线醒目得多
+            Gizmos.color = new Color(1f, 0f, 0f, 0.35f);
+            Gizmos.DrawCube(Vector3.zero, boxSize);
+
+            // 红色线框描边
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(Vector3.zero, boxSize);
+
+            Gizmos.matrix = Matrix4x4.identity;
+        }
         #endregion
 
         #region 索敌
