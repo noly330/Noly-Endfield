@@ -6,7 +6,6 @@ namespace Endfield
 {
     public class OperatorCombatResuableData
     {
-        public Transform currentTarget{get;set;}
         public int combatIndex{get;set;} = 0;
         public int nextCombatIndex{get;set;}
     }
