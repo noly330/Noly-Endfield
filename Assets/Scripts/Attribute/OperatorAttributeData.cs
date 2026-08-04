@@ -2,9 +2,12 @@ using UnityEngine;
 
 namespace Endfield
 {
-    [CreateAssetMenu(menuName = "Endfield/Attribute/OperatorAttributeData")]
+    /// <summary>
+    /// 干员专属属性数据
+    /// </summary>
+    [System.Serializable]
     public class OperatorAttributeData : CharacterAttributeData
     {
-        [field: SerializeField] public float ultEnergyCost;   // 终结技所需能量
+        [field: SerializeField] public float ultEnergyCost { get; private set; }   // 终结技所需能量
     }
 }

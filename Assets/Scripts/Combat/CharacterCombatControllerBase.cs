@@ -11,14 +11,16 @@ namespace Endfield
         private Animator _animator;
         private LayerMask _targetMask;
         private float _targetRadius;
+        private CharacterAttribute _attackerAttribute;
         public bool canAttack { get; private set; }
         public CharacterCombatControllerBase(Animator animator, Transform characterTrans,
-        CharacterCombatData characterCombatData)
+        CharacterCombatData characterCombatData, CharacterAttribute attackerAttribute)
         {
             _characterTrans = characterTrans;
             _animator = animator;
             _targetMask = characterCombatData.targetMask;
             _targetRadius = characterCombatData.targetRadius;
+            _attackerAttribute = attackerAttribute;
             canAttack = true;
         }
 
@@ -90,9 +92,11 @@ namespace Endfield
                     IDamageable damageable = target.GetComponent<IDamageable>();
                     if (damageable != null)
                     {
-                        //TODO: 伤害值需要从配置中获取,先用10f作为占位符
-                        damageable.TakeDamage(new DamageInfo { attacter = _characterTrans.transform, damage = interactionConfig.damageMul });
-                        Debug.Log("对敌人：" + target.name + "造成了" + interactionConfig.damageMul + "点伤害" + ",并且造成了受击动画：" + interactionConfig.hitName);
+                        // 受击方属性从组件拿（没有就按防御0处理）
+                        CharacterAttribute targetAttr = target.GetComponentInParent<CharacterAttributeComponent>()?.Attribute;
+                        float damage = DamageCalculator.CalculatePhysical(_attackerAttribute, targetAttr, interactionConfig.damageMul);
+                        damageable.TakeDamage(new DamageInfo { attacter = _characterTrans, damage = damage });
+                        Debug.Log("对敌人：" + target.name + "造成了" + damage + "点伤害" + ",并且造成了受击动画：" + interactionConfig.hitName);
                     }
                     if (target.transform == _cachedTarget)
                     {

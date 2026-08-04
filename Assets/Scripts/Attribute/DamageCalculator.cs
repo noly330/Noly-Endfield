@@ -20,7 +20,7 @@ namespace Endfield
             float raw = attacker.FinalATK * damageMul;
             if (attacker.RollCrit())  //如果暴击
                 raw *= attacker.CritDamage;
-            float damage = raw - target.Def;
+            float damage = raw - (target != null ? target.Def : 0f);   // 目标没有属性时按防御 0
             return Mathf.Max(damage, MinDamage);
         }
     }

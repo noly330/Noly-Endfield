@@ -24,6 +24,10 @@ namespace Endfield
         /// 当前干员的战斗控制器。负责处理干员的战斗逻辑。
         /// </summary>
         public OperatorCombatController combatController { get; private set; }
+        /// <summary>
+        /// 当前干员的运行时属性，攻击伤害结算的唯一入口。
+        /// </summary>
+        public CharacterAttribute attribute { get; private set; }
 
         public OperatorSO operatorSO;
 
@@ -32,7 +36,10 @@ namespace Endfield
         protected override void Awake()
         {
             base.Awake();
-            combatController = new OperatorCombatController(_animator,this.transform,operatorSO.combatData);
+            var attrComp = GetComponent<CharacterAttributeComponent>();
+            attrComp.Init(operatorSO.attributeData);
+            attribute = attrComp.Attribute;
+            combatController = new OperatorCombatController(_animator,this.transform,operatorSO.combatData, attribute);
             movementDriver = new OperatorMovementDriver();
             combatDriver = new OperatorCombatDriver();
             movementStateMachine = new OperatorMovementStateMachine(this);
