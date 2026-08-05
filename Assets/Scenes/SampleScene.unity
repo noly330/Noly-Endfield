@@ -1345,7 +1345,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   _verticalVelocity: 0
-  operatorSO: {fileID: 11400000, guid: c5ef84fd3b2bf014eba1cb698d92d54c, type: 2}
+  operatorSO: {fileID: 11400000, guid: 89176c95f17cb2e42a04533eb181859e, type: 2}
 --- !u!114 &1356834969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1411,7 +1411,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1356834960}
-  m_Enabled: 0
+  m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.3
   m_Speed: 3.5

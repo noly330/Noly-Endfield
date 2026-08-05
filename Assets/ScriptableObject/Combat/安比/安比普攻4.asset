@@ -23,17 +23,17 @@ MonoBehaviour:
     damageMul: 1.2
   detectConfigs:
   - startTime: 0.17
-    position: {x: 0, y: 1, z: 0.5}
+    position: {x: 0, y: 1, z: 0}
     rotation: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 2}
+    scale: {x: 1, y: 1, z: 1.2}
     detectType: 1
   - startTime: 0.3
-    position: {x: 0, y: 1, z: 0.5}
+    position: {x: 0, y: 1, z: 0}
     rotation: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 2}
+    scale: {x: 1, y: 1, z: 1.2}
     detectType: 1
   - startTime: 0.58
-    position: {x: 0, y: 1, z: 0.5}
+    position: {x: 0, y: 1, z: 0}
     rotation: {x: 0, y: 0, z: 0}
     scale: {x: 1, y: 1, z: 2}
     detectType: 1
