@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Endfield
 {
 
-public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
+    public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
         private static T _instance;
         private static object _lock = new object();
@@ -16,8 +16,8 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
                 {
                     lock (_lock)
                     {
-                        _instance = FindObjectOfType<T>() as T; 
-                    
+                        _instance = FindObjectOfType<T>() as T;
+
                         if (_instance == null)
                         {
                             GameObject go = new GameObject(typeof(T).Name);
@@ -29,9 +29,9 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
                 return _instance;
             }
         }
-        
 
-        protected  virtual void Awake()
+
+        protected virtual void Awake()
         {
             if (_instance == null)
             {
