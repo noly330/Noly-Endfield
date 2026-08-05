@@ -189,7 +189,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 69.99035
+  field of view: 69.99007
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -615,6 +615,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1356834972}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 52b79a5d9c9c235468b9ac95788d1229,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1356834973}
   m_SourcePrefab: {fileID: 100100000, guid: 52b79a5d9c9c235468b9ac95788d1229, type: 3}
 --- !u!1 &788589078
 GameObject:
@@ -1048,6 +1052,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1276828963}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 006266add89b9994f9cceb2ad8c76fff,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1276828964}
   m_SourcePrefab: {fileID: 100100000, guid: 006266add89b9994f9cceb2ad8c76fff, type: 3}
 --- !u!1 &1178465737
 GameObject:
@@ -1140,7 +1148,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1977508257}
   m_Lens:
-    FieldOfView: 69.99035
+    FieldOfView: 69.99007
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -1251,6 +1259,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53aa2c8adea65ff408dc917ac1f2d3ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1276828964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187243465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d0d9902d68a92c48a18790c7e479468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1356834960 stripped
@@ -1416,6 +1436,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53aa2c8adea65ff408dc917ac1f2d3ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1356834973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356834960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d0d9902d68a92c48a18790c7e479468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1474826654
