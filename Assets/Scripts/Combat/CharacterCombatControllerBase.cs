@@ -92,11 +92,10 @@ namespace Endfield
                     IDamageable damageable = target.GetComponent<IDamageable>();
                     if (damageable != null)
                     {
-                        // 受击方属性从组件拿（没有就按防御0处理）
-                        CharacterAttribute targetAttr = target.GetComponentInParent<CharacterAttributeComponent>()?.Attribute;
-                        float damage = DamageCalculator.CalculatePhysical(_attackerAttribute, targetAttr, interactionConfig.damageMul);
-                        damageable.TakeDamage(new DamageInfo { attacter = _characterTrans, damage = damage });
-                        Debug.Log("对敌人：" + target.name + "造成了" + damage + "点伤害" + ",并且造成了受击动画：" + interactionConfig.hitName);
+                        // 攻击方只算出伤，防御减免由受击方 TakeDamage 自行处理
+                        float rawDamage = DamageCalculator.CalculateRawDamage(_attackerAttribute, interactionConfig.damageMul);
+                        damageable.TakeDamage(new DamageInfo { attacker = _characterTrans, rawDamage = rawDamage, hitName = interactionConfig.hitName });
+                        Debug.Log("对敌人：" + target.name + "出伤" + rawDamage + "（未减防御）");
                     }
                     if (target.transform == _cachedTarget)
                     {
