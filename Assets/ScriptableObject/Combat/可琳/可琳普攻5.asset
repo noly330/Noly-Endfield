@@ -12,10 +12,80 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a697a12662bcedd4eb9ab0b298531f53, type: 3}
   m_Name: "\u53EF\u7433\u666E\u653B5"
   m_EditorClassIdentifier: 
-  combatName: Attack1
+  combatName: Attack5
   coldTime: 1.4
-  interactionConfigs: []
-  detectConfigs: []
+  interactionConfigs:
+  - hitName: Hurt1
+    damageMul: 0.1
+  - hitName: Hurt1
+    damageMul: 0.1
+  - hitName: Hurt1
+    damageMul: 0.1
+  - hitName: Hurt1
+    damageMul: 0.15
+  - hitName: Hurt1
+    damageMul: 0.15
+  - hitName: Hurt1
+    damageMul: 0.15
+  - hitName: Hurt1
+    damageMul: 0.2
+  - hitName: Hurt1
+    damageMul: 0.2
+  - hitName: Hurt1
+    damageMul: 0.25
+  - hitName: Hurt1
+    damageMul: 0.3
+  detectConfigs:
+  - startTime: 0.3
+    position: {x: 0, y: 1, z: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.32
+    position: {x: 0, y: 1, z: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.34
+    position: {x: 0, y: 1, z: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.38
+    position: {x: 0, y: 1, z: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.42
+    position: {x: 0, y: 1, z: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.5
+    position: {x: 0, y: 1, z: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.56
+    position: {x: 0, y: 1, z: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.62
+    position: {x: 0, y: 1, z: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.7
+    position: {x: 0, y: 1, z: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.8
+    position: {x: 0, y: 1, z: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
   sfxConfigs: []
   vfxConfigs: []
   recoverEnergyConfigs: []

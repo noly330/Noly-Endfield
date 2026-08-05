@@ -12,10 +12,80 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a697a12662bcedd4eb9ab0b298531f53, type: 3}
   m_Name: "\u53EF\u7433\u666E\u653B3"
   m_EditorClassIdentifier: 
-  combatName: Attack1
-  coldTime: 1.4
-  interactionConfigs: []
-  detectConfigs: []
+  combatName: Attack3
+  coldTime: 5
+  interactionConfigs:
+  - hitName: Hurt1
+    damageMul: 0.1
+  - hitName: Hurt1
+    damageMul: 0.1
+  - hitName: Hurt1
+    damageMul: 0.1
+  - hitName: Hurt1
+    damageMul: 0.12
+  - hitName: Hurt1
+    damageMul: 0.12
+  - hitName: Hurt1
+    damageMul: 0.15
+  - hitName: Hurt1
+    damageMul: 0.15
+  - hitName: Hurt1
+    damageMul: 0.18
+  - hitName: Hurt1
+    damageMul: 0.18
+  - hitName: Hurt1
+    damageMul: 0.2
+  detectConfigs:
+  - startTime: 0.5
+    position: {x: 0, y: 1, z: 0.5}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.54
+    position: {x: 0, y: 1, z: 0.5}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.58
+    position: {x: 0, y: 1, z: 0.5}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.62
+    position: {x: 0, y: 1, z: 0.5}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.66
+    position: {x: 0, y: 1, z: 0.5}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.72
+    position: {x: 0, y: 1, z: 0.5}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.8
+    position: {x: 0, y: 1, z: 0.5}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.85
+    position: {x: 0, y: 1, z: 0.5}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.9
+    position: {x: 0, y: 1, z: 0.5}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
+  - startTime: 0.95
+    position: {x: 0, y: 1, z: 0.5}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    detectType: 1
   sfxConfigs: []
   vfxConfigs: []
   recoverEnergyConfigs: []
