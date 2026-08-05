@@ -3,35 +3,17 @@ using UnityEngine;
 namespace Endfield
 {
     /// <summary>
-    /// 干员的状态机宿主。主控干员与队友干员共用此移动系统。
+    /// 干员的状态机宿主。主控干员与队友干员共用此系统
     /// </summary>
-    public class Operator : CharacterMovementControlBase,IDamageable
+    public class Operator : CharacterMovementControlBase
     {
-        /// <summary>/// 当前干员的移动状态机。/// </summary>
         public OperatorMovementStateMachine movementStateMachine { get; private set; }
-        /// <summary>/// 当前干员的战斗状态机。/// </summary>
         public OperatorCombatStateMachine combatStateMachine { get; private set; }
-
-        /// <summary>
-        /// 当前干员的移动驱动器。从外部(玩家输入或者ai行为树）读取输入，向移动状态机写入数据。
-        /// </summary>
         public OperatorMovementDriver movementDriver { get; private set; }
-        /// <summary>
-        /// 当前干员的战斗驱动器。从外部(玩家输入或者ai行为树）读取输入，向战斗状态机写入数据。
-        /// </summary>
         public OperatorCombatDriver combatDriver { get; private set; }
-        /// <summary>
-        /// 当前干员的战斗控制器。负责处理干员的战斗逻辑。
-        /// </summary>
         public OperatorCombatController combatController { get; private set; }
-        /// <summary>
-        /// 当前干员的运行时属性，攻击伤害结算的唯一入口。
-        /// </summary>
         public CharacterAttribute attribute { get; private set; }
-
         public OperatorSO operatorSO;
-
-
 
         protected override void Awake()
         {
@@ -110,11 +92,6 @@ namespace Endfield
         public void CancelAttackColdTime()
         {
             combatController.CancelAttackColdTime();
-        }
-
-        public void TakeDamage(DamageInfo damageInfo)
-        {
-            Debug.Log("我" + name + "被" + damageInfo.attacter.name + "打了，快来救我" );
         }
         #endregion
 

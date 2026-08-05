@@ -46,3 +46,10 @@ MonoBehaviour:
       type: 2}
     <skillAttackData>k__BackingField: {fileID: 0}
     <linkAttackData>k__BackingField: {fileID: 0}
+  <attributeData>k__BackingField:
+    <maxHp>k__BackingField: 3000
+    <atk>k__BackingField: 200
+    <def>k__BackingField: 40
+    <critRate>k__BackingField: 0.5
+    <critDamage>k__BackingField: 1.5
+    <ultEnergyCost>k__BackingField: 0
