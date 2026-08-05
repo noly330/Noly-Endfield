@@ -189,7 +189,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 69.99007
+  field of view: 69.9906
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1148,7 +1148,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1977508257}
   m_Lens:
-    FieldOfView: 69.99007
+    FieldOfView: 69.9906
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -1243,12 +1243,6 @@ MonoBehaviour:
     m_Bits: 1
   _verticalVelocity: 0
   operatorSO: {fileID: 11400000, guid: c5ef84fd3b2bf014eba1cb698d92d54c, type: 2}
---- !u!4 &1276828962 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 006266add89b9994f9cceb2ad8c76fff,
-    type: 3}
-  m_PrefabInstance: {fileID: 1079043604}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1276828963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1365,7 +1359,7 @@ MonoBehaviour:
   logTaskChanges: 0
   group: 0
   resetValuesOnRestart: 0
-  externalBehavior: {fileID: 0}
+  externalBehavior: {fileID: 11400000, guid: 4d376f3168fd8a1448854737c8caef24, type: 2}
   mBehaviorSource:
     behaviorName: Behavior
     behaviorDescription: 
@@ -1374,18 +1368,13 @@ MonoBehaviour:
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(513.996643,263.285522)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Repeater","NodeData":{"Offset":"(3.996643,123.285522)"},"ID":1,"Name":"Repeater","Instant":true,"SharedIntcount":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedBoolrepeatForever":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"SharedBoolendOnFailure":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-6.74729252,142.725159)"},"ID":2,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-228.527069,132.183777)"},"ID":3,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"IsFarFromTarget","NodeData":{"Offset":"(-112.743256,170.987244)"},"ID":4,"Name":"Is
-        Far From Target","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null,"TransformmValue":0},"SharedFloatmaxDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":3}},{"Type":"SetFollowTarget","NodeData":{"Offset":"(37.01287,176.840912)"},"ID":5,"Name":"Set
-        Follow Target","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null,"TransformmValue":1}},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(171.646973,175.8653)"},"ID":6,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0.15},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(122.134727,147.32869)"},"ID":7,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ClearFollowTarget","NodeData":{"Offset":"(-11.035984,155.8653)"},"ID":8,"Name":"Clear
-        Follow Target","Instant":true},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(169.9397,150.987183)"},"ID":9,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0.15},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}}]}]}]}}'
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(513.996643,263.285522)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Repeater","NodeData":{"Offset":"(3.996643,123.285522)"},"ID":1,"Name":"Repeater","Instant":true,"SharedIntcount":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedBoolrepeatForever":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"SharedBoolendOnFailure":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-6.74729252,142.725159)"},"ID":2,"Name":"Selector","Instant":true,"AbortTypeabortType":"None"}]}}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
         startIndex: 
         dataPosition: 
-        unityObjects:
-        - {fileID: 1276828962}
-        - {fileID: 1276828962}
+        unityObjects: []
         byteData: 
         byteDataArray: 
       Version: 1.7.13
