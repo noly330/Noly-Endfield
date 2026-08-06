@@ -16,6 +16,8 @@ namespace Endfield
         {
             CombatSetSO combatSet = _combatData.normalAttackData;
             _combatController.StartAttackDetection(combatSet, _resuableData.combatIndex);
+
+            if (_comboResetTimer != null) TimerManager.Instance.UnregisterTimer(_comboResetTimer);
         }
 
         public override void Update()

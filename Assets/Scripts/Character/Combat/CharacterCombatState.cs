@@ -11,7 +11,7 @@ namespace Endfield
         protected CharacterCombatReusableData _resuableData { get; }
         protected CharacterCombatData _combatData { get; }
         protected Animator _animator { get; }
-        private GameTimer _comboResetTimer;
+        protected GameTimer _comboResetTimer;
 
         public CharacterCombatState(CharacterCombatStateMachine combatStateMachine)
         {
@@ -46,7 +46,7 @@ namespace Endfield
                 Debug.Log("进行普攻第" + index+1 + "段");
                 _resuableData.combatIndex = index;
                 _resuableData.nextCombatIndex = (index + 1) % _combatData.normalAttackData.TryGetCombatCount();
-                if (_comboResetTimer != null) TimerManager.Instance.UnregisterTimer(_comboResetTimer);
+                
                 _animator.CrossFadeInFixedTime(_combatData.normalAttackData.TryGetCombatName(index), 0.1555f);
             }
         }
@@ -60,6 +60,7 @@ namespace Endfield
         private void OnComboReset()
         {
             _resuableData.nextCombatIndex = 0;
+            _comboResetTimer = null;
         }
 
         public virtual void OnAnimationExitEvent()

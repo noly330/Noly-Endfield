@@ -11,6 +11,7 @@ namespace Endfield
         Sprint,
         Dash,
         ReturnRun,
+        Null,   // 攻击等动作期间的移动锁定态
     }
 
     public class CharacterMovementStateMachine : StateMachine
@@ -31,6 +32,7 @@ namespace Endfield
             _states[CharacterMovementStateType.Sprint] = new CharacterSprintingState(this);
             _states[CharacterMovementStateType.Dash] = new CharacterDashingState(this);
             _states[CharacterMovementStateType.ReturnRun] = new CharacterReturnRunState(this);
+            _states[CharacterMovementStateType.Null] = new CharacterMovementNullState(this);
         }
 
         /// <summary>按类型取状态</summary>
