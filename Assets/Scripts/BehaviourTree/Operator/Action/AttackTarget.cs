@@ -4,9 +4,9 @@ using Endfield;
 [TaskCategory("Operator")]
 public class AttackTarget : Action
 {
-    private OperatorAIController _controller;
+    private CharacterAIController _controller;
 
-    public override void OnAwake() => _controller = GetComponent<OperatorAIController>();
+    public override void OnAwake() => _controller = GetComponent<CharacterAIController>();
 
     public override TaskStatus OnUpdate()
     {

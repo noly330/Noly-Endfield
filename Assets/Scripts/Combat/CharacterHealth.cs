@@ -42,7 +42,7 @@ namespace Endfield
             // 受击方自行减免防御（属性未初始化时按防御 0）
             float def = _attributeComponent?.Attribute?.Def ?? 0f;
             float finalDamage = DamageCalculator.ApplyDefense(damageInfo.rawDamage, def);
-            Debug.Log($"受到伤害：{finalDamage}");
+            //Debug.Log($"受到伤害：{finalDamage}");
             _currentHP = Mathf.Max(_currentHP - finalDamage, 0f);
 
             // 受击事件（表现层订阅，本组件不做表现）
