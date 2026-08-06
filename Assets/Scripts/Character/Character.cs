@@ -54,6 +54,7 @@ namespace Endfield
             {
                 case OnEnterAnimationState.Dash:
                     movementStateMachine.ChangeState(CharacterMovementStateType.Dash);
+                    combatStateMachine.ChangeState(CharacterCombatStateType.Null);   // 闪避打断攻击
                     break;
                 case OnEnterAnimationState.Idle:
                     movementStateMachine.ChangeState(CharacterMovementStateType.Idle);
@@ -66,6 +67,7 @@ namespace Endfield
                     break;
                 case OnEnterAnimationState.ATK:
                     combatStateMachine.ChangeState(CharacterCombatStateType.NormalATK);
+                    movementStateMachine.ChangeState(CharacterMovementStateType.Null);   // 攻击锁移动
                     break;
             }
         }
