@@ -10,9 +10,9 @@ public class ChaseTarget : Action
     private const float StopDistance = 2.5f;
 
     public SharedTransform target;
-    private OperatorAIController _controller;
+    private CharacterAIController _controller;
 
-    public override void OnAwake() => _controller = GetComponent<OperatorAIController>();
+    public override void OnAwake() => _controller = GetComponent<CharacterAIController>();
 
     public override TaskStatus OnUpdate()
     {

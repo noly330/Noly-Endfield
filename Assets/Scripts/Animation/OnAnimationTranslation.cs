@@ -12,9 +12,9 @@ namespace Endfield
         {
             if (_enterAnimationState == OnEnterAnimationState.None)
                 return;
-            if (animator.TryGetComponent<Operator>(out Operator operatorComponent))
+            if (animator.TryGetComponent<Character>(out Character characterComponent))
             {
-                operatorComponent.OnAnimationTranslate(_enterAnimationState);
+                characterComponent.OnAnimationTranslate(_enterAnimationState);
             }
         }
 
@@ -22,9 +22,9 @@ namespace Endfield
         {
             if (_enterAnimationState == OnEnterAnimationState.None)
                 return;
-            if (animator.TryGetComponent<Operator>(out Operator operatorComponent))
+            if (animator.TryGetComponent<Character>(out Character characterComponent))
             {
-                operatorComponent.OnAnimationEixt();
+                characterComponent.OnAnimationEixt();
             }
         }
     }
