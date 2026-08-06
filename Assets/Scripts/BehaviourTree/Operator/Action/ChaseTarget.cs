@@ -1,4 +1,3 @@
-using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using Endfield;
 using UnityEngine;
@@ -9,25 +8,26 @@ public class ChaseTarget : Action
     //TODO: 停距先写死，之后配置化
     private const float StopDistance = 2.5f;
 
-    public SharedTransform target;
     private CharacterAIController _controller;
 
     public override void OnAwake() => _controller = GetComponent<CharacterAIController>();
 
     public override TaskStatus OnUpdate()
     {
-        if (target.Value == null)
+        Transform target = _controller.CurrentTarget;
+        if (target == null)
+        {
+            _controller.Stop();
             return TaskStatus.Failure;
+        }
 
-        // 追到停距：停下并返回 Success，让 Selector 有机会评估攻击分支
-        if (Vector3.Distance(transform.position, target.Value.position) <= StopDistance)
+        if (Vector3.Distance(transform.position, target.position) <= StopDistance)
         {
             _controller.Stop();
             return TaskStatus.Success;
         }
 
-        // 继续追击：持续驱动移动，返回 Running
-        _controller.MoveTo(target.Value.position);
+        _controller.MoveTo(target.position);
         return TaskStatus.Running;
     }
 }

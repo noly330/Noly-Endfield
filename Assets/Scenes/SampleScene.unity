@@ -189,7 +189,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 69.9906
+  field of view: 69.99017
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1148,7 +1148,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1977508257}
   m_Lens:
-    FieldOfView: 69.9906
+    FieldOfView: 69.99017
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -1392,7 +1392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33aacecfcaba85c46bc09915492fa608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followTarget: {fileID: 0}
+  _searchStrategy: {fileID: 11400000, guid: 81ce380dc745c33409e9f62098cb92f5, type: 2}
 --- !u!195 &1356834971
 NavMeshAgent:
   m_ObjectHideFlags: 0
