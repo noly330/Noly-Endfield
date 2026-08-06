@@ -8,24 +8,14 @@ namespace Endfield
     /// </summary>
     public abstract class Character : CharacterMovementControlBase
     {
-        /// <summary>移动数据（子类从各自 SO 提供）</summary>
         public abstract CharacterMovementData MovementData { get; }
-        /// <summary>战斗数据（子类从各自 SO 提供）</summary>
         public abstract CharacterCombatData CombatData { get; }
-        /// <summary>属性数据（子类从各自 SO 提供，仅基类内部使用）</summary>
         protected abstract CharacterAttributeData AttributeData { get; }
-
-        /// <summary>当前角色的移动状态机。</summary>
         public CharacterMovementStateMachine movementStateMachine { get; private set; }
-        /// <summary>当前角色的战斗状态机。</summary>
         public CharacterCombatStateMachine combatStateMachine { get; private set; }
-        /// <summary>移动驱动器：从外部(玩家输入或 AI）读取输入，向移动状态机写入数据。</summary>
         public CharacterMovementDriver movementDriver { get; private set; }
-        /// <summary>战斗驱动器：从外部(玩家输入或 AI）读取输入，向战斗状态机写入数据。</summary>
         public CharacterCombatDriver combatDriver { get; private set; }
-        /// <summary>战斗控制器：处理角色的战斗逻辑。</summary>
         public CharacterCombatController combatController { get; private set; }
-        /// <summary>运行时属性，攻击伤害结算的唯一入口。</summary>
         public CharacterAttribute attribute { get; private set; }
 
         protected override void Awake()

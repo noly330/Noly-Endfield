@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\u5B89\u6BD4\u666E\u653B5"
   m_EditorClassIdentifier: 
   combatName: Attack5
-  coldTime: 1
+  coldTime: 1.5
   interactionConfigs:
   - hitName: "\u4E00\u5200"
     damageMul: 1
@@ -23,7 +23,7 @@ MonoBehaviour:
   - startTime: 0.1
     position: {x: 0, y: 1, z: 0}
     rotation: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
+    scale: {x: 1.5, y: 1, z: 1.5}
     detectType: 1
   - startTime: 0.36
     position: {x: 0, y: 1, z: 0.5}

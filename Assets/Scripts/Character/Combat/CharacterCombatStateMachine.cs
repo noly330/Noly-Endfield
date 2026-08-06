@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 namespace Endfield
 {
-    /// <summary>角色战斗状态类型（字典索引）</summary>
     public enum CharacterCombatStateType
     {
         Null,
