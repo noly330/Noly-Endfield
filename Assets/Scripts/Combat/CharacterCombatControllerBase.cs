@@ -64,6 +64,7 @@ namespace Endfield
                     UpdateAreaAttackDetection(detectConfig, interactionConfig);
                     break;
                 case CombatDetectType.Single:
+                    UpdateSingleAttackDetection(detectConfig, interactionConfig);
                     break;
                 default:
                     break;
@@ -103,6 +104,26 @@ namespace Endfield
                     }
                 }
                 _firedDetectCount++;
+            }
+        }
+
+        /// <summary>
+        /// 远程指定目标的攻击检测逻辑
+        /// </summary>
+        private void UpdateSingleAttackDetection(CombatDetectConfig detectConfig, CombatInteractionConfig interactionConfig)
+        {
+            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= detectConfig.startTime)
+            {
+                Transform target = GetCurrentTarget();
+                if (target == null || !target.TryGetComponent<IDamageable>(out var damageable))
+                    return;
+                float rawDamage = DamageCalculator.CalculateRawDamage(_attackerAttribute, interactionConfig.damageMul);
+                damageable.TakeDamage(new DamageInfo { attacker = _characterTrans, rawDamage = rawDamage, hitName = interactionConfig.hitName });
+                Debug.Log("对敌人：" + target.name + "出伤" + rawDamage + "（未减防御）");
+
+                SetCachedTarget(target);   // 命中刷新粘性缓存
+                _firedDetectCount++;
+
             }
         }
 

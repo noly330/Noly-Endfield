@@ -45,7 +45,7 @@ MonoBehaviour:
     targetMask:
       serializedVersion: 2
       m_Bits: 64
-    targetRadius: 10
+    targetRadius: 20
     <skillAttackData>k__BackingField: {fileID: 0}
     <linkAttackData>k__BackingField: {fileID: 0}
   <attributeData>k__BackingField:
