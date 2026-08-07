@@ -2,12 +2,9 @@ using BehaviorDesigner.Runtime.Tasks;
 using Endfield;
 using UnityEngine;
 
-[TaskCategory("Operator")]
+[TaskCategory("Character")]
 public class IsInAttackRange : Conditional
 {
-    //TODO: 攻击范围写死，之后配置化
-    private const float AttackRange = 2.5f;
-
     private CharacterAIController _controller;
 
     public override void OnAwake() => _controller = GetComponent<CharacterAIController>();
@@ -18,7 +15,7 @@ public class IsInAttackRange : Conditional
         if (target == null)
             return TaskStatus.Failure;
 
-        return Vector3.Distance(transform.position, target.position) <= AttackRange
+        return Vector3.Distance(transform.position, target.position) <= _controller.AIData.attackRange
             ? TaskStatus.Success : TaskStatus.Failure;
     }
 }

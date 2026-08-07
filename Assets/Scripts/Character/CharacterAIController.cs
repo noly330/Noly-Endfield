@@ -7,16 +7,15 @@ namespace Endfield
     public class CharacterAIController : MonoBehaviour
     {
         [SerializeField] private TargetSearchStrategySO _searchStrategy;   // Inspector 选择搜索模式
-        //TODO: 搜索半径写死，之后进 AI 配置
-        private const float SearchRadius = 10f;
         private float _searchTimer;
 
         private Character _character;
         private BehaviorTree _behaviorTree;
         private NavMeshAgent _navMeshAgent;
         public Transform CurrentTarget { get; private set; }
-
-
+        /// <summary>AI 配置数据，来自角色 SO；未配置时回退默认值。</summary>
+        public CharacterAIData AIData => _character.AIData;
+        
         private void Awake()
         {
             _behaviorTree = GetComponent<BehaviorTree>();
@@ -38,9 +37,9 @@ namespace Endfield
             _searchTimer -= Time.deltaTime;
             if (_searchTimer <= 0f)
             {
-                _searchTimer = 0.2f;
+                _searchTimer = AIData.searchInterval;
                 CurrentTarget = (_searchStrategy != null && _character != null)
-                    ? _searchStrategy.FindTarget(_character, SearchRadius)
+                    ? _searchStrategy.FindTarget(_character, AIData.searchRadius)
                     : null;
             }
 

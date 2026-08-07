@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f5e152901f956543aa3745a42e7fa73, type: 3}
-  m_Name: "\u6BD4\u5229"
+  m_Script: {fileID: 11500000, guid: c1205838f143ddf4ea7ab0b1bbb5b76d, type: 3}
+  m_Name: "\u602A\u517D1\u53F7"
   m_EditorClassIdentifier: 
   <movementData>k__BackingField:
     <runData>k__BackingField:
@@ -39,24 +39,21 @@ MonoBehaviour:
       <rotationTime>k__BackingField: 0.5
     <comboRotationTime>k__BackingField: 0.09
     <comboRotationPercentage>k__BackingField: 0.3
-  <AIData>k__BackingField:
-    searchRadius: 20
+  aiData:
+    searchRadius: 10
     searchInterval: 0.2
-    attackRange: 15
+    attackRange: 2.5
     stopDistance: 2.5
   <combatData>k__BackingField:
-    <normalAttackData>k__BackingField: {fileID: 11400000, guid: 9ac58577cd34d0d4a9b8769ca498ca4a,
+    <normalAttackData>k__BackingField: {fileID: 11400000, guid: ab94f8dfc1fd86f4ba57bf309f45d3e6,
       type: 2}
     targetMask:
       serializedVersion: 2
-      m_Bits: 128
-    targetRadius: 20
-    <skillAttackData>k__BackingField: {fileID: 0}
-    <linkAttackData>k__BackingField: {fileID: 0}
+      m_Bits: 64
+    targetRadius: 4
   <attributeData>k__BackingField:
     <maxHp>k__BackingField: 3000
     <atk>k__BackingField: 200
     <def>k__BackingField: 40
     <critRate>k__BackingField: 0.1
     <critDamage>k__BackingField: 1.5
-    <ultEnergyCost>k__BackingField: 100
