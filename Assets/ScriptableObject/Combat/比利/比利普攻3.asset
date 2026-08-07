@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a697a12662bcedd4eb9ab0b298531f53, type: 3}
+  m_Name: "\u6BD4\u5229\u666E\u653B3"
+  m_EditorClassIdentifier: 
+  combatName: Attack3
+  coldTime: 1
+  interactionConfigs:
+  - hitName: "\u4E09\u67AA"
+    damageMul: 1
+  detectConfigs:
+  - startTime: 0.3
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    detectType: 2
+  sfxConfigs: []
+  vfxConfigs: []
+  recoverEnergyConfigs: []

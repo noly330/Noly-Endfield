@@ -20,12 +20,18 @@ namespace Endfield
 
         private void OnEnable()
         {
+            if (PlayerInputSystem.Instance == null)
+                return;
+
             PlayerInputSystem.Instance.DashAction.performed += OnDashStart;
             PlayerInputSystem.Instance.AttackAction.performed += OnAttackStart;
         }
 
         private void OnDisable()
         {
+            if (PlayerInputSystem.Instance == null)
+                return;
+
             PlayerInputSystem.Instance.DashAction.performed -= OnDashStart;
             PlayerInputSystem.Instance.AttackAction.performed -= OnAttackStart;
         }

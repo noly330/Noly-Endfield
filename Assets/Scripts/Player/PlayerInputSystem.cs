@@ -3,37 +3,51 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputSystem : MonoBehaviour
 {
-    public static PlayerInputSystem Instance { get; private set; }
+    private static PlayerInputSystem _instance;
+    public static PlayerInputSystem Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = FindObjectOfType<PlayerInputSystem>();
+            return _instance;
+        }
+    }
 
     [SerializeField] private PlayerInput inputActions;
-    public Vector2 Move => inputActions.Player.MoveMent.ReadValue<Vector2>();
-    public Vector2 Look => inputActions.Player.Look.ReadValue<Vector2>();
-    public Vector2 Scroll => inputActions.Player.Scroll.ReadValue<Vector2>();
-    public InputAction DashAction => inputActions.Player.Dash;
-    public InputAction AttackAction => inputActions.Player.Attack;
+    public Vector2 Move => EnsureInput().Player.MoveMent.ReadValue<Vector2>();
+    public Vector2 Look => EnsureInput().Player.Look.ReadValue<Vector2>();
+    public Vector2 Scroll => EnsureInput().Player.Scroll.ReadValue<Vector2>();
+    public InputAction DashAction => EnsureInput().Player.Dash;
+    public InputAction AttackAction => EnsureInput().Player.Attack;
 
     private void Awake()
     {
-        if (Instance != null)
+        if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
             return;
         }
-        Instance = this;
-        
-        if(inputActions == null)
-            inputActions = new PlayerInput();
+        _instance = this;
+        EnsureInput();
         DontDestroyOnLoad(gameObject);
+    }
+
+    private PlayerInput EnsureInput()
+    {
+        if (inputActions == null)
+            inputActions = new PlayerInput();
+        return inputActions;
     }
 
     private void OnEnable()
     {
-        inputActions.Player.Enable();
+        EnsureInput().Player.Enable();
     }
 
     private void OnDisable()
     {
-        inputActions.Player.Disable();
+        inputActions?.Player.Disable();
     }
 
 }
