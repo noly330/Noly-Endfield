@@ -8,6 +8,7 @@ namespace Endfield
     /// </summary>
     public class CharacterCombatNormalATKState : CharacterCombatState
     {
+        private CombatConfigSO _currentCombatConfig;
         public CharacterCombatNormalATKState(CharacterCombatStateMachine stateMachine) : base(stateMachine)
         {
         }
@@ -15,6 +16,7 @@ namespace Endfield
         public override void Enter()
         {
             CombatSetSO combatSet = _combatData.normalAttackData;
+            _currentCombatConfig = combatSet.combatConfigs[_resuableData.combatIndex];
             _combatController.StartAttackDetection(combatSet, _resuableData.combatIndex);
 
             if (_comboResetTimer != null) TimerManager.Instance.UnregisterTimer(_comboResetTimer);
@@ -24,7 +26,7 @@ namespace Endfield
         {
             base.Update();
             _combatController.UpdateAttackDetection();
-            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.3f)
+            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < _currentCombatConfig.rotationTime && _currentCombatConfig.isRotationToTarget)
             {
                 Transform target = _combatController.GetCurrentTarget();
                 if (target)
