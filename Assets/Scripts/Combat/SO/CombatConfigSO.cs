@@ -7,6 +7,8 @@ public class CombatConfigSO : ScriptableObject
     [Header("基础配置")]
     public string combatName;
     public float coldTime;
+    public float rotationTime = 0.3f;
+    public bool isRotationToTarget;
 
     [Header("战斗交互配置")]
     public CombatInteractionConfig[] interactionConfigs;

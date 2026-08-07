@@ -6,6 +6,7 @@ public class CombatSetSO : ScriptableObject
 {
     [SerializeField] private CombatConfigSO[] _combatConfigs;
 
+    public CombatConfigSO[] combatConfigs => _combatConfigs;
     /// <summary>获取连招总段数</summary>
     public int TryGetCombatCount()
     {

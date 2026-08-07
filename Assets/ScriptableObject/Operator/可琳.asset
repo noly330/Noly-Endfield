@@ -37,12 +37,14 @@ MonoBehaviour:
       <speedMult>k__BackingField: 1
       <inputMult>k__BackingField: 2.5
       <rotationTime>k__BackingField: 0.5
+    <comboRotationTime>k__BackingField: 0.09
+    <comboRotationPercentage>k__BackingField: 0.3
   <combatData>k__BackingField:
     <normalAttackData>k__BackingField: {fileID: 11400000, guid: bda7d70bf4cedb94f92609e54f7a5005,
       type: 2}
     targetMask:
       serializedVersion: 2
-      m_Bits: 64
+      m_Bits: 128
     targetRadius: 4
     <skillAttackData>k__BackingField: {fileID: 0}
     <linkAttackData>k__BackingField: {fileID: 0}

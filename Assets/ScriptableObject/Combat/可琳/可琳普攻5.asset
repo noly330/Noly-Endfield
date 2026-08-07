@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combatName: Attack5
   coldTime: 1.4
+  isRotationToTarget: 1
   interactionConfigs:
   - hitName: Hurt1
     damageMul: 0.1
