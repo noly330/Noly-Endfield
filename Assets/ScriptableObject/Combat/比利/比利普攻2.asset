@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\u6BD4\u5229\u666E\u653B2"
   m_EditorClassIdentifier: 
   combatName: Attack2
-  coldTime: 1
+  coldTime: 1.2
   interactionConfigs:
   - hitName: "\u4E24\u67AA"
     damageMul: 1

@@ -16,9 +16,9 @@ MonoBehaviour:
   coldTime: 1
   interactionConfigs:
   - hitName: "\u56DB\u67AA"
-    damageMul: 1
+    damageMul: 1.4
   - hitName: "\u4E94\u67AA"
-    damageMul: 1
+    damageMul: 1.4
   detectConfigs:
   - startTime: 0.38
     position: {x: 0, y: 0, z: 0}
