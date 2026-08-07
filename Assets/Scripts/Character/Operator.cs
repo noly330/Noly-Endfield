@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Endfield
 {
     /// <summary>
@@ -5,10 +7,11 @@ namespace Endfield
     /// </summary>
     public class Operator : Character
     {
-        public OperatorSO operatorSO;
+        [SerializeField] private OperatorSO operatorSO;
 
         public override CharacterMovementData MovementData => operatorSO.movementData;
         public override CharacterCombatData CombatData => operatorSO.combatData;
         protected override CharacterAttributeData AttributeData => operatorSO.attributeData;
+        public override CharacterAIData AIData => operatorSO.AIData;
     }
 }

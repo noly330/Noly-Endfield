@@ -2,12 +2,9 @@ using BehaviorDesigner.Runtime.Tasks;
 using Endfield;
 using UnityEngine;
 
-[TaskCategory("Operator")]
+[TaskCategory("Character")]
 public class ChaseTarget : Action
 {
-    //TODO: 停距先写死，之后配置化
-    private const float StopDistance = 2.5f;
-
     private CharacterAIController _controller;
 
     public override void OnAwake() => _controller = GetComponent<CharacterAIController>();
@@ -21,7 +18,7 @@ public class ChaseTarget : Action
             return TaskStatus.Failure;
         }
 
-        if (Vector3.Distance(transform.position, target.position) <= StopDistance)
+        if (Vector3.Distance(transform.position, target.position) <= _controller.AIData.stopDistance)
         {
             _controller.Stop();
             return TaskStatus.Success;

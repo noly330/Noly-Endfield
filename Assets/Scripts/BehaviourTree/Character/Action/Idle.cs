@@ -1,8 +1,8 @@
 using BehaviorDesigner.Runtime.Tasks;
 using Endfield;
 
-[TaskCategory("Operator")]
-public class AttackTarget : Action
+[TaskCategory("Character")]
+public class Idle : Action
 {
     private CharacterAIController _controller;
 
@@ -10,7 +10,8 @@ public class AttackTarget : Action
 
     public override TaskStatus OnUpdate()
     {
-        _controller.TryAttack();
-        return TaskStatus.Success;
+        _controller.Stop();
+
+        return TaskStatus.Running;
     }
 }

@@ -11,6 +11,7 @@ namespace Endfield
         public abstract CharacterMovementData MovementData { get; }
         public abstract CharacterCombatData CombatData { get; }
         protected abstract CharacterAttributeData AttributeData { get; }
+        public abstract CharacterAIData AIData { get; }
         public CharacterMovementStateMachine movementStateMachine { get; private set; }
         public CharacterCombatStateMachine combatStateMachine { get; private set; }
         public CharacterMovementDriver movementDriver { get; private set; }
