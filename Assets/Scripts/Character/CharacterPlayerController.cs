@@ -6,7 +6,6 @@ namespace Endfield
 {
     public class CharacterPlayerController : MonoBehaviour
     {
-        public bool isMainPlayer;
         private Transform _cameraTransform;
         private CharacterMovementData _movementData;
 
@@ -43,9 +42,6 @@ namespace Endfield
 
         private void OnDashStart(InputAction.CallbackContext context)
         {
-            if (!isMainPlayer)
-                return;
-
             if (!_character.movementDriver.canDash)
                 return;
 
@@ -56,15 +52,10 @@ namespace Endfield
         }
         private void OnAttackStart(InputAction.CallbackContext context)
         {
-            if (!isMainPlayer)
-                return;
             _character.combatDriver.normalAttack = true;
         }
         public void UpdateMovementDriver()
         {
-            if (!isMainPlayer)
-                return;
-
             Vector2 input = PlayerInputSystem.Instance.Move;
 
             if (input.sqrMagnitude < 0.01f)

@@ -20,6 +20,7 @@ public class PlayerInputSystem : MonoBehaviour
     public Vector2 Scroll => EnsureInput().Player.Scroll.ReadValue<Vector2>();
     public InputAction DashAction => EnsureInput().Player.Dash;
     public InputAction AttackAction => EnsureInput().Player.Attack;
+    public InputAction SwitchAction => EnsureInput().Player.Switch;
 
     private void Awake()
     {
