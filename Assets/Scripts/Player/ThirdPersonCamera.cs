@@ -67,6 +67,14 @@ public class ThirdPersonCamera : MonoBehaviour
     }
 
     /// <summary>
+    /// 切人时重指相机目标：只换跟随目标，不重置相机角度（切人镜头不动）。
+    /// </summary>
+    public void SetTarget(Transform newTarget)
+    {
+        _cameraTarget = newTarget;
+    }
+
+    /// <summary>
     /// 在 LateUpdate 中更新相机，确保在角色 Animator 之后执行，避免抖动。
     /// </summary>
     private void LateUpdate()

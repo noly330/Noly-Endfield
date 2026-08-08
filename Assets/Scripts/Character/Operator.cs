@@ -9,6 +9,9 @@ namespace Endfield
     {
         [SerializeField] private OperatorSO operatorSO;
 
+        /// <summary>干员数据（队伍/编队等按 OperatorSO 标识干员）。</summary>
+        public OperatorSO OperatorData => operatorSO;
+
         public override CharacterMovementData MovementData => operatorSO.movementData;
         public override CharacterCombatData CombatData => operatorSO.combatData;
         protected override CharacterAttributeData AttributeData => operatorSO.attributeData;

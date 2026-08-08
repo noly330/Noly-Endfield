@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combatName: Attack4
   coldTime: 3
+  rotationTime: 0.3
   isRotationToTarget: 1
   interactionConfigs:
   - hitName: Hit1
     damageMul: 1
-  - hitName: Hit1
+  - hitName: Hit2
     damageMul: 1.2
   detectConfigs:
   - startTime: 0.24

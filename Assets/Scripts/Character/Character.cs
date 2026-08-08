@@ -115,11 +115,25 @@ namespace Endfield
         }
 
         /// <summary>
+        /// 是否允许被切走（TeamManager 切人前查询）。
+        /// 受击中不可切；未来技能/连携状态同样禁止。
+        /// </summary>
+        public bool CanSwitchOut()
+        {
+            return combatStateMachine.currentState.Value is not CharacterCombatHitState;
+        }
+
+        private float _nextHitAnimTime;   // 受击动画冷却时间戳
+
+        /// <summary>
         /// 受击回调：只负责播受击动画，进入受击状态由受击动画的
         /// OnAnimationTranslate(Hit) 路由完成（与 ATK 机制一致）。
         /// </summary>
         private void OnHit(DamageInfo damageInfo)
         {
+            if (Time.time < _nextHitAnimTime) return;
+            _nextHitAnimTime = Time.time + 0.2f;
+
             if (string.IsNullOrEmpty(damageInfo.hitName)) return;
             _animator.CrossFadeInFixedTime(damageInfo.hitName, 0.1f, 0);
             //朝向攻击者
