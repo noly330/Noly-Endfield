@@ -39,8 +39,8 @@ MonoBehaviour:
       <rotationTime>k__BackingField: 0.5
     <comboRotationTime>k__BackingField: 0.09
     <comboRotationPercentage>k__BackingField: 0.3
-  aiData:
-    searchRadius: 10
+  <AIData>k__BackingField:
+    searchRadius: 50
     searchInterval: 0.2
     attackRange: 2.5
     stopDistance: 2.5

@@ -8,6 +8,7 @@ namespace Endfield
         NormalATK,
         Skill,
         Link,
+        Hit,
     }
 
     public class CharacterCombatStateMachine : StateMachine
@@ -26,6 +27,7 @@ namespace Endfield
 
             _states[CharacterCombatStateType.Null] = new CharacterCombatNullState(this);
             _states[CharacterCombatStateType.NormalATK] = new CharacterCombatNormalATKState(this);
+            _states[CharacterCombatStateType.Hit] = new CharacterCombatHitState(this);
         }
 
         /// <summary>按类型取状态</summary>

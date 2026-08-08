@@ -21,6 +21,13 @@ namespace Endfield
             base.Update();
         }
 
+        public override void Exit()
+        {
+            base.Exit();
+            //_character.movementDriver.canDash = true;
+        }
+
+        //TODO:这个可能有bug
         public override void OnAnimationExitEvent()
         {
             if (_character.GetMovementInput() != Vector3.zero)

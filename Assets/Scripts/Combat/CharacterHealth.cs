@@ -13,16 +13,13 @@ namespace Endfield
         private CharacterAttributeComponent _attributeComponent;
         private float _currentHP;
         private bool _isDead;
-
-        /// <summary>受击事件：携带伤害信息，供受击反馈 / 血条 UI 订阅。</summary>
         public event Action<DamageInfo> OnDamaged;
-        /// <summary>死亡事件（死亡的具体处理下一步做，先留接口）。</summary>
         public event Action OnDead;
-
-        /// <summary>当前血量。</summary>
         public float CurrentHP => _currentHP;
-        /// <summary>血量上限，实时读属性，不缓存；属性未初始化时按 0。</summary>
         public float MaxHP => _attributeComponent?.Attribute?.MaxHP ?? 0f;
+        private float _hitClodTime = 0.1f;
+        private float _hitClodTimer;
+        
 
         private void Awake()
         {
@@ -31,13 +28,18 @@ namespace Endfield
 
         private void Start()
         {
-            // Start 初始化：保证 CharacterAttributeComponent.Init 已执行（Awake 顺序不定）
             _currentHP = MaxHP;
+        }
+
+        private void Update()
+        {
+            
         }
 
         public void TakeDamage(DamageInfo damageInfo)
         {
-            if (_isDead) return;
+            //TODO:现在没有死亡
+            //if (_isDead) return;
 
             // 受击方自行减免防御（属性未初始化时按防御 0）
             float def = _attributeComponent?.Attribute?.Def ?? 0f;
@@ -55,7 +57,7 @@ namespace Endfield
             }
         }
 
-        /// <summary>回血，不超上限。</summary>
+        /// <summary>回血</summary>
         public void Heal(float amount)
         {
             if (_isDead) return;
