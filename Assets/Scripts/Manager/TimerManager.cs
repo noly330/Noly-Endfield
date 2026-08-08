@@ -36,7 +36,9 @@ namespace Endfield
         {
             if(isWorkingTimers.Count == 0)  
                 return;
-            for(int i = 0; i < isWorkingTimers.Count; i++)
+            // 倒序遍历：清理 DoneWorked 定时器时 RemoveAt 不影响已遍历下标，
+            // 修复正序 Remove 会跳过相邻定时器、导致冲刺冷却等定时器偶发不触发的问题
+            for(int i = isWorkingTimers.Count - 1; i >= 0; i--)
             {
                 if(isWorkingTimers[i].timerState == TimerState.DoWorking)
                 {
@@ -53,7 +55,7 @@ namespace Endfield
                 {
                     isWorkingTimers[i].InitTimer();
                     notWorkTimers.Enqueue(isWorkingTimers[i]);
-                    isWorkingTimers.Remove(isWorkingTimers[i]);
+                    isWorkingTimers.RemoveAt(i);
                 }
             }
         }

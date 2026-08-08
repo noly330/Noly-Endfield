@@ -15,6 +15,7 @@ namespace Endfield
 
         public override void Enter()
         {
+            //进入普攻
             CombatSetSO combatSet = _combatData.normalAttackData;
             _currentCombatConfig = combatSet.combatConfigs[_resuableData.combatIndex];
             _combatController.StartAttackDetection(combatSet, _resuableData.combatIndex);
@@ -44,6 +45,12 @@ namespace Endfield
                 _combatStateMachine.ChangeState(CharacterCombatStateType.Null);
             }
         }
+        public override void Exit()
+        {
+            base.Exit();
+            Debug.Log("退出普攻状态");
+            RestartComboResetTimer(_combatData.normalAttackData.TryGetColdTime(_resuableData.combatIndex));
+        }
 
         public override void OnAnimationTranslateEvent(IState state)
         {
@@ -52,7 +59,6 @@ namespace Endfield
 
         public override void OnAnimationExitEvent()
         {
-            RestartComboResetTimer(_combatData.normalAttackData.TryGetColdTime(_resuableData.combatIndex));
         }
     }
 }
