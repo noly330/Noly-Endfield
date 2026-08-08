@@ -119,7 +119,7 @@ namespace Endfield
                     return;
                 float rawDamage = DamageCalculator.CalculateRawDamage(_attackerAttribute, interactionConfig.damageMul);
                 damageable.TakeDamage(new DamageInfo { attacker = _characterTrans, rawDamage = rawDamage, hitName = interactionConfig.hitName });
-                Debug.Log("对敌人：" + target.name + "出伤" + rawDamage + "（未减防御）");
+                //Debug.Log("对敌人：" + target.name + "出伤" + rawDamage + "（未减防御）");
 
                 SetCachedTarget(target);   // 命中刷新粘性缓存
                 _firedDetectCount++;

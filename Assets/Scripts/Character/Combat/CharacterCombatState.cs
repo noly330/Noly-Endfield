@@ -43,7 +43,7 @@ namespace Endfield
                 }
                 _combatStateMachine.combatController.SetAttackColdTime();
                 int index = _resuableData.nextCombatIndex;
-                Debug.Log("进行普攻第" + index+1 + "段");
+                //Debug.Log("进行普攻第" + (index +1) + "段");
                 _resuableData.combatIndex = index;
                 _resuableData.nextCombatIndex = (index + 1) % _combatData.normalAttackData.TryGetCombatCount();
                 
