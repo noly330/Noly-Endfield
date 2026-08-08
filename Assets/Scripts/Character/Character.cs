@@ -30,6 +30,15 @@ namespace Endfield
             combatDriver = new CharacterCombatDriver();
             movementStateMachine = new CharacterMovementStateMachine(this);
             combatStateMachine = new CharacterCombatStateMachine(this);
+
+            var health = GetComponent<CharacterHealth>();
+            if (health != null) health.OnDamaged += OnHit;
+        }
+
+        protected void OnDestroy()
+        {
+            var health = GetComponent<CharacterHealth>();
+            if (health != null) health.OnDamaged -= OnHit;
         }
 
         protected override void Start()
@@ -70,6 +79,10 @@ namespace Endfield
                     combatStateMachine.ChangeState(CharacterCombatStateType.NormalATK);
                     movementStateMachine.ChangeState(CharacterMovementStateType.Null);   // 攻击锁移动
                     break;
+                case OnEnterAnimationState.Hit:
+                    combatStateMachine.ChangeState(CharacterCombatStateType.Hit);
+                    movementStateMachine.ChangeState(CharacterMovementStateType.Null);   // 受击锁移动
+                    break;
             }
         }
 
@@ -99,6 +112,18 @@ namespace Endfield
         public void CancelAttackColdTime()
         {
             combatController.CancelAttackColdTime();
+        }
+
+        /// <summary>
+        /// 受击回调：只负责播受击动画，进入受击状态由受击动画的
+        /// OnAnimationTranslate(Hit) 路由完成（与 ATK 机制一致）。
+        /// </summary>
+        private void OnHit(DamageInfo damageInfo)
+        {
+            if (string.IsNullOrEmpty(damageInfo.hitName)) return;
+            _animator.CrossFadeInFixedTime(damageInfo.hitName, 0.1f, 0);
+            //朝向攻击者
+            transform.LookAt(damageInfo.attacker.transform.position);
         }
 
         /// <summary>绘制攻击检测盒（红色线框），Scene 视图常显，Game 视图需打开 Gizmos 按钮。</summary>

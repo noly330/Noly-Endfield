@@ -39,5 +39,6 @@ namespace Endfield
         Sprint,
         ReturnRun,
         ATK,
+        Hit,
     }
 }

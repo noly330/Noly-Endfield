@@ -16,25 +16,25 @@ MonoBehaviour:
   coldTime: 1.4
   isRotationToTarget: 1
   interactionConfigs:
-  - hitName: Hurt1
+  - hitName: Hit1
     damageMul: 0.1
-  - hitName: Hurt1
+  - hitName: Hit1
     damageMul: 0.1
-  - hitName: Hurt1
+  - hitName: Hit1
     damageMul: 0.1
-  - hitName: Hurt1
+  - hitName: Hit1
     damageMul: 0.15
-  - hitName: Hurt1
+  - hitName: Hit1
     damageMul: 0.15
-  - hitName: Hurt1
+  - hitName: Hit1
     damageMul: 0.15
-  - hitName: Hurt1
+  - hitName: Hit1
     damageMul: 0.2
-  - hitName: Hurt1
+  - hitName: Hit1
     damageMul: 0.2
-  - hitName: Hurt1
+  - hitName: Hit1
     damageMul: 0.25
-  - hitName: Hurt1
+  - hitName: Hit1
     damageMul: 0.3
   detectConfigs:
   - startTime: 0.3

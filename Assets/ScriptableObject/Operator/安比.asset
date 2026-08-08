@@ -37,6 +37,13 @@ MonoBehaviour:
       <speedMult>k__BackingField: 1
       <inputMult>k__BackingField: 2.5
       <rotationTime>k__BackingField: 0.5
+    <comboRotationTime>k__BackingField: 0.09
+    <comboRotationPercentage>k__BackingField: 0.3
+  <AIData>k__BackingField:
+    searchRadius: 15
+    searchInterval: 0.2
+    attackRange: 2.5
+    stopDistance: 2.5
   <combatData>k__BackingField:
     <normalAttackData>k__BackingField: {fileID: 11400000, guid: 03f9491ef8d39e648a636d4ea2f23625,
       type: 2}

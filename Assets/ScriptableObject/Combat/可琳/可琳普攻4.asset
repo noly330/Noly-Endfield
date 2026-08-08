@@ -16,9 +16,9 @@ MonoBehaviour:
   coldTime: 3
   isRotationToTarget: 1
   interactionConfigs:
-  - hitName: "\u963F\u54F2"
+  - hitName: Hit1
     damageMul: 1
-  - hitName: "\u9EBB\u4E86"
+  - hitName: Hit1
     damageMul: 1.2
   detectConfigs:
   - startTime: 0.24
