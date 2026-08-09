@@ -128,6 +128,7 @@ namespace Endfield.Core
                 foreach(var key in keysToRemove)
                 {
                     _viewCache.Remove(key);
+                    ResourcesLoader.Instance.Release(key);
                 }
                 view.Destroy();
             }
@@ -155,6 +156,7 @@ namespace Endfield.Core
             CloseView(entry);
             view.Destroy();
             _viewCache.Remove(entry.PrefabPath);
+            ResourcesLoader.Instance.Release(entry.PrefabPath);
         }
 
         public void CloseAllViews()
@@ -164,9 +166,10 @@ namespace Endfield.Core
                 _viewStack.Pop().Hide();
             }
 
-            foreach (var view in _viewCache.Values)
+            foreach (var kvp in _viewCache)
             {
-                view.Destroy();
+                kvp.Value.Destroy();
+                ResourcesLoader.Instance.Release(kvp.Key);
             }
 
             // 清理缓存，确保后续打开不会引用已销毁的视图实例
