@@ -75,6 +75,11 @@ namespace Endfield.Core
             }
             Transform root = parent == null ? RootTransform : parent;
             Transform target = string.IsNullOrEmpty(path) ? root : root.Find(path);
+            if (target == null)
+            {
+                Debug.LogError($"[BaseView] Path not found: {path} in {root.name}");
+                return null;
+            }
 
             var comp = target.GetComponent<T>();
             if (comp == null)
