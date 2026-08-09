@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Endfield.Tools;
-
+using Endfield.Core;
 
 namespace Endfield
 {
-    public class TimerManager : Singleton<TimerManager>
+    public class TimerManager : SingletonMono<TimerManager>
     {
         [SerializeField] private int _timerCount = 50;
 
