@@ -17,7 +17,7 @@ namespace Endfield
         /// </summary>
         public async UniTask<Enemy> SpawnAsync(string prefabPath, Vector3 position, Quaternion rotation)
         {
-            var pool = await PrefabPoolManager.Instance.GetPoolAsync<Enemy>(prefabPath);
+            var pool = await PrefabPoolManager.Instance.GetPoolAsync<Enemy>(prefabPath,10,30);
             var enemy = pool.Get();   // SetActive(true) → Enemy.OnEnable 自动重置
             enemy.transform.SetPositionAndRotation(position, rotation);
 

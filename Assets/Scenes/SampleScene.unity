@@ -527,7 +527,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 69.99046
+  field of view: 69.9903
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1581,7 +1581,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1166341667}
   m_Lens:
-    FieldOfView: 69.99046
+    FieldOfView: 69.9903
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -2168,7 +2168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefabAddress: "Assets/Res/Prefab/Character/Enemy/\u602A\u517D.prefab"
   _count: 3
-  _spacing: 10
+  _spacing: 5
 --- !u!1 &1526525063
 GameObject:
   m_ObjectHideFlags: 0
