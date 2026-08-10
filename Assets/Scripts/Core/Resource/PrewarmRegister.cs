@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Endfield;
 using Endfield.Core.Pool;
+using Endfield.Module.VFX;
 using UnityEngine;
 
 namespace Endfield.Core.Resource
@@ -19,10 +19,10 @@ namespace Endfield.Core.Resource
             // 敌人池：加载 prefab + 预热 10 个实例
             () => PrefabPoolManager.Instance.GetPoolAsync<Enemy>(
                 "Assets/Res/Prefab/Character/Enemy/怪兽.prefab", 10, 30),
+            // VFX 池（当前安比在试的特效，换特效时同步改这里）
+            () => PrefabPoolManager.Instance.GetPoolAsync<PooledVFX>(
+                "Assets/Res/VFX/VFX_Klaus/Prefabs/Slash/FX_slash_15.prefab", 5, 20),
 
-            // TODO: 特效池——FX_hit 标记进 Addressables 后启用
-            // () => PrefabPoolManager.Instance.GetPoolAsync<ParticleSystem>(
-            //     "Assets/Res/VFX/VFX_Klaus/Prefabs/Stylized Hit & Slash/FX_hit_01.prefab", 5, 20),
         };
 
         /// <summary>遍历预热表，逐个预热。</summary>

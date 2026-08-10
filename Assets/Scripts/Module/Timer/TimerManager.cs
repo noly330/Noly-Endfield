@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Endfield.Tools;
+using Endfield.Module.Timer;
 using Endfield.Core;
 
 namespace Endfield

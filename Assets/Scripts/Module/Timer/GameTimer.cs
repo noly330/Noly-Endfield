@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Endfield.Tools
+namespace Endfield.Module.Timer
 {
     public enum TimerState{NotWorked,DoWorking,DoneWorked}  //没有工作，正在工作，已经完成工作
     public class GameTimer

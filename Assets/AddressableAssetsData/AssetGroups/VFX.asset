@@ -17,8 +17,23 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 624b90364d6e08e478615f8f86124004
   m_SerializeEntries:
+  - m_GUID: 250b98157dd7f104aa6fbd740b2329d7
+    m_Address: Assets/Res/VFX/VFX_Klaus/Prefabs/Slash/FX_slash_09.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4688765150c3ec14da6b5190dc35752e
+    m_Address: Assets/Res/VFX/VFX_Klaus/Prefabs/Slash/FX_slash_03.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 884aeb97769d0084fa6f60fb0907ce36
     m_Address: Assets/Res/VFX/VFX_Klaus/Prefabs/Slash/FX_slash_15.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f5f7c97ed2c4b5447b898324ed8579e8
+    m_Address: Assets/Res/VFX/VFX_Klaus/Prefabs/Other/PS_SlashCircle_Dark.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

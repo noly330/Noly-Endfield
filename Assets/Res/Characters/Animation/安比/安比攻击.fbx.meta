@@ -180,7 +180,28 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.35340476
+      - time: 0.0875689
+        functionName: PlayVFX
+        data: Atk4_1
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.12676057
+        functionName: PlayVFX
+        data: Atk4_2
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.23698713
+        functionName: PlayVFX
+        data: Atk4_3
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.3251345
         functionName: CancelAttackColdTime
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -426,6 +447,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.060624626
+        functionName: PlayVFX
+        data: Atk2
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -571,9 +599,16 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.16562249
+      - time: 0.08511942
+        functionName: PlayVFX
+        data: Atk1
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.14066102
         functionName: CancelAttackColdTime
-        data: 
+        data: Atk1
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
@@ -697,6 +732,20 @@ ModelImporter:
       - time: 0.22079058
         functionName: CancelAttackColdTime
         data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.07287203
+        functionName: PlayVFX
+        data: Atk3_1
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.16105327
+        functionName: PlayVFX
+        data: Atk3_2
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
