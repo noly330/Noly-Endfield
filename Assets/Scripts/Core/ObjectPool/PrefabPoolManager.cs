@@ -15,9 +15,10 @@ namespace Endfield.Core.Pool
 
         /// <summary>获取（或创建）指定 prefab 的对象池。首次会异步加载 prefab。</summary>
         public async UniTask<PrefabPool<T>> GetPoolAsync<T>(string prefabPath,
-            int defaultCapacity = 10, int maxSize = 100, bool collectionCheck = true)
+            int defaultCapacity = 10, int maxSize = 30, bool collectionCheck = true)
             where T : Component
         {
+            //如果已经预热过，直接从里面取
             if (_pools.TryGetValue(prefabPath, out var cached))
             {
                 // 同一路径只能用同一个 T；用错 T 会得到 null（注册表按路径索引的固有约束）

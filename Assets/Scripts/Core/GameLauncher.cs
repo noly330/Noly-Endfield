@@ -1,6 +1,7 @@
 using UnityEngine;
 using VContainer.Unity;
 using Cysharp.Threading.Tasks;
+using Endfield.Core.Resource;
 
 namespace Endfield.Core
 {
@@ -19,7 +20,10 @@ namespace Endfield.Core
 
         void Start()
         {
-            UIManager.Instance.OpenView(UIRegister.MainView,UILayer.Top).Forget();
+            UIManager.Instance.OpenView(UIRegister.MainView, UILayer.Top).Forget();
+
+            // 启动预热：遍历预热表
+            PrewarmRegister.PrewarmAll().Forget();
         }
 
         private void OnDestroy()
