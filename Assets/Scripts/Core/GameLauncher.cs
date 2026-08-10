@@ -19,7 +19,7 @@ namespace Endfield.Core
 
         void Start()
         {
-            UIManager.Instance.OpenView(UIRegister.MainView).Forget();
+            UIManager.Instance.OpenView(UIRegister.MainView,UILayer.Top).Forget();
         }
 
         private void OnDestroy()

@@ -527,7 +527,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 69.9901
+  field of view: 69.99046
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1581,7 +1581,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1166341667}
   m_Lens:
-    FieldOfView: 69.9901
+    FieldOfView: 69.99046
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -2106,6 +2106,7 @@ GameObject:
   - component: {fileID: 1474826655}
   - component: {fileID: 1474826657}
   - component: {fileID: 1474826656}
+  - component: {fileID: 1474826658}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -2153,6 +2154,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: {fileID: 11400000, guid: eecef6183ce0d124cb019775537e7f04, type: 2}
+--- !u!114 &1474826658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474826654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05deaa780d8fbbd4b96f75ed4bbbf556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabAddress: "Assets/Res/Prefab/Character/Enemy/\u602A\u517D.prefab"
+  _count: 3
+  _spacing: 10
 --- !u!1 &1526525063
 GameObject:
   m_ObjectHideFlags: 0
