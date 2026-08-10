@@ -48,7 +48,6 @@ namespace Endfield
         public override void Exit()
         {
             base.Exit();
-            Debug.Log("退出普攻状态");
             RestartComboResetTimer(_combatData.normalAttackData.TryGetColdTime(_resuableData.combatIndex));
         }
 

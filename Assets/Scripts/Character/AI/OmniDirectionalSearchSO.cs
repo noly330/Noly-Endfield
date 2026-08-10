@@ -19,7 +19,8 @@ namespace Endfield
             foreach (Collider hit in hits)
             {
                 if (hit.transform == origin || hit.transform.IsChildOf(origin)) continue;   // 排除自身
-                if (!hit.TryGetComponent<IDamageable>(out _)) continue;
+                if (!hit.TryGetComponent<IDamageable>(out var damageable)) continue;
+                if (damageable.isDead) continue;   // 跳过死亡目标
 
                 float sqr = (hit.transform.position - origin.position).sqrMagnitude;
                 if (sqr < minSqr)

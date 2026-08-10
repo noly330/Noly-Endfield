@@ -24,7 +24,8 @@ namespace Endfield
             foreach (Collider hit in hits)
             {
                 if (hit.transform == origin || hit.transform.IsChildOf(origin)) continue;   // 排除自身
-                if (!hit.TryGetComponent<IDamageable>(out _)) continue;
+                if (!hit.TryGetComponent<IDamageable>(out var damageable)) continue;
+                if (damageable.isDead) continue;   // 跳过死亡目标
 
                 Vector3 dir = (hit.transform.position - origin.position).normalized;
                 if (Vector3.Angle(forward, dir) > _halfAngle) continue;   // 视野外排除

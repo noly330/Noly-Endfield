@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IDamageable
 {
+    public bool isDead{get;}
     void TakeDamage(DamageInfo damageInfo);
 }
 

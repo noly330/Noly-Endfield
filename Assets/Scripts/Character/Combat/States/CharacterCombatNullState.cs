@@ -15,7 +15,7 @@ namespace Endfield
         public override void Enter()
         {
             base.Enter();
-            _combatStateMachine.combatController.CancelAttackColdTime();
+            _combatController.CancelAttackColdTime();
         }
 
         public override void Update()

@@ -17,6 +17,8 @@ namespace Endfield
         public event Action OnDead;
         public float CurrentHP => _currentHP;
         public float MaxHP => _attributeComponent?.Attribute?.MaxHP ?? 0f;
+        public bool isDead => _isDead;
+
         private float _hitClodTime = 0.1f;
         private float _hitClodTimer;
         
@@ -38,8 +40,7 @@ namespace Endfield
 
         public void TakeDamage(DamageInfo damageInfo)
         {
-            //TODO:现在没有死亡
-            //if (_isDead) return;
+            if (_isDead) return;
 
             // 受击方自行减免防御（属性未初始化时按防御 0）
             float def = _attributeComponent?.Attribute?.Def ?? 0f;
