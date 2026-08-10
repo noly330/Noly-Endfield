@@ -620,7 +620,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 69.99053
+  field of view: 69.9904
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -974,6 +974,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1031070338}
   m_LocalEulerAnglesHint: {x: 5.8, y: 180, z: -2}
+--- !u!1 &527460414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 527460415}
+  m_Layer: 0
+  m_Name: KeLinVFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &527460415
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527460414}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.71933985, z: -0.69465834, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2134241199}
+  m_LocalEulerAnglesHint: {x: -88, y: -180, z: 0}
 --- !u!1001 &594414403
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1079,6 +1110,10 @@ PrefabInstance:
         type: 3}
       insertIndex: 0
       addedObject: {fileID: 1178465738}
+    - targetCorrespondingSourceObject: {fileID: 7640751145472537313, guid: 52b79a5d9c9c235468b9ac95788d1229,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 527460415}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 52b79a5d9c9c235468b9ac95788d1229,
         type: 3}
@@ -1874,7 +1909,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1166341667}
   m_Lens:
-    FieldOfView: 69.99053
+    FieldOfView: 69.9904
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -3169,6 +3204,12 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!4 &2134241199 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7640751145472537313, guid: 52b79a5d9c9c235468b9ac95788d1229,
+    type: 3}
+  m_PrefabInstance: {fileID: 594414403}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -15,4 +15,4 @@ MonoBehaviour:
   vfxDatas:
   - name: KeLin_Atk
     prefabPath: Assets/Res/VFX/VFX_Klaus/Prefabs/Other/PS_SlashCircle_Dark.prefab
-    anchorName: Weapon_saw_b
+    anchorName: KeLinVFX
