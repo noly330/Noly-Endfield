@@ -1,4 +1,7 @@
+using System;
 using UnityEngine;
+using UnityEngine.AI;
+using BehaviorDesigner.Runtime;
 
 namespace Endfield
 {
@@ -18,6 +21,11 @@ namespace Endfield
         public CharacterCombatDriver combatDriver { get; private set; }
         public CharacterCombatController combatController { get; private set; }
         public CharacterAttribute attribute { get; private set; }
+        public bool IsDead => _health != null && _health.isDead;
+        /// <summary>死亡动画播完事件（供对象池回收等）。由 CharacterCombatDeadState 触发。</summary>
+        public event Action OnDeathAnimationEnd;
+
+        private CharacterHealth _health;
 
         protected override void Awake()
         {
@@ -31,14 +39,22 @@ namespace Endfield
             movementStateMachine = new CharacterMovementStateMachine(this);
             combatStateMachine = new CharacterCombatStateMachine(this);
 
-            var health = GetComponent<CharacterHealth>();
-            if (health != null) health.OnDamaged += OnHit;
+            _health = GetComponent<CharacterHealth>();
+            if (_health != null)
+            {
+                _health.OnDamaged += OnHit;
+                _health.OnDead += OnDead;
+            }
         }
+
 
         protected void OnDestroy()
         {
-            var health = GetComponent<CharacterHealth>();
-            if (health != null) health.OnDamaged -= OnHit;
+            if (_health != null)
+            {
+                _health.OnDamaged -= OnHit;
+                _health.OnDead -= OnDead;
+            }
         }
 
         protected override void Start()
@@ -139,6 +155,25 @@ namespace Endfield
             //朝向攻击者
             transform.LookAt(damageInfo.attacker.transform.position);
         }
+        /// <summary>
+        /// 死亡回调
+        /// </summary>
+        private void OnDead()
+        {
+            combatStateMachine.ChangeState(CharacterCombatStateType.Dead);        // 战斗进终态
+            movementStateMachine.ChangeState(CharacterMovementStateType.Null);    // 锁移动
+
+            // 停止 AI（敌人）
+            var aiCtrl = GetComponent<CharacterAIController>();
+            if (aiCtrl != null) aiCtrl.enabled = false;
+            var behaviorTree = GetComponent<BehaviorTree>();
+            if (behaviorTree != null) behaviorTree.enabled = false;
+            var navMeshAgent = GetComponent<NavMeshAgent>();
+            if (navMeshAgent != null) navMeshAgent.enabled = false;
+        }
+
+        /// <summary>死亡动画播完通知（供对象池回收等）。由 CharacterCombatDeadState 调用。</summary>
+        public void NotifyDeathAnimationEnd() => OnDeathAnimationEnd?.Invoke();
 
         /// <summary>绘制攻击检测盒（红色线框），Scene 视图常显，Game 视图需打开 Gizmos 按钮。</summary>
         private void OnDrawGizmos()

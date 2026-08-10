@@ -152,7 +152,11 @@ namespace Endfield
         {
             if (_cachedTarget)
             {
-                // 缓存目标超出索敌半径 → 重新最近索敌（GetNearestEnemy 会重新锁定）
+                // 缓存目标死亡或超出索敌半径 → 重新最近索敌（GetNearestEnemy 会重新锁定）
+                if (!_cachedTarget.TryGetComponent<IDamageable>(out var dmg) || dmg.isDead)
+                {
+                    return GetNearestEnemy();
+                }
                 Vector3 toTarget = _cachedTarget.position - _characterTrans.position;
                 if (toTarget.sqrMagnitude > _targetRadius * _targetRadius)
                 {
@@ -176,7 +180,8 @@ namespace Endfield
 
             foreach (Collider hit in hits)
             {
-                if (!hit.TryGetComponent<IDamageable>(out _)) continue;
+                if (!hit.TryGetComponent<IDamageable>(out var damageable)) continue;
+                if (damageable.isDead) continue;   // 跳过死亡目标
 
                 float sqr = (hit.transform.position - _characterTrans.position).sqrMagnitude;
                 if (sqr < minSqr)
