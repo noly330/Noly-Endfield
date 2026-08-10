@@ -64,5 +64,12 @@ namespace Endfield
             if (_isDead) return;
             _currentHP = Mathf.Min(_currentHP + amount, MaxHP);
         }
+
+        /// <summary>对象池复用重置：回满血、清死旗。</summary>
+        public void Reset()
+        {
+            _currentHP = MaxHP;
+            _isDead = false;
+        }
     }
 }

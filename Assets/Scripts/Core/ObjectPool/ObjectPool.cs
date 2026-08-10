@@ -45,9 +45,15 @@ namespace Endfield.Core.Pool
 
             //保护，预热容量不能大于最大容量
             defaultCapacity = Math.Min(defaultCapacity,_maxSize);
-            // 预热：提前把 defaultCapacity 个对象放进池，首次 Get 不卡顿
+            // 预热：提前把 defaultCapacity 个对象放进池，首次 Get 不卡顿。
+            // 注意：预热实例也要走 actionOnRelease（PrefabPool 里是 SetActive(false)），
+            // 否则池里"空闲"的对象是激活的，会被误当成在场上（按一次生成几十只的 bug 根源）。
             for (int i = 0; i < defaultCapacity; i++)
-                _stack.Push(_createFunc());
+            {
+                var item = _createFunc();
+                _actionOnRelease?.Invoke(item);
+                _stack.Push(item);
+            }
         }
 
         /// <summary>借出对象。池空则新造（maxSize 不管创建数量）。</summary>
