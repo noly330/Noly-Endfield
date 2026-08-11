@@ -17,6 +17,24 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 8941603e134cbb748842914190b78247
   m_SerializeEntries:
+  - m_GUID: 33edbe5b1426444489012b462d6d12b3
+    m_Address: "Assets/ScriptableObject/Operator/\u53EF\u7433.asset"
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Operator
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e183fe2f2b9a574f88b27b958be85f7
+    m_Address: "Assets/ScriptableObject/Operator/\u5B89\u6BD4.asset"
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Operator
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b3c3d69afbc313346b5c43fc10720911
+    m_Address: "Assets/ScriptableObject/Operator/\u6BD4\u5229.asset"
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Operator
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b6c56647e68ad9443a01cf78afa17e6e
     m_Address: "Assets/Res/Prefab/Character/Operator/\u6BD4\u5229.prefab"
     m_ReadOnly: 0
