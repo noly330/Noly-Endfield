@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Operator
+  m_EditorClassIdentifier: 
+  m_GroupName: Operator
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 8941603e134cbb748842914190b78247
+  m_SerializeEntries:
+  - m_GUID: b6c56647e68ad9443a01cf78afa17e6e
+    m_Address: "Assets/Res/Prefab/Character/Operator/\u6BD4\u5229.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Operator
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f07a4df0ff31e994885f65c3c024ab05
+    m_Address: "Assets/Res/Prefab/Character/Operator/\u5B89\u6BD4.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Operator
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f1511ce16d9a65745a8684fe3c116e4e
+    m_Address: "Assets/Res/Prefab/Character/Operator/\u53EF\u7433.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Operator
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 7c9683db4bfcaad40943faba0821cdbe, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 400fcf8836c6da444998b6b849722587, type: 2}
+    - {fileID: 11400000, guid: e04961f89f61cad48984151e58c56c8b, type: 2}

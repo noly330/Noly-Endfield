@@ -3,27 +3,18 @@ using UnityEngine;
 using UnityEngine.AI;
 using Cinemachine;
 using BehaviorDesigner.Runtime;
+using Endfield.Core;
+using Cysharp.Threading.Tasks;
 
 namespace Endfield
 {
     /// <summary>
     /// 队伍管理器：负责队伍组合、当前主控干员、切人（交换位置 + 控制权 + 相机）。
-    /// 只处理干员（Operator）；未来 UI 编队通过 TeamSO 换人/排序。
+    /// 干员已改为按 TeamSO.slots 从 Addressables 加载，不再依赖场景摆放。
+    /// TODO:队伍管理器目前仍有一些逻辑问题，待排查。
     /// </summary>
-    /// TODO:队伍管理器目前有问题，后期等addressable的资源加载写好以后，重构一下
-    public class TeamManager : MonoBehaviour
+    public class TeamManager : SingletonMono<TeamManager>
     {
-        private static TeamManager _instance;
-        public static TeamManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = FindObjectOfType<TeamManager>();
-                return _instance;
-            }
-        }
-
         [Tooltip("队伍配置（槽位 1~4，只放干员）")]
         public TeamSO team;
 
@@ -35,32 +26,54 @@ namespace Endfield
         /// <summary>当前玩家控制的干员。</summary>
         public Operator ActiveOperator { get; private set; }
 
-        private void Awake()
-        {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-            _instance = this;
-        }
+        /// <summary>场景级服务，不跨场景常驻。</summary>
+        protected override bool KeepAcrossScenes => false;
 
-        private void Start()
+        protected override void Awake() => base.Awake();
+
+        private async void Start()
         {
-            CollectOperators();
+            await LoadTeamAsync();
             _virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
             _thirdPersonCamera = FindObjectOfType<ThirdPersonCamera>();
             InitActiveSlot();
         }
 
-        //TODO:以后添加资源管理功能的时候，这里要读取队伍资源而不是读取场景
-        private void CollectOperators()
+        /// <summary>
+        /// 从 Addressables 按队伍配置（TeamSO.slots）加载干员，替换原来的场景扫描。
+        /// 约定：干员 prefab 路径 = Assets/Res/Prefab/Character/Operator/{OperatorSO.name}.prefab
+        /// </summary>
+        private async UniTask LoadTeamAsync()
         {
             _operators.Clear();
-            foreach (var op in FindObjectsOfType<Operator>())
+            if (team == null)
             {
-                if (op.OperatorData != null && !_operators.ContainsKey(op.OperatorData))
-                    _operators[op.OperatorData] = op;
+                Debug.LogWarning("[TeamManager] team 未配置，无法加载队伍");
+                return;
+            }
+
+            foreach (var so in team.slots)
+            {
+                if (so == null) continue;
+
+                string path = $"Assets/Res/Prefab/Character/Operator/{so.name}.prefab";
+                var prefab = await ResourcesLoader.Instance.Load<GameObject>(path);
+                if (prefab == null)
+                {
+                    Debug.LogError($"[TeamManager] 加载干员 prefab 失败: {path}");
+                    continue;
+                }
+
+                var opGo = Object.Instantiate(prefab, transform);
+                opGo.name = so.name;
+                var op = opGo.GetComponent<Operator>();
+                if (op == null)
+                {
+                    Object.Destroy(opGo);
+                    continue;
+                }
+
+                _operators[so] = op;
             }
         }
 
