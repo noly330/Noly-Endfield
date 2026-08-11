@@ -28,13 +28,8 @@ namespace Endfield.Core
                 {
                     lock (_lock)
                     {
+                        // 只查找不创建：单例应放场景里（场景卸载/销毁阶段返回 null 是合法的，调用方判空处理）
                         _instance = FindObjectOfType<T>() as T;
-
-                        if (_instance == null)
-                        {
-                            GameObject go = new GameObject(typeof(T).Name);
-                            _instance = go.AddComponent<T>();
-                        }
                     }
                 }
 
@@ -43,12 +38,17 @@ namespace Endfield.Core
         }
 
 
+        /// <summary>是否跨场景常驻（DontDestroyOnLoad）。默认 true；场景级服务可覆写为 false。</summary>
+        protected virtual bool KeepAcrossScenes => true;
+
         protected virtual void Awake()
         {
-            if (_instance == null)
+            // 允许 getter 提前设置 _instance（访问发生在 Awake 之前）：_instance == this 不算重复，不能自毁
+            if (_instance == null || _instance == this)
             {
                 _instance = this as T;
-                DontDestroyOnLoad(gameObject);
+                if (KeepAcrossScenes)
+                    DontDestroyOnLoad(gameObject);
             }
             else
             {

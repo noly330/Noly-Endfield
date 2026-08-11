@@ -1,19 +1,9 @@
+using Endfield.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputSystem : MonoBehaviour
+public class PlayerInputSystem : SingletonMono<PlayerInputSystem>
 {
-    private static PlayerInputSystem _instance;
-    public static PlayerInputSystem Instance
-    {
-        get
-        {
-            if (_instance == null)
-                _instance = FindObjectOfType<PlayerInputSystem>();
-            return _instance;
-        }
-    }
-
     [SerializeField] private PlayerInput inputActions;
     public Vector2 Move => EnsureInput().Player.MoveMent.ReadValue<Vector2>();
     public Vector2 Look => EnsureInput().Player.Look.ReadValue<Vector2>();
@@ -21,17 +11,15 @@ public class PlayerInputSystem : MonoBehaviour
     public InputAction DashAction => EnsureInput().Player.Dash;
     public InputAction AttackAction => EnsureInput().Player.Attack;
     public InputAction SwitchAction => EnsureInput().Player.Switch;
+    public InputAction Skill1 => EnsureInput().Player.Skill1;
+    public InputAction Skill2 => EnsureInput().Player.Skill2;
+    public InputAction Skill3 => EnsureInput().Player.Skill3;
+    public InputAction Skill4 => EnsureInput().Player.Skill4;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        _instance = this;
+        base.Awake();   // 设 _instance + DontDestroyOnLoad + 去重
         EnsureInput();
-        DontDestroyOnLoad(gameObject);
     }
 
     private PlayerInput EnsureInput()
