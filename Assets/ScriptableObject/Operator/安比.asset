@@ -60,3 +60,5 @@ MonoBehaviour:
     <critRate>k__BackingField: 0.1
     <critDamage>k__BackingField: 1.5
     <ultEnergyCost>k__BackingField: 100
+  <ID>k__BackingField: 101
+  <prefabAddress>k__BackingField: "Assets/Res/Prefab/Character/Operator/\u5B89\u6BD4.prefab"

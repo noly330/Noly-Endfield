@@ -12,7 +12,7 @@ namespace Endfield.Core
     {
         protected virtual int SortOrder => 0;
         [Inject]
-        protected IObjectResolver Container{get;set;}
+        protected IObjectResolver Container{get;set;}  //在UIManager.OpenView时注入
         private string _viewName;
         protected Transform RootTransform{get;private set;}
         protected GameObject RootGameObject => RootTransform == null ? null : RootTransform.gameObject;
