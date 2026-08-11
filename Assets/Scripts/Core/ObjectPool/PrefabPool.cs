@@ -24,7 +24,7 @@ namespace Endfield.Core.Pool
     {
         private readonly ObjectPool<T> _pool;
 
-        public PrefabPool(GameObject prefab, int defaultCapacity = 10, int maxSize = 100,
+        public PrefabPool(GameObject prefab,Transform parent = null, int defaultCapacity = 10, int maxSize = 100,
             bool collectionCheck = true)
         {
             if (prefab == null)
@@ -32,7 +32,7 @@ namespace Endfield.Core.Pool
 
             _pool = new ObjectPool<T>(
                 // 造新实例：从 prefab 实例化，取根上的组件
-                createFunc: () => Object.Instantiate(prefab).GetComponent<T>(),
+                createFunc: () => Object.Instantiate(prefab, parent).GetComponent<T>(),
                 // 借出时激活（对象本来就在场景里，只是 SetActive 开关）
                 actionOnGet: t => t.gameObject.SetActive(true),
                 // 归还时隐藏

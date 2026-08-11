@@ -1,70 +1,94 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using Cinemachine;
 using BehaviorDesigner.Runtime;
 using Endfield.Core;
 using Cysharp.Threading.Tasks;
+using Endfield.Data.User;
+using Endfield.Data.Catalog;
 
 namespace Endfield
 {
     /// <summary>
-    /// 队伍管理器：负责队伍组合、当前主控干员、切人（交换位置 + 控制权 + 相机）。
-    /// 干员已改为按 TeamSO.slots 从 Addressables 加载，不再依赖场景摆放。
-    /// TODO:队伍管理器目前仍有一些逻辑问题，待排查。
+    /// 队伍管理器（纯 C# 单例）：读取玩家数据（UserData.teamSlotIds）加载队伍。
+    /// 槽 0（队伍第一位）为主控干员，其余为 AI。
+    /// 提供按队伍索引（1=第一位）获取干员的接口，供技能释放使用。
+    /// 由 GameLauncher 在玩家数据 + 干员图鉴就绪后调用 InitializeAsync。
     /// </summary>
-    public class TeamManager : SingletonMono<TeamManager>
+    public class TeamManager : Singleton<TeamManager>
     {
-        [Tooltip("队伍配置（槽位 1~4，只放干员）")]
-        public TeamSO team;
-
-        private readonly Dictionary<OperatorSO, Operator> _operators = new Dictionary<OperatorSO, Operator>();
+        private readonly Dictionary<OperatorSO, Operator> _operators = new();
         private int _activeSlot;
-        private CinemachineVirtualCamera _virtualCamera;
         private ThirdPersonCamera _thirdPersonCamera;
+        private Transform _root;
 
         /// <summary>当前玩家控制的干员。</summary>
         public Operator ActiveOperator { get; private set; }
 
-        /// <summary>场景级服务，不跨场景常驻。</summary>
-        protected override bool KeepAcrossScenes => false;
+        /// <summary>已加载的干员数量（队伍人数）。</summary>
+        public int TeamCount => _operators.Count;
 
-        protected override void Awake() => base.Awake();
-
-        private async void Start()
+        /// <summary>
+        /// 按队伍索引取干员（1 = 第一位）。技能释放用，越界返回 null。
+        /// </summary>
+        public Operator GetOperatorByIndex(int index)
         {
+            if (index < 1) return null;
+            return GetOperatorInSlot(index - 1);
+        }
+
+        /// <summary>取指定槽位（0~N-1）的干员；空/未加载返回 null。</summary>
+        public Operator GetOperatorInSlot(int slot)
+        {
+            var ids = UserDataService.Instance.Current?.teamSlotIds;
+            if (ids == null || slot < 0 || slot >= ids.Count) return null;
+            var so = OperatorCatalog.Get(ids[slot]);
+            return _operators.TryGetValue(so, out var op) ? op : null;
+        }
+
+        /// <summary>由 GameLauncher 在玩家数据 + 干员图鉴就绪后调用。</summary>
+        public async UniTask InitializeAsync(Transform root, ThirdPersonCamera thirdPersonCamera)
+        {
+            _root = root;
+            _thirdPersonCamera = thirdPersonCamera;
             await LoadTeamAsync();
-            _virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-            _thirdPersonCamera = FindObjectOfType<ThirdPersonCamera>();
             InitActiveSlot();
         }
 
-        /// <summary>
-        /// 从 Addressables 按队伍配置（TeamSO.slots）加载干员，替换原来的场景扫描。
-        /// 约定：干员 prefab 路径 = Assets/Res/Prefab/Character/Operator/{OperatorSO.name}.prefab
-        /// </summary>
+        /// <summary>按玩家编队（UserData.teamSlotIds）从干员图鉴加载干员。</summary>
         private async UniTask LoadTeamAsync()
         {
             _operators.Clear();
-            if (team == null)
+
+            var teamSlotIds = UserDataService.Instance.Current?.teamSlotIds;
+            if (teamSlotIds == null || teamSlotIds.Count == 0)
             {
-                Debug.LogWarning("[TeamManager] team 未配置，无法加载队伍");
+                Debug.LogWarning("[TeamManager] 编队为空，无法加载队伍");
                 return;
             }
 
-            foreach (var so in team.slots)
+            foreach (var id in teamSlotIds)
             {
-                if (so == null) continue;
-
-                string path = $"Assets/Res/Prefab/Character/Operator/{so.name}.prefab";
-                var prefab = await ResourcesLoader.Instance.Load<GameObject>(path);
-                if (prefab == null)
+                var so = OperatorCatalog.Get(id);
+                if (so == null)
                 {
-                    Debug.LogError($"[TeamManager] 加载干员 prefab 失败: {path}");
+                    Debug.LogWarning($"[TeamManager] 干员 id={id} 不在图鉴中");
+                    continue;
+                }
+                if (string.IsNullOrEmpty(so.prefabAddress))
+                {
+                    Debug.LogWarning($"[TeamManager] 干员 {so.name} 未配置 prefabAddress");
                     continue;
                 }
 
-                var opGo = Object.Instantiate(prefab, transform);
+                var prefab = await ResourcesLoader.Instance.Load<GameObject>(so.prefabAddress);
+                if (prefab == null)
+                {
+                    Debug.LogError($"[TeamManager] 加载干员 prefab 失败: {so.prefabAddress}");
+                    continue;
+                }
+
+                var opGo = Object.Instantiate(prefab, _root);
                 opGo.name = so.name;
                 var op = opGo.GetComponent<Operator>();
                 if (op == null)
@@ -77,45 +101,24 @@ namespace Endfield
             }
         }
 
+        /// <summary>队伍第一位为主控，其余切 AI；相机指向主控。</summary>
         private void InitActiveSlot()
         {
-            // 以"当前启用了 CharacterPlayerController 的干员"为默认主控
-            for (int i = 0; i < SlotCount(); i++)
-            {
-                if (TryGetOperatorInSlot(i, out var op))
-                {
-                    var playerCtrl = op.GetComponent<CharacterPlayerController>();
-                    if (playerCtrl != null && playerCtrl.enabled)
-                    {
-                        _activeSlot = i;
-                        ActiveOperator = op;
-                        return;
-                    }
-                }
-            }
             _activeSlot = 0;
             ActiveOperator = GetOperatorInSlot(0);
+            if (ActiveOperator == null) return;
 
-            if (ActiveOperator != null)
-                ReTargetCamera(ActiveOperator);   // 开局相机对齐当前主控
+            // 槽 0 = 主控，其余 = AI（否则加载的 prefab 全员吃玩家输入）
+            for (int i = 0; i < SlotCount(); i++)
+            {
+                var op = GetOperatorInSlot(i);
+                if (op != null) SetControl(op, isPlayer: i == 0);
+            }
+
+            ReTargetCamera(ActiveOperator);
         }
 
-        private int SlotCount() => team != null && team.slots != null ? team.slots.Count : 0;
-
-        private bool TryGetOperatorInSlot(int slot, out Operator op)
-        {
-            op = GetOperatorInSlot(slot);
-            return op != null;
-        }
-
-        /// <summary>取指定槽位（0~3）的干员；空槽/未在场景/未配置返回 null。未来技能键用。</summary>
-        public Operator GetOperatorInSlot(int slot)
-        {
-            if (team == null || slot < 0 || slot >= team.slots.Count) return null;
-            var so = team.slots[slot];
-            if (so == null) return null;
-            return _operators.TryGetValue(so, out var op) ? op : null;
-        }
+        private int SlotCount() => UserDataService.Instance.Current?.teamSlotIds?.Count ?? 0;
 
         /// <summary>顺序切人（Q）：切到下一个有干员的槽位。</summary>
         public void SwitchNext()
@@ -126,7 +129,7 @@ namespace Endfield
             for (int step = 1; step <= SlotCount(); step++)
             {
                 int candidate = (_activeSlot + step) % SlotCount();
-                if (TryGetOperatorInSlot(candidate, out _))
+                if (GetOperatorInSlot(candidate) != null)
                 {
                     SwitchTo(candidate);
                     return;
@@ -150,15 +153,11 @@ namespace Endfield
             ActiveOperator = target;
         }
 
-        private bool CanSwitch()
-        {
-            return ActiveOperator == null || ActiveOperator.CanSwitchOut();
-        }
+        private bool CanSwitch() => ActiveOperator == null || ActiveOperator.CanSwitchOut();
 
         /// <summary>交换两个干员的位置与朝向。</summary>
         private void SwapTransforms(Operator a, Operator b)
         {
-            // CharacterController 直接改 transform 不会同步内部位置，先禁用再换位再启用
             var aCC = a.GetComponent<CharacterController>();
             var bCC = b.GetComponent<CharacterController>();
             if (aCC != null) aCC.enabled = false;
@@ -204,34 +203,27 @@ namespace Endfield
                 if (navMeshAgent != null)
                 {
                     navMeshAgent.enabled = true;
-                    navMeshAgent.Warp(op.transform.position);   // 交换位置后校准 NavMesh
-                    navMeshAgent.ResetPath();                  // 清掉旧路径，行为树会重新下指令
+                    navMeshAgent.Warp(op.transform.position);
+                    navMeshAgent.ResetPath();
                 }
                 if (aiCtrl != null) aiCtrl.enabled = true;
                 if (behaviorTree != null) behaviorTree.enabled = true;
             }
         }
 
-        /// <summary>相机重指新主控：Follow/LookAt + ThirdPersonCamera 目标与角度。</summary>
+        /// <summary>相机重指主控：只调 ThirdPersonCamera 的统一入口。</summary>
         private void ReTargetCamera(Operator target)
         {
             var point = FindCameraBasePoint(target.transform);
             if (point == null) return;
-
-            if (_virtualCamera != null)
-            {
-                _virtualCamera.Follow = point;
-                //_virtualCamera.LookAt = point;
-            }
             if (_thirdPersonCamera != null)
-                _thirdPersonCamera.SetTarget(point);
+                _thirdPersonCamera.FollowTarget(point);
         }
 
         private static Transform FindCameraBasePoint(Transform root)
         {
             foreach (Transform child in root)
             {
-                //TODO:以后换个方式查找
                 if (child.name == "CameraBasePoint")
                     return child;
             }

@@ -58,20 +58,24 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void Start()
     {
-        _horizontalAngle = _cameraTarget.eulerAngles.y;
-        _verticalAngle   = _cameraTarget.eulerAngles.x;
-        _targetFov       = _virtualCamera.m_Lens.FieldOfView;
+        
+        // _horizontalAngle = _cameraTarget.eulerAngles.y;
+        // _verticalAngle   = _cameraTarget.eulerAngles.x;
+        // _targetFov       = _virtualCamera.m_Lens.FieldOfView;
 
         Cursor.visible   = false;  // 隐藏鼠标光标
         Cursor.lockState = CursorLockMode.Locked;  // 锁定鼠标光标
     }
 
     /// <summary>
-    /// 切人时重指相机目标：只换跟随目标，不重置相机角度（切人镜头不动）。
+    /// 切人时统一重指相机：同时更新旋转参考 + Cinemachine 位置跟随。
+    /// TeamManager 只调这一个入口，不需要知道 Cinemachine 内部。
     /// </summary>
-    public void SetTarget(Transform newTarget)
+    public void FollowTarget(Transform newTarget)
     {
         _cameraTarget = newTarget;
+        if (_virtualCamera != null)
+            _virtualCamera.Follow = newTarget;
     }
 
     /// <summary>
@@ -79,6 +83,7 @@ public class ThirdPersonCamera : MonoBehaviour
     /// </summary>
     private void LateUpdate()
     {
+        if (_cameraTarget == null) return;   // 防御：目标被销毁/未赋值时跳过
         Vector2 look   = PlayerInputSystem.Instance.Look;
         Vector2 scroll = PlayerInputSystem.Instance.Scroll;
 
