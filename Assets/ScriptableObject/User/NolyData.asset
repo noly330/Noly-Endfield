@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _data:
     version: 1
-    ownedOperatorIds: 
-    teamSlotIds: 
+    ownedOperatorIds: 650000006600000067000000
+    teamSlotIds: 650000006600000067000000

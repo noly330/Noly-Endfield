@@ -356,7 +356,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 69.99038
+  field of view: 70
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1170,7 +1170,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1166341667}
   m_Lens:
-    FieldOfView: 69.99038
+    FieldOfView: 70
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -1275,6 +1275,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: {fileID: 11400000, guid: eecef6183ce0d124cb019775537e7f04, type: 2}
+  _activeSlot: 0
+  _virtualCamera: {fileID: 0}
+  _thirdPersonCamera: {fileID: 0}
+  <ActiveOperator>k__BackingField: {fileID: 0}
 --- !u!114 &1474826658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1305,7 +1309,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1526525064
 Transform:
   m_ObjectHideFlags: 0
@@ -1655,6 +1659,7 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
+  userData: {fileID: 11400000, guid: 06cd71b6b8e9fcd4f944902cf9cf3a0d, type: 2}
 --- !u!114 &1936015821
 MonoBehaviour:
   m_ObjectHideFlags: 0

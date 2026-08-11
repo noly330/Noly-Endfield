@@ -12,6 +12,12 @@ namespace Endfield.Core.Pool
     public class PrefabPoolManager : Singleton<PrefabPoolManager>
     {
         private readonly Dictionary<string, PrefabPoolBase> _pools = new();
+        private Transform _poolParent;
+
+        public void Initialize(Transform poolParent)
+        {
+            _poolParent = poolParent;
+        }
 
         /// <summary>获取（或创建）指定 prefab 的对象池。首次会异步加载 prefab。</summary>
         public async UniTask<PrefabPool<T>> GetPoolAsync<T>(string prefabPath,
@@ -32,7 +38,7 @@ namespace Endfield.Core.Pool
                 return null;
             }
 
-            var pool = new PrefabPool<T>(prefab, defaultCapacity, maxSize, collectionCheck);
+            var pool = new PrefabPool<T>(prefab, _poolParent, defaultCapacity, maxSize, collectionCheck);
             _pools[prefabPath] = pool;
             return pool;
         }
