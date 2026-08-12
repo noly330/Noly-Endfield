@@ -15,6 +15,7 @@ public class PlayerInputSystem : SingletonMono<PlayerInputSystem>
     public InputAction Skill2 => EnsureInput().Player.Skill2;
     public InputAction Skill3 => EnsureInput().Player.Skill3;
     public InputAction Skill4 => EnsureInput().Player.Skill4;
+    public InputAction LinkSkill => EnsureInput().Player.LinkSkill;
 
     protected override void Awake()
     {

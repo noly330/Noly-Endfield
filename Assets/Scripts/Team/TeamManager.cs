@@ -29,7 +29,7 @@ namespace Endfield
         public int TeamCount => _operators.Count;
 
         /// <summary>
-        /// 按队伍索引取干员（1 = 第一位）。技能释放用，越界返回 null。
+        /// 按队伍索引取干员（1 = 第一位）
         /// </summary>
         public Operator GetOperatorByIndex(int index)
         {

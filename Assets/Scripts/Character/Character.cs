@@ -9,7 +9,7 @@ namespace Endfield
     /// 全角色共享基类：移动/战斗状态机、驱动器、属性、战斗控制器的宿主。
     /// 干员(Operator)与敌人(Enemy)通过子类提供各自的 SO 数据。
     /// </summary>
-    public abstract class Character : CharacterMovementControlBase
+    public abstract class Character : CharacterMovementControlBase, IBuffTarget
     {
         public abstract CharacterMovementData MovementData { get; }
         public abstract CharacterCombatData CombatData { get; }
@@ -23,6 +23,11 @@ namespace Endfield
         public CharacterCombatDriver combatDriver { get; private set; }
         public CharacterCombatController combatController { get; private set; }
         public CharacterAttribute attribute { get; private set; }
+        /// <summary>buff 卡槽（IBuffTarget 成员）。</summary>
+        public BuffManager Buffs { get; private set; }
+
+        // 显式实现 IBuffTarget.Attribute：复用现有 attribute，不改动原有代码的命名
+        CharacterAttribute IBuffTarget.Attribute => attribute;
         public bool IsDead => _health != null && _health.isDead;
         /// <summary>死亡动画播完事件（供对象池回收等）。由 CharacterCombatDeadState 触发。</summary>
         public event Action OnDeathAnimationEnd;
@@ -40,6 +45,7 @@ namespace Endfield
             combatDriver = new CharacterCombatDriver();
             movementStateMachine = new CharacterMovementStateMachine(this);
             combatStateMachine = new CharacterCombatStateMachine(this);
+            Buffs = new BuffManager(this);   // Character 实现了 IBuffTarget，buff 效果通过该窄接口访问
 
             _health = GetComponent<CharacterHealth>();
             if (_health != null)
@@ -74,6 +80,8 @@ namespace Endfield
 
             combatStateMachine.HandInput();
             combatStateMachine.Update();
+
+            Buffs?.Update();   // buff 到期清理
         }
 
         public void OnAnimationTranslate(OnEnterAnimationState state)

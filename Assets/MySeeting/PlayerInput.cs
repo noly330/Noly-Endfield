@@ -174,6 +174,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""LinkSkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""3d7cfedd-6cc5-4d3c-bcee-f5a1a6f9af4e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Switch"",
                     ""type"": ""Button"",
                     ""id"": ""fb9b58b1-6acb-4645-a387-2e16342d3613"",
@@ -337,6 +346,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Switch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4d286891-45cd-4cc7-9987-c73d42440ce1"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LinkSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -354,6 +374,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Skill2 = m_Player.FindAction("Skill2", throwIfNotFound: true);
         m_Player_Skill3 = m_Player.FindAction("Skill3", throwIfNotFound: true);
         m_Player_Skill4 = m_Player.FindAction("Skill4", throwIfNotFound: true);
+        m_Player_LinkSkill = m_Player.FindAction("LinkSkill", throwIfNotFound: true);
         m_Player_Switch = m_Player.FindAction("Switch", throwIfNotFound: true);
     }
 
@@ -444,6 +465,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Skill2;
     private readonly InputAction m_Player_Skill3;
     private readonly InputAction m_Player_Skill4;
+    private readonly InputAction m_Player_LinkSkill;
     private readonly InputAction m_Player_Switch;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
@@ -492,6 +514,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Skill4".
         /// </summary>
         public InputAction @Skill4 => m_Wrapper.m_Player_Skill4;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/LinkSkill".
+        /// </summary>
+        public InputAction @LinkSkill => m_Wrapper.m_Player_LinkSkill;
         /// <summary>
         /// Provides access to the underlying input action "Player/Switch".
         /// </summary>
@@ -549,6 +575,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Skill4.started += instance.OnSkill4;
             @Skill4.performed += instance.OnSkill4;
             @Skill4.canceled += instance.OnSkill4;
+            @LinkSkill.started += instance.OnLinkSkill;
+            @LinkSkill.performed += instance.OnLinkSkill;
+            @LinkSkill.canceled += instance.OnLinkSkill;
             @Switch.started += instance.OnSwitch;
             @Switch.performed += instance.OnSwitch;
             @Switch.canceled += instance.OnSwitch;
@@ -590,6 +619,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Skill4.started -= instance.OnSkill4;
             @Skill4.performed -= instance.OnSkill4;
             @Skill4.canceled -= instance.OnSkill4;
+            @LinkSkill.started -= instance.OnLinkSkill;
+            @LinkSkill.performed -= instance.OnLinkSkill;
+            @LinkSkill.canceled -= instance.OnLinkSkill;
             @Switch.started -= instance.OnSwitch;
             @Switch.performed -= instance.OnSwitch;
             @Switch.canceled -= instance.OnSwitch;
@@ -696,6 +728,13 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSkill4(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "LinkSkill" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLinkSkill(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Switch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

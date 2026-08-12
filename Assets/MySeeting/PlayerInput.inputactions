@@ -88,6 +88,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "LinkSkill",
+                    "type": "Button",
+                    "id": "3d7cfedd-6cc5-4d3c-bcee-f5a1a6f9af4e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Switch",
                     "type": "Button",
                     "id": "fb9b58b1-6acb-4645-a387-2e16342d3613",
@@ -249,6 +258,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Switch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4d286891-45cd-4cc7-9987-c73d42440ce1",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LinkSkill",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

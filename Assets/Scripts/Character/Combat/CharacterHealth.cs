@@ -42,9 +42,10 @@ namespace Endfield
         {
             if (_isDead) return;
 
-            // 受击方自行减免防御（属性未初始化时按防御 0）
-            float def = _attributeComponent?.Attribute?.Def ?? 0f;
-            float finalDamage = DamageCalculator.ApplyDefense(damageInfo.rawDamage, def);
+            // 受击方自行减免防御（属性未初始化时按防御 0），再乘受伤加深（碎甲等）
+            var attr = _attributeComponent?.Attribute;
+            float def = attr?.Def ?? 0f;
+            float finalDamage = DamageCalculator.ApplyDefense(damageInfo.rawDamage, def) * (1f + (attr?.DamageTakenPercent ?? 0f));
             //Debug.Log($"受到伤害：{finalDamage}");
             _currentHP = Mathf.Max(_currentHP - finalDamage, 0f);
 
