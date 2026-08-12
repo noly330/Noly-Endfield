@@ -15,6 +15,8 @@ namespace Endfield
         public abstract CharacterCombatData CombatData { get; }
         protected abstract CharacterAttributeData AttributeData { get; }
         public abstract CharacterAIData AIData { get; }
+        /// <summary>技能攻击数据（干员有，敌人没有）。</summary>
+        public virtual CombatSetSO SkillAttackData => null;
         public CharacterMovementStateMachine movementStateMachine { get; private set; }
         public CharacterCombatStateMachine combatStateMachine { get; private set; }
         public CharacterMovementDriver movementDriver { get; private set; }
@@ -99,6 +101,10 @@ namespace Endfield
                     combatStateMachine.ChangeState(CharacterCombatStateType.Hit);
                     movementStateMachine.ChangeState(CharacterMovementStateType.Null);   // 受击锁移动
                     break;
+                case OnEnterAnimationState.Skill:
+                    combatStateMachine.ChangeState(CharacterCombatStateType.Skill);
+                    movementStateMachine.ChangeState(CharacterMovementStateType.Null);   // 技能攻击移动
+                    break;
             }
         }
 
@@ -147,13 +153,16 @@ namespace Endfield
         /// </summary>
         private void OnHit(DamageInfo damageInfo)
         {
-            if (Time.time < _nextHitAnimTime) return;
-            _nextHitAnimTime = Time.time + 0.2f;
+            // if (Time.time < _nextHitAnimTime) return;
+            // _nextHitAnimTime = Time.time + 0.2f;
 
             if (string.IsNullOrEmpty(damageInfo.hitName)) return;
-            _animator.CrossFadeInFixedTime(damageInfo.hitName, 0.1f, 0);
-            //朝向攻击者
-            transform.LookAt(damageInfo.attacker.transform.position);
+            if (!attribute.superArmor)
+            {
+                _animator.CrossFadeInFixedTime(damageInfo.hitName, 0.1f, 0);
+                //朝向攻击者
+                transform.LookAt(damageInfo.attacker.transform.position);
+            }
         }
         /// <summary>
         /// 死亡回调

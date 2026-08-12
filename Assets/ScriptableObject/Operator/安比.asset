@@ -51,7 +51,8 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 128
     targetRadius: 4
-    <skillAttackData>k__BackingField: {fileID: 0}
+    <skillAttackData>k__BackingField: {fileID: 11400000, guid: 0e86c1dc749963f49a727c000425fb07,
+      type: 2}
     <linkAttackData>k__BackingField: {fileID: 0}
   <attributeData>k__BackingField:
     <maxHp>k__BackingField: 3000

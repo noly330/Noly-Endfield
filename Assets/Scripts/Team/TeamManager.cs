@@ -153,6 +153,53 @@ namespace Endfield
             ActiveOperator = target;
         }
 
+        /// <summary>
+        /// 按队伍索引(1基)释放技能：主控直接放；非主控瞬移到主控缓存目标附近放。
+        /// </summary>
+        public void TryCastSkill(int index)
+        {
+            var op = GetOperatorByIndex(index);
+            if (op == null || ActiveOperator == null) return;
+
+            if (op == ActiveOperator)
+            {
+                op.combatDriver.skillAttack = true;
+                return;
+            }
+
+            // 非主控：瞬移到主控的缓存目标附近，面朝目标放技能
+            var target = ActiveOperator.combatController.GetCurrentTarget();
+            if (target == null) return;
+
+            const float castDistance = 2f;   // 距目标的偏移（TODO：按技能范围配置）
+            var toTarget = target.position - ActiveOperator.transform.position;
+            toTarget.y = 0;
+            if (toTarget.sqrMagnitude < 0.0001f) return;
+
+            var pos = target.position - toTarget.normalized * castDistance;
+            pos.y = op.transform.position.y;
+            TeleportTo(op, pos, Quaternion.LookRotation(toTarget.normalized));
+
+            op.combatDriver.skillAttack = true;
+        }
+
+        /// <summary>瞬移干员并同步内部状态（CharacterController / NavMeshAgent）。</summary>
+        private void TeleportTo(Operator op, Vector3 pos, Quaternion rot)
+        {
+            var cc = op.GetComponent<CharacterController>();
+            if (cc != null) cc.enabled = false;
+            op.transform.SetPositionAndRotation(pos, rot);
+            if (cc != null) cc.enabled = true;
+
+            var nav = op.GetComponent<NavMeshAgent>();
+            if (nav != null)
+            {
+                nav.enabled = true;
+                nav.Warp(pos);
+                nav.ResetPath();
+            }
+        }
+
         private bool CanSwitch() => ActiveOperator == null || ActiveOperator.CanSwitchOut();
 
         /// <summary>交换两个干员的位置与朝向。</summary>

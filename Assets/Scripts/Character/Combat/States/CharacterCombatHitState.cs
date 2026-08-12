@@ -14,9 +14,11 @@ namespace Endfield
 
         public override void HandInput()
         {
-            // 受击中不能出招，吞掉攻击输入
+            // 受击中不能出招，吞掉攻击/技能输入
             if (_character.combatDriver.normalAttack)
                 _character.combatDriver.normalAttack = false;
+            if (_character.combatDriver.skillAttack)
+                _character.combatDriver.skillAttack = false;
         }
 
         public override void Update()
@@ -27,5 +29,12 @@ namespace Endfield
                 _combatStateMachine.ChangeState(CharacterCombatStateType.Null);
             }
         }
+
+        public override void Exit()
+        {
+            base.Exit();
+            _character.movementStateMachine.ChangeState(CharacterMovementStateType.Idle);
+        }
+
     }
 }

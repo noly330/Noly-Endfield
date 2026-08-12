@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\u53EF\u7433\u666E\u653B5"
   m_EditorClassIdentifier: 
   combatName: Attack5
-  coldTime: 1.4
+  coldTime: 2
   rotationTime: 0.3
   isRotationToTarget: 1
   interactionConfigs:

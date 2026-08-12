@@ -34,3 +34,12 @@ MonoBehaviour:
   - name: Atk4_3
     prefabPath: Assets/Res/VFX/VFX_Klaus/Prefabs/Slash/FX_slash_15.prefab
     anchorName: atk4_3
+  - name: Atk5_1
+    prefabPath: Assets/Res/VFX/VFX_Klaus/Prefabs/Slash/FX_slash_15.prefab
+    anchorName: atk5_1
+  - name: Atk5_2
+    prefabPath: Assets/Res/VFX/VFX_Klaus/Prefabs/Hit/FX_hit_15.prefab
+    anchorName: atk5_2
+  - name: Skill1
+    prefabPath: Assets/Res/VFX/VFX_Klaus/Prefabs/Slash/FX_slash_15.prefab
+    anchorName: skill1

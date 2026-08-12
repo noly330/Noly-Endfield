@@ -32,15 +32,17 @@ namespace Endfield
         public override void OnAnimationExitEvent()
         {
             //TimerManager.Instance.GetTimer(0.2f, CheckStateExit);
-            CheckStateExit();
+            //CheckStateExit();
         }
 
+        //TODO:以后废弃
         private void CheckStateExit()
         {
             // 已经切走（如闪避/回移动）则跳过，避免打断
             if (_movementStateMachine.currentState.Value != this) return;
             if (_character.IsDead) return;   // 死亡后不恢复移动
             if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("ATK")) return;
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) return;
             if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Hit")) return;
 
             if (_character.GetMovementInput() != Vector3.zero)

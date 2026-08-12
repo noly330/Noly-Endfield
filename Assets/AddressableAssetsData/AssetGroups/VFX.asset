@@ -22,6 +22,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e8e8553ab4bd8144b787a80b9828c56
+    m_Address: Assets/Res/VFX/VFX_Klaus/Prefabs/Hit/FX_hit_15.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4688765150c3ec14da6b5190dc35752e
     m_Address: Assets/Res/VFX/VFX_Klaus/Prefabs/Slash/FX_slash_03.prefab
     m_ReadOnly: 0

@@ -43,6 +43,7 @@ namespace Endfield
                 !_animator.GetNextAnimatorStateInfo(0).IsTag("ATK"))
             {
                 _combatStateMachine.ChangeState(CharacterCombatStateType.Null);
+                _character.movementStateMachine.ChangeState(CharacterMovementStateType.Idle);
             }
         }
         public override void Exit()

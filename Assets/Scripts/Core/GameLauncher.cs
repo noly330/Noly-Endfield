@@ -37,7 +37,7 @@ namespace Endfield.Core
             await UserDataService.Instance.InitializeAsync();  // 1. 玩家数据
             await OperatorCatalog.BuildAsync();                 // 2. 干员图鉴
 
-            // 3. 加载队伍（主控 = 第一位干员）
+            // 3. 加载队伍
             var cam = Object.FindObjectOfType<ThirdPersonCamera>();
             await TeamManager.Instance.InitializeAsync(transform, cam);
 
