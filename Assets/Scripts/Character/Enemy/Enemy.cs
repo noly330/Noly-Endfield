@@ -25,6 +25,7 @@ namespace Endfield
             combatStateMachine.ChangeState(CharacterCombatStateType.Null);
             movementStateMachine.ChangeState(CharacterMovementStateType.Idle);
             animator.Rebind();   // 清掉 Dead 状态，回初始 Idle
+            Buffs.RemoveAllBuffs();   // 清破防/碎甲等，对象池复用不残留
 
             var aiCtrl = GetComponent<CharacterAIController>();
             if (aiCtrl != null) aiCtrl.enabled = true;
