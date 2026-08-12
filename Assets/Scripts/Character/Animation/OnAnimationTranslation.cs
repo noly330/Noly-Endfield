@@ -39,6 +39,8 @@ namespace Endfield
         Sprint,
         ReturnRun,
         ATK,
+        Skill,
         Hit,
+
     }
 }

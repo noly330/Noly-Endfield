@@ -38,7 +38,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb6c2f2660d5e234989a41a9f595fad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enterAnimationState: 8
+  _enterAnimationState: 9
 --- !u!1102 &-8899837918546855913
 AnimatorState:
   serializedVersion: 6
@@ -1353,7 +1353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb6c2f2660d5e234989a41a9f595fad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enterAnimationState: 8
+  _enterAnimationState: 9
 --- !u!1102 &4301409323873217790
 AnimatorState:
   serializedVersion: 6

@@ -33,6 +33,18 @@ namespace Endfield
 
         public virtual void HandInput()
         {
+            // 技能优先：任何非 Hit/Dead 状态响应技能输入（技能打断普攻）
+            if (_character.combatDriver.skillAttack)
+            {
+                _character.combatDriver.skillAttack = false;
+                if (_character.SkillAttackData != null)
+                {
+                    _animator.CrossFadeInFixedTime(_character.SkillAttackData.TryGetCombatName(0), 0.1555f);
+                }
+                return;
+            }
+
+            //普攻
             if (_character.combatDriver.normalAttack)
             {
                 _character.combatDriver.normalAttack = false;

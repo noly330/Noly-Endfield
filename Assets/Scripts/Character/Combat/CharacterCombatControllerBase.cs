@@ -216,7 +216,8 @@ namespace Endfield
         public void DrawAttackGizmos()
         {
             if (_currentCombatSet == null) return;
-            if (!_animator.GetCurrentAnimatorStateInfo(0).IsTag("ATK")) return;
+            if (!_animator.GetCurrentAnimatorStateInfo(0).IsTag("ATK")&&
+            !_animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) return;
 
             // 当前正在等待触发的检测窗口
             CombatDetectConfig detectConfig = _currentCombatSet.TryGetDetectConfig(_currentComboIndex, _firedDetectCount);

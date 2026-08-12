@@ -30,6 +30,7 @@ namespace Endfield
             _states[CharacterCombatStateType.NormalATK] = new CharacterCombatNormalATKState(this);
             _states[CharacterCombatStateType.Hit] = new CharacterCombatHitState(this);
             _states[CharacterCombatStateType.Dead] = new CharacterCombatDeadState(this);
+            _states[CharacterCombatStateType.Skill] = new CharacterCombatSkillState(this);
         }
 
         /// <summary>按类型取状态</summary>

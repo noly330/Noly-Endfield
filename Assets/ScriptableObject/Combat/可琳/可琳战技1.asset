@@ -10,27 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a697a12662bcedd4eb9ab0b298531f53, type: 3}
-  m_Name: "\u5B89\u6BD4\u666E\u653B3"
+  m_Name: "\u53EF\u7433\u6218\u62801"
   m_EditorClassIdentifier: 
-  combatName: Attack3
-  coldTime: 1.5
-  rotationTime: 0.1
+  combatName: Skill
+  coldTime: 0
+  rotationTime: 0.3
   isRotationToTarget: 1
   interactionConfigs:
   - hitName: Hit1
-    damageMul: 1
-  - hitName: Hit1
-    damageMul: 1.2
+    damageMul: 1.5
+  - hitName: Hit2
+    damageMul: 2
   detectConfigs:
-  - startTime: 0.27
-    position: {x: 0, y: 1, z: 0}
+  - startTime: 0.45
+    position: {x: 0, y: 0.5, z: 0.5}
     rotation: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
+    scale: {x: 1, y: 1, z: 2}
     detectType: 1
-  - startTime: 0.49
-    position: {x: 0, y: 1, z: 0}
+  - startTime: 0.56
+    position: {x: 0, y: 0.5, z: 0.5}
     rotation: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
+    scale: {x: 1, y: 1, z: 2}
     detectType: 1
   sfxConfigs: []
   vfxConfigs: []

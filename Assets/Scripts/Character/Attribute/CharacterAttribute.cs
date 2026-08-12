@@ -13,6 +13,9 @@ namespace Endfield
         public float weaponBaseATK;    // 武器基础攻击，默认 0，武器系统以后填
         public float percentATKBonus;  // 百分比攻击加成（buff/装备累加）
 
+        //TODO:现在就是霸体，以后要改成技能体，霸体，金刚体等复杂状态
+        public bool superArmor;  //霸体 
+
         public CharacterAttribute(CharacterAttributeData data)
         {
             _data = data;

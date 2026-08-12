@@ -19,6 +19,7 @@ namespace Endfield
         /// <summary>Animator 进入某个动画状态时由 StateMachineBehaviour 触发，用于动画驱动状态切换</summary>
         public void OnAnimationTranslateEvent(IState state);
 
+        //TODO:以后废弃
         /// <summary>Animator 离开某个动画状态时由 StateMachineBehaviour 触发</summary>
         public void OnAnimationExitEvent();
     }
