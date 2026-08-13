@@ -10,12 +10,14 @@ namespace Endfield
         public float duration = 10f;      // 持续秒数；<=0 永久
         public int maxStacks = 1;        // 最高层数
         public BuffStackingMode stackingMode = BuffStackingMode.Stack;
+        public bool instant;             // 瞬发
         public IBuffEffect[] effects;    // 效果模块（无状态，可共享）
     }
 
     /// <summary>
     /// 重复添加策略：同 buffId 已存在时怎么处理。
-    /// Refresh=刷新时长；Stack=叠层并刷新时长（破防用）；Replace=覆盖层数并刷新时长（碎甲用）；Ignore=忽略。
+    /// Refresh=刷新时长；Stack=叠层并刷新时长；
+    /// Replace=覆盖层数并刷新时长；Ignore=忽略。
     /// </summary>
     public enum BuffStackingMode
     {

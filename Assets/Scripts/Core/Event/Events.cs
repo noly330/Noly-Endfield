@@ -6,9 +6,13 @@ namespace Endfield
 {
     public static class Events
     {
-        public struct OperatorHurt
+        /// <summary>当破防buff添加的时候</summary>
+        public struct OnDefenseBreakApplied{}
+
+        /// <summary>当破防buff消耗的时候</summary>
+        public struct OnDefenseBreakConsumed
         {
-            
+            public int breakStack;
         }
     }
 }

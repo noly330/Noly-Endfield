@@ -36,8 +36,7 @@ namespace Endfield
                 }
             }
 
-            // 攻击动画真正结束后才回 null（不用定时器，避免连段过渡期间误切导致丢检测）
-            // 过渡中、当前动画是 ATK、或正在切入 ATK 动画时都保持攻击状态
+            // 攻击动画真正结束后才回 null
             if (!_animator.IsInTransition(0) &&
                 !_animator.GetCurrentAnimatorStateInfo(0).IsTag("ATK") &&
                 !_animator.GetNextAnimatorStateInfo(0).IsTag("ATK"))

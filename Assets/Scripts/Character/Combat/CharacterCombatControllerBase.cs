@@ -95,7 +95,8 @@ namespace Endfield
                     {
                         // 攻击方只算出伤，防御减免由受击方 TakeDamage 自行处理
                         float rawDamage = DamageCalculator.CalculateRawDamage(_attackerAttribute, interactionConfig.damageMul);
-                        damageable.TakeDamage(new DamageInfo { attacker = _characterTrans, rawDamage = rawDamage, hitName = interactionConfig.hitName });
+                        damageable.TakeDamage(new DamageInfo { attacker = _characterTrans, rawDamage = rawDamage, 
+                        hitName = interactionConfig.hitName, attackEffectType = interactionConfig.attackEffectType });
                         //Debug.Log("对敌人：" + target.name + "出伤" + rawDamage + "（未减防御）");
                     }
                     if (target.transform == _cachedTarget)
@@ -118,7 +119,8 @@ namespace Endfield
                 if (target == null || !target.TryGetComponent<IDamageable>(out var damageable))
                     return;
                 float rawDamage = DamageCalculator.CalculateRawDamage(_attackerAttribute, interactionConfig.damageMul);
-                damageable.TakeDamage(new DamageInfo { attacker = _characterTrans, rawDamage = rawDamage, hitName = interactionConfig.hitName });
+                damageable.TakeDamage(new DamageInfo { attacker = _characterTrans, rawDamage = rawDamage,
+                    hitName = interactionConfig.hitName, attackEffectType = interactionConfig.attackEffectType });
                 //Debug.Log("对敌人：" + target.name + "出伤" + rawDamage + "（未减防御）");
 
                 SetCachedTarget(target);   // 命中刷新粘性缓存
