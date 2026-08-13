@@ -54,6 +54,7 @@ MonoBehaviour:
     <skillAttackData>k__BackingField: {fileID: 11400000, guid: 9afb3ff79bd6b6c4da73bfdcb8365b44,
       type: 2}
     <linkAttackData>k__BackingField: {fileID: 0}
+    <linkCooldown>k__BackingField: 0
   <attributeData>k__BackingField:
     <maxHp>k__BackingField: 3000
     <atk>k__BackingField: 200
@@ -63,3 +64,4 @@ MonoBehaviour:
     <ultEnergyCost>k__BackingField: 100
   <ID>k__BackingField: 102
   <prefabAddress>k__BackingField: "Assets/Res/Prefab/Character/Operator/\u53EF\u7433.prefab"
+  <linkTriggerType>k__BackingField: 3

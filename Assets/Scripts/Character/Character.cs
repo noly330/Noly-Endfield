@@ -17,6 +17,10 @@ namespace Endfield
         public abstract CharacterAIData AIData { get; }
         /// <summary>技能攻击数据（干员有，敌人没有）。</summary>
         public virtual CombatSetSO SkillAttackData => null;
+        /// <summary>连携攻击数据（干员有，敌人没有）。</summary>
+        public virtual CombatSetSO LinkAttackData => null;
+        /// <summary>连携冷却（秒）：释放连携后需等待该时长才能再次入队。</summary>
+        public virtual float LinkCooldown => 0f;
         public CharacterMovementStateMachine movementStateMachine { get; private set; }
         public CharacterCombatStateMachine combatStateMachine { get; private set; }
         public CharacterMovementDriver movementDriver { get; private set; }
@@ -160,6 +164,23 @@ namespace Endfield
         public bool CanSwitchOut()
         {
             return combatStateMachine.currentState.Value is not CharacterCombatHitState;
+        }
+
+        /// <summary>连携 CD：下次可入队的时间戳。</summary>
+        public float NextLinkTime { get; private set; }
+
+        /// <summary>连携 CD 是否已好（可入队/可打出）。</summary>
+        public bool LinkReady => Time.time >= NextLinkTime;
+
+        /// <summary>连携实际打出时重置 CD（TeamManager.TryCastLink 调用）。</summary>
+        public void ResetLinkCooldown() => NextLinkTime = Time.time + LinkCooldown;
+
+        /// <summary>是否允许打出连携（战技/受击/死亡中不可，TeamManager 出队前查询）。</summary>
+        public bool CanCastLink()
+        {
+            return combatStateMachine.currentState.Value is not CharacterCombatSkillState
+                and not CharacterCombatHitState
+                and not CharacterCombatDeadState;
         }
 
         private float _nextHitAnimTime;   // 受击动画冷却时间戳

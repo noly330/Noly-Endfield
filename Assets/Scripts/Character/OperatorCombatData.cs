@@ -11,5 +11,6 @@ namespace Endfield
     {
         [field: SerializeField] public CombatSetSO skillAttackData { get; private set; }
         [field: SerializeField] public CombatSetSO linkAttackData { get; private set; }
+        [field: SerializeField] public float linkCooldown { get; private set; }   // 释放连携后需等待 X 秒才能再次入队
     }
 }

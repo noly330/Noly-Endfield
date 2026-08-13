@@ -33,13 +33,28 @@ namespace Endfield
 
         public virtual void HandInput()
         {
+            // 连携优先：任何非 Hit/Dead 状态响应连携输入（连携/战技均可打断普攻）
+            if (_character.combatDriver.linkAttack)
+            {
+                _character.combatDriver.linkAttack = false;
+                var linkData = _character.LinkAttackData;
+                if (linkData != null)
+                {
+                    _resuableData.currentSkillData = linkData;
+                    _animator.CrossFadeInFixedTime(linkData.TryGetCombatName(0), 0.1555f);
+                }
+                return;
+            }
+
             // 技能优先：任何非 Hit/Dead 状态响应技能输入（技能打断普攻）
             if (_character.combatDriver.skillAttack)
             {
                 _character.combatDriver.skillAttack = false;
-                if (_character.SkillAttackData != null)
+                var skillData = _character.SkillAttackData;
+                if (skillData != null)
                 {
-                    _animator.CrossFadeInFixedTime(_character.SkillAttackData.TryGetCombatName(0), 0.1555f);
+                    _resuableData.currentSkillData = skillData;
+                    _animator.CrossFadeInFixedTime(skillData.TryGetCombatName(0), 0.1555f);
                 }
                 return;
             }

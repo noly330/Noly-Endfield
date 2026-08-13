@@ -14,11 +14,13 @@ namespace Endfield
 
         public override void HandInput()
         {
-            // 受击中不能出招，吞掉攻击/技能输入
+            // 受击中不能出招，吞掉攻击/技能/连携输入
             if (_character.combatDriver.normalAttack)
                 _character.combatDriver.normalAttack = false;
             if (_character.combatDriver.skillAttack)
                 _character.combatDriver.skillAttack = false;
+            if (_character.combatDriver.linkAttack)
+                _character.combatDriver.linkAttack = false;
         }
 
         public override void Update()
