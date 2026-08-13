@@ -23,8 +23,9 @@ namespace Endfield
         public CharacterCombatDriver combatDriver { get; private set; }
         public CharacterCombatController combatController { get; private set; }
         public CharacterAttribute attribute { get; private set; }
-        /// <summary>buff 卡槽（IBuffTarget 成员）。</summary>
+        /// <summary>buff 管理器（IBuffTarget 成员）。</summary>
         public BuffManager Buffs { get; private set; }
+        /// <summary>受击方组件（供 DoT 扣血等读取）。</summary>
 
         // 显式实现 IBuffTarget.Attribute：复用现有 attribute，不改动原有代码的命名
         CharacterAttribute IBuffTarget.Attribute => attribute;
@@ -33,6 +34,7 @@ namespace Endfield
         public event Action OnDeathAnimationEnd;
 
         private CharacterHealth _health;
+        public CharacterHealth Health => _health;
 
         protected override void Awake()
         {
@@ -45,7 +47,6 @@ namespace Endfield
             combatDriver = new CharacterCombatDriver();
             movementStateMachine = new CharacterMovementStateMachine(this);
             combatStateMachine = new CharacterCombatStateMachine(this);
-            Buffs = new BuffManager(this);   // Character 实现了 IBuffTarget，buff 效果通过该窄接口访问
 
             _health = GetComponent<CharacterHealth>();
             if (_health != null)
@@ -53,6 +54,7 @@ namespace Endfield
                 _health.OnDamaged += OnHit;
                 _health.OnDead += OnDead;
             }
+            Buffs = new BuffManager(this);   // Character 实现了 IBuffTarget，buff 效果经窄接口访问
         }
 
 
@@ -70,6 +72,9 @@ namespace Endfield
             base.Start();
             movementStateMachine.ChangeState(CharacterMovementStateType.Idle);
             combatStateMachine.ChangeState(CharacterCombatStateType.Null);
+
+            //测试:
+            Buffs.Apply(BuffDB.Bleed,this);
         }
 
         protected override void Update()
@@ -81,7 +86,7 @@ namespace Endfield
             combatStateMachine.HandInput();
             combatStateMachine.Update();
 
-            Buffs?.Update();   // buff 到期清理
+            Buffs?.Update();   // buff 倒计时 + tick + 到期清理
         }
 
         public void OnAnimationTranslate(OnEnterAnimationState state)

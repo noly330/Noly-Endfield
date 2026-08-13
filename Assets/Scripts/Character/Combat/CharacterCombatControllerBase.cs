@@ -134,6 +134,11 @@ namespace Endfield
         private GameTimer _stickTimer;  //粘性倒计时定时器
         private float _stickTime = 2f; //索敌时间，TODO:先用硬编码测试
 
+        public void SetTarget(Transform target)
+        {
+            SetCachedTarget(target);
+        }
+
         /// <summary>锁目标并重启 2 秒粘性倒计时（打中缓存目标时也走这个刷新）</summary>
         private void SetCachedTarget(Transform target)
         {
