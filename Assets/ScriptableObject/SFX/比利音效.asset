@@ -12,4 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 662ca05397187ad449732801df0cc432, type: 3}
   m_Name: "\u6BD4\u5229\u97F3\u6548"
   m_EditorClassIdentifier: 
-  _infos: []
+  _infos:
+  - style: 0
+    clips: []
+  - style: 1
+    clips: []
+  - style: 3
+    clips:
+    - {fileID: 8300000, guid: 25afb5e416163304db43af39bbd9eacb, type: 3}
+    - {fileID: 8300000, guid: 66b5e17941c5ae14883badae721a8590, type: 3}
+    - {fileID: 8300000, guid: ef6dce3e12707fe47b88af66019d4ecc, type: 3}

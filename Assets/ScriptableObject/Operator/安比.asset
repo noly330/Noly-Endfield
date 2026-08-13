@@ -44,6 +44,8 @@ MonoBehaviour:
     searchInterval: 0.2
     attackRange: 2.5
     stopDistance: 2.5
+  <soundData>k__BackingField: {fileID: 11400000, guid: 1fec5018ef63b9d4e952628ebf20c634,
+    type: 2}
   <combatData>k__BackingField:
     <normalAttackData>k__BackingField: {fileID: 11400000, guid: 03f9491ef8d39e648a636d4ea2f23625,
       type: 2}
