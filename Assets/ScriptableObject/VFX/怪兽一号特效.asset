@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 961ec5aff37596049936904049793110, type: 3}
   m_Name: "\u602A\u517D\u4E00\u53F7\u7279\u6548"
   m_EditorClassIdentifier: 
-  vfxDatas: []
+  vfxDatas:
+  - name: Hit
+    prefabPath: Assets/Res/VFX/VFX_Klaus/Prefabs/Hit/FX_hit_03.prefab
+    anchorName: HitPoint

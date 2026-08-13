@@ -1,5 +1,6 @@
 using Endfield.Tools;
 using UnityEngine;
+using Endfield.Module.Audio;
 
 namespace Endfield
 {
@@ -19,6 +20,8 @@ namespace Endfield
             CombatSetSO combatSet = _combatData.normalAttackData;
             _currentCombatConfig = combatSet.combatConfigs[_resuableData.combatIndex];
             _combatController.StartAttackDetection(combatSet, _resuableData.combatIndex);
+            _character.PlayVoice(SoundStyle.Attack, _resuableData.combatIndex);
+            _character.PlayVoice(SoundStyle.AttackVoice,_resuableData.combatIndex);
 
             if (_comboResetTimer != null) TimerManager.Instance.UnregisterTimer(_comboResetTimer);
         }

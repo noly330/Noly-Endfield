@@ -16,9 +16,6 @@ namespace Endfield.Core.Pool
 
     /// <summary>
     /// GameObject prefab 对象池：池化任何挂有 T 组件的 prefab 实例
-    /// （角色、特效、子弹、飘字等反复使用的对象）。
-    /// 底层复用 ObjectPool&lt;T&gt; 核心，这里只负责把
-    /// Instantiate / Destroy / SetActive 接进回调。
     /// </summary>
     public class PrefabPool<T> : PrefabPoolBase where T : Component
     {
@@ -31,13 +28,13 @@ namespace Endfield.Core.Pool
                 throw new ArgumentException("prefab 不能为 null");
 
             _pool = new ObjectPool<T>(
-                // 造新实例：从 prefab 实例化，取根上的组件
+                // 造新实例
                 createFunc: () => Object.Instantiate(prefab, parent).GetComponent<T>(),
-                // 借出时激活（对象本来就在场景里，只是 SetActive 开关）
+                // 借出时激活
                 actionOnGet: t => t.gameObject.SetActive(true),
                 // 归还时隐藏
                 actionOnRelease: t => t.gameObject.SetActive(false),
-                // 超容量销毁：必须走 Object.Destroy，否则 GameObject 残留成孤儿
+                // 超容量销毁
                 actionOnDestroy: t => Object.Destroy(t.gameObject),
                 collectionCheck: collectionCheck,
                 defaultCapacity: defaultCapacity,

@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 using BehaviorDesigner.Runtime;
+using Endfield.Module.Audio;
 
 namespace Endfield
 {
@@ -15,30 +16,23 @@ namespace Endfield
         public abstract CharacterCombatData CombatData { get; }
         protected abstract CharacterAttributeData AttributeData { get; }
         public abstract CharacterAIData AIData { get; }
-        /// <summary>技能攻击数据（干员有，敌人没有）。</summary>
-        public virtual CombatSetSO SkillAttackData => null;
-        /// <summary>连携攻击数据（干员有，敌人没有）。</summary>
-        public virtual CombatSetSO LinkAttackData => null;
-        /// <summary>连携冷却（秒）：释放连携后需等待该时长才能再次入队。</summary>
-        public virtual float LinkCooldown => 0f;
+        public abstract SoundData SoundData { get; }  //角色音效数据
+        public void PlayVoice(SoundStyle style, int index = -1)  //让状态机方便调用
+            => AudioService.Instance.Play(style, SoundData, transform.position, index);
+        public virtual CombatSetSO SkillAttackData => null;  //技能数据，子类重写
+        public virtual CombatSetSO LinkAttackData => null;  //连携技数据
+        public virtual float LinkCooldown => 0f;  //连携技冷却
         public CharacterMovementStateMachine movementStateMachine { get; private set; }
         public CharacterCombatStateMachine combatStateMachine { get; private set; }
         public CharacterMovementDriver movementDriver { get; private set; }
         public CharacterCombatDriver combatDriver { get; private set; }
         public CharacterCombatController combatController { get; private set; }
         public CharacterAttribute attribute { get; private set; }
-        /// <summary>buff 管理器（IBuffTarget 成员）。</summary>
-        public BuffManager Buffs { get; private set; }
-        /// <summary>受击结算器（订阅 OnDamaged 处理破防增/消）。</summary>
-        public CharacterAbnormalityReceiver AbnormalityReceiver { get; private set; }
-        /// <summary>受击方组件（供 DoT 扣血等读取）。</summary>
-
-        // 显式实现 IBuffTarget.Attribute：复用现有 attribute，不改动原有代码的命名
+        public BuffManager Buffs { get; private set; }  //Buff管理器
+        public CharacterAbnormalityReceiver AbnormalityReceiver { get; private set; } //受击结算器(buff用)TODO:设计可能有问题，以后改
         CharacterAttribute IBuffTarget.Attribute => attribute;
         public bool IsDead => _health != null && _health.isDead;
-        /// <summary>死亡动画播完事件（供对象池回收等）。由 CharacterCombatDeadState 触发。</summary>
-        public event Action OnDeathAnimationEnd;
-
+        public event Action OnDeathAnimationEnd;  //死亡动画播完事件
         private CharacterHealth _health;
         public CharacterHealth Health => _health;
 
@@ -155,8 +149,7 @@ namespace Endfield
         }
 
         /// <summary>
-        /// 是否允许被切走（TeamManager 切人前查询）。
-        /// 受击中不可切；未来技能/连携状态同样禁止。
+        /// 是否允许切人。
         /// </summary>
         public bool CanSwitchOut()
         {
@@ -169,10 +162,10 @@ namespace Endfield
         /// <summary>连携 CD 是否已好（可入队/可打出）。</summary>
         public bool LinkReady => Time.time >= NextLinkTime;
 
-        /// <summary>连携实际打出时重置 CD（TeamManager.TryCastLink 调用）。</summary>
+        /// <summary>连携实际打出时重置 CD</summary>
         public void ResetLinkCooldown() => NextLinkTime = Time.time + LinkCooldown;
 
-        /// <summary>是否允许打出连携（战技/受击/死亡中不可，TeamManager 出队前查询）。</summary>
+        /// <summary>是否允许打出连携</summary>
         public bool CanCastLink()
         {
             return combatStateMachine.currentState.Value is not CharacterCombatSkillState
@@ -184,7 +177,6 @@ namespace Endfield
 
         /// <summary>
         /// 受击回调：只负责播受击动画，进入受击状态由受击动画的
-        /// OnAnimationTranslate(Hit) 路由完成（与 ATK 机制一致）。
         /// </summary>
         private void OnHit(DamageInfo damageInfo)
         {
@@ -216,10 +208,10 @@ namespace Endfield
             if (navMeshAgent != null) navMeshAgent.enabled = false;
         }
 
-        /// <summary>死亡动画播完通知（供对象池回收等）。由 CharacterCombatDeadState 调用。</summary>
-        public void NotifyDeathAnimationEnd() => OnDeathAnimationEnd?.Invoke();
+        /// <summary>死亡动画播完通知。由 CharacterCombatDeadState 调用。</summary>
+        public void NotifyDeathAnimationEnd() => OnDeathAnimationEnd?.Invoke();  //目前就辅助回收对象池
 
-        /// <summary>绘制攻击检测盒（红色线框），Scene 视图常显，Game 视图需打开 Gizmos 按钮。</summary>
+        /// <summary>绘制攻击检测盒。</summary>
         private void OnDrawGizmos()
         {
             combatController?.DrawAttackGizmos();

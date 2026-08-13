@@ -32,8 +32,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f94b83d58cc42a41b22e60e00bdb379
+    m_Address: Assets/Res/VFX/VFX_Klaus/Prefabs/Hit/FX_hit_spark.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 884aeb97769d0084fa6f60fb0907ce36
     m_Address: Assets/Res/VFX/VFX_Klaus/Prefabs/Slash/FX_slash_15.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cdedac66d545926458e6b1f6764acbcc
+    m_Address: Assets/Res/VFX/VFX_Klaus/Prefabs/Hit/FX_hit_03.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

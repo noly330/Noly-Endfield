@@ -4,11 +4,7 @@ using System.Collections.Generic;
 namespace Endfield.Core.Pool
 {
     /// <summary>
-    /// 通用对象池核心（纯 C#，无 Unity 依赖）。
-    /// - Stack LIFO 存取
-    /// - 构造函数注入回调（组合优于继承）
-    /// - maxSize 只管"池保留多少"，不管"已创建多少"
-    /// - collectionCheck 用 HashSet 防双重 Get / 双重 Release
+    /// 通用对象池核心
     /// </summary>
     public class ObjectPool<T> where T : class
     {
