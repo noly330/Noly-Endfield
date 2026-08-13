@@ -12,4 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 662ca05397187ad449732801df0cc432, type: 3}
   m_Name: "\u53EF\u7433\u97F3\u6548"
   m_EditorClassIdentifier: 
-  _infos: []
+  _infos:
+  - style: 0
+    clips:
+    - {fileID: 8300000, guid: f5d8190fa161b3b44b4352b45d8c98be, type: 3}
+    - {fileID: 8300000, guid: 92aeb020e3e21f543ab49818e260662b, type: 3}
+    - {fileID: 8300000, guid: 27ad4ce011075324a978a707035850f8, type: 3}
+    - {fileID: 8300000, guid: ca388eb033410f54dbafadd4b4ad5ecf, type: 3}
+    - {fileID: 8300000, guid: 4b4b57d648c6b3345952c640e5599d21, type: 3}
+  - style: 1
+    clips:
+    - {fileID: 8300000, guid: ef0dd17bdd7a60d49a5b348dadf0bebb, type: 3}
+    - {fileID: 8300000, guid: cf17fdb52e955e94798080c805342881, type: 3}
+    - {fileID: 8300000, guid: ce821dad977b33b4eb1932d2772ff3fa, type: 3}
+    - {fileID: 8300000, guid: a92e28a89d6055443b4ab45155e430ce, type: 3}
+    - {fileID: 8300000, guid: 7771d7c9ee6638144930af325dc41f59, type: 3}
+  - style: 3
+    clips:
+    - {fileID: 8300000, guid: 0c943b292ff7d394bb36d5a220620351, type: 3}
+    - {fileID: 8300000, guid: 04b2731303dae3d4c8c8413594496d42, type: 3}
+    - {fileID: 8300000, guid: 86430b026c2d7ed43bf9dcd394e313b4, type: 3}
+    - {fileID: 8300000, guid: 4c49be06f194129469604f4f450c4535, type: 3}
