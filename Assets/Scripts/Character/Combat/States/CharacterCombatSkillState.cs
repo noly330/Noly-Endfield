@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using Endfield.Module.Audio;
 namespace Endfield
 {
     /// <summary>
@@ -20,7 +20,7 @@ namespace Endfield
             var skillData = _resuableData.currentSkillData ?? _character.SkillAttackData;
             if (skillData == null || skillData.combatConfigs == null || skillData.combatConfigs.Length == 0)
                 return;
-
+            _character.PlayVoice(SoundStyle.SkillVoice);
             _currentCombatConfig = skillData.combatConfigs[0];
             //TODO:现在就是霸体，以后要改成技能体，霸体，金刚体等复杂状态
             _character.attribute.superArmor = true;

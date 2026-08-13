@@ -5,6 +5,7 @@ using Endfield.Core.Resource;
 using Endfield.Data.User;
 using Endfield.Data.Catalog;
 using Endfield.Core.Pool;
+using Endfield.Module.Audio;
 
 namespace Endfield.Core
 {
@@ -45,6 +46,7 @@ namespace Endfield.Core
             // 启动预热：遍历预热表
             var poolRoot = new GameObject("[PoolRoot]").transform;
             PrefabPoolManager.Instance.Initialize(poolRoot);
+            await AudioService.Instance.InitializeAsync();
             PrewarmRegister.PrewarmAll().Forget();
         }
     }

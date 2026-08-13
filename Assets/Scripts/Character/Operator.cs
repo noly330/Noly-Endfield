@@ -1,4 +1,5 @@
 using UnityEngine;
+using Endfield.Module.Audio;
 
 namespace Endfield
 {
@@ -16,6 +17,7 @@ namespace Endfield
         public override CharacterCombatData CombatData => operatorSO.combatData;
         protected override CharacterAttributeData AttributeData => operatorSO.attributeData;
         public override CharacterAIData AIData => operatorSO.AIData;
+        public override SoundData SoundData => operatorSO.soundData;
         public override CombatSetSO SkillAttackData => operatorSO.combatData != null ? operatorSO.combatData.skillAttackData : null;
         public override CombatSetSO LinkAttackData => operatorSO.combatData != null ? operatorSO.combatData.linkAttackData : null;
         public override float LinkCooldown => operatorSO.combatData != null ? operatorSO.combatData.linkCooldown : 0f;

@@ -15,7 +15,7 @@ MonoBehaviour:
   combatName: LinkSkill
   coldTime: 0
   rotationTime: 0.3
-  isRotationToTarget: 1
+  isRotationToTarget: 0
   interactionConfigs:
   - hitName: Hit1
     damageMul: 0.2

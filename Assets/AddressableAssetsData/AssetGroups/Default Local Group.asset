@@ -16,7 +16,12 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 340cbe0530298f04894d354eb7ef08db
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: f6547b4d5daf92c4a83e101c2ae46420
+    m_Address: Assets/Res/Prefab/Audio/SoundItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 7c9683db4bfcaad40943faba0821cdbe, type: 2}
   m_SchemaSet:

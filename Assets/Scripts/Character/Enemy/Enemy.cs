@@ -1,6 +1,7 @@
 using BehaviorDesigner.Runtime;
 using UnityEngine;
 using UnityEngine.AI;
+using Endfield.Module.Audio;
 
 namespace Endfield
 {
@@ -13,6 +14,7 @@ namespace Endfield
         public override CharacterCombatData CombatData => enemySO.combatData;
         protected override CharacterAttributeData AttributeData => enemySO.attributeData;
         public override CharacterAIData AIData => enemySO.AIData;
+        public override SoundData SoundData => enemySO.soundData;
 
         /// <summary>
         /// 对象池复用重置：回满血、状态机回初始、清动画、恢复 AI。
