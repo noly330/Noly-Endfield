@@ -17,6 +17,7 @@ namespace Endfield
             PlayerInputSystem.Instance.Skill2.performed += OnSkill2;
             PlayerInputSystem.Instance.Skill3.performed += OnSkill3;
             PlayerInputSystem.Instance.Skill4.performed += OnSkill4;
+            PlayerInputSystem.Instance.LinkSkill.performed += OnLinkSkill;
         }
 
         private void OnDisable()
@@ -27,6 +28,7 @@ namespace Endfield
             PlayerInputSystem.Instance.Skill2.performed -= OnSkill2;
             PlayerInputSystem.Instance.Skill3.performed -= OnSkill3;
             PlayerInputSystem.Instance.Skill4.performed -= OnSkill4;
+            PlayerInputSystem.Instance.LinkSkill.performed -= OnLinkSkill;
         }
 
         private void OnSwitch(InputAction.CallbackContext context)
@@ -37,5 +39,6 @@ namespace Endfield
         private void OnSkill2(InputAction.CallbackContext _) => TeamManager.Instance.TryCastSkill(2);
         private void OnSkill3(InputAction.CallbackContext _) => TeamManager.Instance.TryCastSkill(3);
         private void OnSkill4(InputAction.CallbackContext _) => TeamManager.Instance.TryCastSkill(4);
+        private void OnLinkSkill(InputAction.CallbackContext _) => TeamManager.Instance.TryCastLink();
     }
 }

@@ -17,7 +17,7 @@ namespace Endfield
         {
             base.Enter();
 
-            var skillData = _character.SkillAttackData;
+            var skillData = _resuableData.currentSkillData ?? _character.SkillAttackData;
             if (skillData == null || skillData.combatConfigs == null || skillData.combatConfigs.Length == 0)
                 return;
 
@@ -29,11 +29,13 @@ namespace Endfield
 
         public override void HandInput()
         {
-            // 技能中：普攻/技能都不能打断
+            // 技能/连携中：普攻/战技/连携都不能打断（战技↔连携互不打断）
             if (_character.combatDriver.normalAttack)
                 _character.combatDriver.normalAttack = false;
             if (_character.combatDriver.skillAttack)
                 _character.combatDriver.skillAttack = false;
+            if (_character.combatDriver.linkAttack)
+                _character.combatDriver.linkAttack = false;
         }
 
         public override void Update()

@@ -17,5 +17,7 @@ namespace Endfield
         protected override CharacterAttributeData AttributeData => operatorSO.attributeData;
         public override CharacterAIData AIData => operatorSO.AIData;
         public override CombatSetSO SkillAttackData => operatorSO.combatData != null ? operatorSO.combatData.skillAttackData : null;
+        public override CombatSetSO LinkAttackData => operatorSO.combatData != null ? operatorSO.combatData.linkAttackData : null;
+        public override float LinkCooldown => operatorSO.combatData != null ? operatorSO.combatData.linkCooldown : 0f;
     }
 }

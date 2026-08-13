@@ -19,14 +19,19 @@ MonoBehaviour:
   interactionConfigs:
   - hitName: Hit1
     damageMul: 0.25
+    attackEffectType: 0
   - hitName: Hit1
     damageMul: 0.25
+    attackEffectType: 4
   - hitName: Hit1
     damageMul: 0.25
+    attackEffectType: 0
   - hitName: Hit1
     damageMul: 0.25
+    attackEffectType: 0
   - hitName: Hit1
     damageMul: 0.25
+    attackEffectType: 0
   detectConfigs:
   - startTime: 0.1
     position: {x: 0, y: 0.5, z: 0}

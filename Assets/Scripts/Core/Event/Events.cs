@@ -14,5 +14,8 @@ namespace Endfield
         {
             public int breakStack;
         }
+
+        /// <summary>当有干员打出连携技的时候（连携链）</summary>
+        public struct OnLinkSkillTriggered { }
     }
 }

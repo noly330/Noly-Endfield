@@ -7,7 +7,6 @@ namespace Endfield
         Null,
         NormalATK,
         Skill,
-        Link,
         Hit,
         Dead,
     }

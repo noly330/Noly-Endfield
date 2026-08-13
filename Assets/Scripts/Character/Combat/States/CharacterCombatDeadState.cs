@@ -22,6 +22,8 @@ namespace Endfield
                 _character.combatDriver.normalAttack = false;
             if (_character.combatDriver.skillAttack == true)
                 _character.combatDriver.skillAttack = false;
+            if (_character.combatDriver.linkAttack == true)
+                _character.combatDriver.linkAttack = false;
         }
 
         public override void Update()

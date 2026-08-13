@@ -12,12 +12,15 @@ namespace Endfield
     /// <summary>
     /// 队伍管理器（纯 C# 单例）：读取玩家数据（UserData.teamSlotIds）加载队伍。
     /// 槽 0（队伍第一位）为主控干员，其余为 AI。
-    /// 提供按队伍索引（1=第一位）获取干员的接口，供技能释放使用。
+    /// 提供按队伍索引（1=第一位）获取干员的接口，供技能/连携释放使用。
     /// 由 GameLauncher 在玩家数据 + 干员图鉴就绪后调用 InitializeAsync。
     /// </summary>
     public class TeamManager : Singleton<TeamManager>
     {
+        #region 字段与属性
         private readonly Dictionary<OperatorSO, Operator> _operators = new();
+        private readonly Queue<int> _linkQueue = new();       // 连携队列（槽位 0 基）
+        private readonly HashSet<int> _linkQueuedSlots = new();   // 防重
         private int _activeSlot;
         private ThirdPersonCamera _thirdPersonCamera;
         private Transform _root;
@@ -27,25 +30,9 @@ namespace Endfield
 
         /// <summary>已加载的干员数量（队伍人数）。</summary>
         public int TeamCount => _operators.Count;
+        #endregion
 
-        /// <summary>
-        /// 按队伍索引取干员（1 = 第一位）
-        /// </summary>
-        public Operator GetOperatorByIndex(int index)
-        {
-            if (index < 1) return null;
-            return GetOperatorInSlot(index - 1);
-        }
-
-        /// <summary>取指定槽位（0~N-1）的干员；空/未加载返回 null。</summary>
-        public Operator GetOperatorInSlot(int slot)
-        {
-            var ids = UserDataService.Instance.Current?.teamSlotIds;
-            if (ids == null || slot < 0 || slot >= ids.Count) return null;
-            var so = OperatorCatalog.Get(ids[slot]);
-            return _operators.TryGetValue(so, out var op) ? op : null;
-        }
-
+        #region 队伍加载与初始化
         /// <summary>由 GameLauncher 在玩家数据 + 干员图鉴就绪后调用。</summary>
         public async UniTask InitializeAsync(Transform root, ThirdPersonCamera thirdPersonCamera)
         {
@@ -119,7 +106,39 @@ namespace Endfield
         }
 
         private int SlotCount() => UserDataService.Instance.Current?.teamSlotIds?.Count ?? 0;
+        #endregion
 
+        #region 干员查找
+        /// <summary>
+        /// 按队伍索引取干员（1 = 第一位）
+        /// </summary>
+        public Operator GetOperatorByIndex(int index)
+        {
+            if (index < 1) return null;
+            return GetOperatorInSlot(index - 1);
+        }
+
+        /// <summary>取指定槽位（0~N-1）的干员；空/未加载返回 null。</summary>
+        public Operator GetOperatorInSlot(int slot)
+        {
+            var ids = UserDataService.Instance.Current?.teamSlotIds;
+            if (ids == null || slot < 0 || slot >= ids.Count) return null;
+            var so = OperatorCatalog.Get(ids[slot]);
+            return _operators.TryGetValue(so, out var op) ? op : null;
+        }
+
+        /// <summary>干员 → 队伍槽位（0 基）；不在队返回 -1。</summary>
+        public int GetSlotIndex(Operator op)
+        {
+            var ids = UserDataService.Instance.Current?.teamSlotIds;
+            if (ids == null || op == null) return -1;
+            for (int i = 0; i < ids.Count; i++)
+                if (GetOperatorInSlot(i) == op) return i;
+            return -1;
+        }
+        #endregion
+
+        #region 切人
         /// <summary>顺序切人（Q）：切到下一个有干员的槽位。</summary>
         public void SwitchNext()
         {
@@ -151,53 +170,6 @@ namespace Endfield
 
             _activeSlot = slot;
             ActiveOperator = target;
-        }
-
-        /// <summary>
-        /// 按队伍索引(1基)释放技能：主控直接放；非主控瞬移到主控缓存目标附近放。
-        /// </summary>
-        public void TryCastSkill(int index)
-        {
-            var op = GetOperatorByIndex(index);
-            if (op == null || ActiveOperator == null) return;
-
-            if (op == ActiveOperator)
-            {
-                op.combatDriver.skillAttack = true;
-                return;
-            }
-
-            // 非主控：瞬移到主控的缓存目标附近，面朝目标放技能
-            var target = ActiveOperator.combatController.GetCurrentTarget();
-            if (target == null) return;
-
-            const float castDistance = 2f;   // 距目标的偏移（TODO：按技能范围配置）
-            var toTarget = target.position - ActiveOperator.transform.position;
-            toTarget.y = 0;
-            if (toTarget.sqrMagnitude < 0.0001f) return;
-
-            var pos = target.position - toTarget.normalized * castDistance;
-            pos.y = op.transform.position.y;
-            TeleportTo(op, pos, Quaternion.LookRotation(toTarget.normalized));
-            op.combatController.SetTarget(target); 
-            op.combatDriver.skillAttack = true;
-        }
-
-        /// <summary>瞬移干员并同步内部状态（CharacterController / NavMeshAgent）。</summary>
-        private void TeleportTo(Operator op, Vector3 pos, Quaternion rot)
-        {
-            var cc = op.GetComponent<CharacterController>();
-            if (cc != null) cc.enabled = false;
-            op.transform.SetPositionAndRotation(pos, rot);
-            if (cc != null) cc.enabled = true;
-
-            var nav = op.GetComponent<NavMeshAgent>();
-            if (nav != null)
-            {
-                nav.enabled = true;
-                nav.Warp(pos);
-                nav.ResetPath();
-            }
         }
 
         private bool CanSwitch() => ActiveOperator == null || ActiveOperator.CanSwitchOut();
@@ -276,5 +248,111 @@ namespace Endfield
             }
             return root;
         }
+        #endregion
+
+        #region 技能释放
+        /// <summary>
+        /// 按队伍索引(1基)释放技能：主控直接放；非主控瞬移到主控缓存目标附近放。
+        /// </summary>
+        public void TryCastSkill(int index)
+        {
+            var op = GetOperatorByIndex(index);
+            if (op == null || ActiveOperator == null) return;
+
+            if (op == ActiveOperator)
+            {
+                op.combatDriver.skillAttack = true;
+                return;
+            }
+
+            // 非主控：瞬移到主控的缓存目标附近，面朝目标放技能
+            var target = ActiveOperator.combatController.GetCurrentTarget();
+            if (target == null) return;
+
+            const float castDistance = 2f;   // 距目标的偏移（TODO：按技能范围配置）
+            var toTarget = target.position - ActiveOperator.transform.position;
+            toTarget.y = 0;
+            if (toTarget.sqrMagnitude < 0.0001f) return;
+
+            var pos = target.position - toTarget.normalized * castDistance;
+            pos.y = op.transform.position.y;
+            TeleportTo(op, pos, Quaternion.LookRotation(toTarget.normalized));
+            op.combatController.SetTarget(target); 
+            op.combatDriver.skillAttack = true;
+        }
+        #endregion
+
+        #region 连携技
+        /// <summary>连携入队：连携 CD 已好（LinkReady）+ 未在队 + 队未满（&lt;4）。</summary>
+        public void TryEnqueueLinkAttack(Operator op)
+        {
+            if (op == null) return;
+            int slot = GetSlotIndex(op);
+            if (slot < 0) return;
+            if (!op.LinkReady) return;
+            if (_linkQueuedSlots.Contains(slot)) return;
+            if (_linkQueue.Count >= 4) return;
+            _linkQueue.Enqueue(slot);
+            _linkQueuedSlots.Add(slot);
+        }
+
+        /// <summary>
+        /// 打出队首干员的连携（Link 键）：主控直接放；非主控瞬移到主控缓存目标附近放。
+        /// 队首忙（战技/受击/死亡中）保持排队等下次按键；打出后出队 + 重置该干员连携 CD + 广播连携链事件。
+        /// </summary>
+        public void TryCastLink()
+        {
+            if (_linkQueue.Count == 0) return;
+            int slot = _linkQueue.Peek();
+            var op = GetOperatorInSlot(slot);
+            if (op == null || op.LinkAttackData == null)   // 无效队首直接丢弃，避免卡队列
+            {
+                _linkQueue.Dequeue();
+                _linkQueuedSlots.Remove(slot);
+                return;
+            }
+            if (!op.CanCastLink()) return;                  // 忙：等下次按键
+
+            if (op != ActiveOperator)
+            {
+                // 非主控：瞬移到主控缓存目标附近并指目标
+                var target = ActiveOperator?.combatController.GetCurrentTarget();
+                if (target == null) return;                 // 无目标保持排队
+                var toTarget = target.position - ActiveOperator.transform.position;
+                toTarget.y = 0;
+                if (toTarget.sqrMagnitude < 0.0001f) return;
+
+                var pos = target.position - toTarget.normalized * 2f;
+                pos.y = op.transform.position.y;
+                TeleportTo(op, pos, Quaternion.LookRotation(toTarget.normalized));
+                op.combatController.SetTarget(target);
+            }
+
+            _linkQueue.Dequeue();
+            _linkQueuedSlots.Remove(slot);
+            op.combatDriver.linkAttack = true;
+            op.ResetLinkCooldown();                          // 出队时重置连携 CD
+            EventCenter.DispatchMessage(new Events.OnLinkSkillTriggered());   // 连携链
+        }
+        #endregion
+
+        #region 通用辅助
+        /// <summary>瞬移干员并同步内部状态（CharacterController / NavMeshAgent）。技能/连携共用。</summary>
+        private void TeleportTo(Operator op, Vector3 pos, Quaternion rot)
+        {
+            var cc = op.GetComponent<CharacterController>();
+            if (cc != null) cc.enabled = false;
+            op.transform.SetPositionAndRotation(pos, rot);
+            if (cc != null) cc.enabled = true;
+
+            var nav = op.GetComponent<NavMeshAgent>();
+            if (nav != null)
+            {
+                nav.enabled = true;
+                nav.Warp(pos);
+                nav.ResetPath();
+            }
+        }
+        #endregion
     }
 }
