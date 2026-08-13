@@ -32,6 +32,7 @@ namespace Endfield
             if (behaviorTree != null) behaviorTree.enabled = true;
             var navMeshAgent = GetComponent<NavMeshAgent>();
             if (navMeshAgent != null) navMeshAgent.enabled = true;
+            Buffs.RemoveAll();
         }
     }
 }

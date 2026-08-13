@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 961ec5aff37596049936904049793110, type: 3}
-  m_Name: "\u5B89\u6BD4\u666E\u901A\u7279\u6548"
+  m_Name: "\u5B89\u6BD4\u7279\u6548"
   m_EditorClassIdentifier: 
   vfxDatas:
   - name: Atk1

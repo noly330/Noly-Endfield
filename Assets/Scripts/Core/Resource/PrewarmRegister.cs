@@ -19,10 +19,15 @@ namespace Endfield.Core.Resource
             // 敌人池：加载 prefab + 预热 10 个实例
             () => PrefabPoolManager.Instance.GetPoolAsync<Enemy>(
                 "Assets/Res/Prefab/Character/Enemy/怪兽.prefab", 10, 30),
-            // VFX 池（当前安比在试的特效，换特效时同步改这里）
+
+            // 特效池
             () => PrefabPoolManager.Instance.GetPoolAsync<PooledVFX>(
                 "Assets/Res/VFX/VFX_Klaus/Prefabs/Slash/FX_slash_15.prefab", 5, 20),
-
+            () => PrefabPoolManager.Instance.GetPoolAsync<PooledVFX>(
+                "Assets/Res/VFX/VFX_Klaus/Prefabs/Hit/FX_hit_spark.prefab",10,40),
+             () => PrefabPoolManager.Instance.GetPoolAsync<PooledVFX>(
+                "Assets/Res/VFX/VFX_Klaus/Prefabs/Hit/FX_hit_15.prefab",5,20)
+            
         };
 
         /// <summary>遍历预热表，逐个预热。</summary>

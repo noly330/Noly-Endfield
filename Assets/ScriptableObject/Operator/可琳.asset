@@ -53,8 +53,9 @@ MonoBehaviour:
     targetRadius: 4
     <skillAttackData>k__BackingField: {fileID: 11400000, guid: 9afb3ff79bd6b6c4da73bfdcb8365b44,
       type: 2}
-    <linkAttackData>k__BackingField: {fileID: 0}
-    <linkCooldown>k__BackingField: 0
+    <linkAttackData>k__BackingField: {fileID: 11400000, guid: 78951e092337227499952ea428612239,
+      type: 2}
+    <linkCooldown>k__BackingField: 10
   <attributeData>k__BackingField:
     <maxHp>k__BackingField: 3000
     <atk>k__BackingField: 200

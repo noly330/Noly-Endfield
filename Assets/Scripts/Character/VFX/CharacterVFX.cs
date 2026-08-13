@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Endfield.Core.Pool;
 using Endfield.Module.VFX;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Endfield
@@ -15,6 +16,7 @@ namespace Endfield
     public class CharacterVFX : MonoBehaviour
     {
         [SerializeField] private VFXConfigSO _config;
+        [SerializeField] private string _hitVFXName;
         private readonly Dictionary<string, (string prefabPath, Transform anchor)> _vfxMap = new();
 
         private void Awake()
@@ -23,6 +25,31 @@ namespace Endfield
             foreach (var data in _config.vfxDatas)
                 _vfxMap[data.name] = (data.prefabPath, FindAnchor(transform, data.anchorName));
         }
+        private void OnEnable()
+        {
+            var health = GetComponent<CharacterHealth>();
+            if(health != null)
+            {
+                health.OnDamaged += OnDamaged;
+            }
+        }
+        private void OnDisable() {
+            var health = GetComponent<CharacterHealth>();
+            if(health != null)
+            {
+                health.OnDamaged -= OnDamaged;
+            }
+        }
+
+        private void OnDamaged(DamageInfo info)
+        {
+            if(string.IsNullOrEmpty(_hitVFXName) == false)
+            {
+                PlayVFX(_hitVFXName);
+                Debug.Log("生成受击特效");
+            }
+        }
+
 
         public void PlayVFX(string vfxName)
         {

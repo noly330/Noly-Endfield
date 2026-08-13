@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c62635e55b65e75428c6825501c63d2f, type: 3}
-  m_Name: "\u6BD4\u5229\u8FDE\u643A\u6280\u62DB\u5F0F\u8868"
+  m_Script: {fileID: 11500000, guid: 961ec5aff37596049936904049793110, type: 3}
+  m_Name: "\u602A\u517D\u4E00\u53F7\u7279\u6548"
   m_EditorClassIdentifier: 
-  _combatConfigs:
-  - {fileID: 11400000, guid: 684a9f461a14310499be4eb661d0556c, type: 2}
+  vfxDatas: []
