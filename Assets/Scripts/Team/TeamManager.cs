@@ -179,7 +179,7 @@ namespace Endfield
             var pos = target.position - toTarget.normalized * castDistance;
             pos.y = op.transform.position.y;
             TeleportTo(op, pos, Quaternion.LookRotation(toTarget.normalized));
-
+            op.combatController.SetTarget(target); 
             op.combatDriver.skillAttack = true;
         }
 

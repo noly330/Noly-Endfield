@@ -8,6 +8,7 @@ namespace Endfield
     /// </summary>
     public class CharacterCombatSkillState : CharacterCombatState
     {
+        private CombatConfigSO _currentCombatConfig;
         public CharacterCombatSkillState(CharacterCombatStateMachine stateMachine) : base(stateMachine)
         {
         }
@@ -15,10 +16,12 @@ namespace Endfield
         public override void Enter()
         {
             base.Enter();
+
             var skillData = _character.SkillAttackData;
             if (skillData == null || skillData.combatConfigs == null || skillData.combatConfigs.Length == 0)
                 return;
 
+            _currentCombatConfig = skillData.combatConfigs[0];
             //TODO:现在就是霸体，以后要改成技能体，霸体，金刚体等复杂状态
             _character.attribute.superArmor = true;
             _combatController.StartAttackDetection(skillData, 0);
@@ -37,6 +40,14 @@ namespace Endfield
         {
             base.Update();
             _combatController.UpdateAttackDetection();
+            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < _currentCombatConfig.rotationTime && _currentCombatConfig.isRotationToTarget)
+            {
+                Transform target = _combatController.GetCurrentTarget();
+                if (target)
+                {
+                    _combatController.FaceTarget(target);
+                }
+            }
 
             // 技能动画播完 → 回 Null + 恢复移动（直接进状态不走动画事件，移动要自己恢复）
             if (!_animator.IsInTransition(0) &&
