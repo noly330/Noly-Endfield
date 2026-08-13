@@ -25,6 +25,11 @@ public class CombatConfigSO : ScriptableObject
     [Header("战斗能量恢复配置")]
     public CombatRecoverEnergyConfig[] recoverEnergyConfigs;
 }
+public enum CombatAttackEffectType
+{
+    None, 
+    Launch, KnockDown, Smash, Sunder,   // 击飞/倒地/猛击/碎甲
+}
 public enum CombatDetectType
 {
     None,Area,Single
@@ -37,6 +42,7 @@ public class CombatInteractionConfig
 {
     public string hitName;
     public float damageMul;
+    public CombatAttackEffectType attackEffectType;
 }
 
 [System.Serializable]

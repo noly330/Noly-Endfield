@@ -26,6 +26,22 @@ namespace Endfield
         public void Apply(BuffConfig config, Character caster = null, int layer = 1)
         {
             if (config == null) return;
+
+            // 瞬时 buff：挂上立即结算并结束，不进入字典（爆发伤害/瞬发效果）
+            if (config.instant)
+            {
+                var instantInstance = new BuffInstance
+                {
+                    config = config,
+                    remainingTime = config.duration,
+                    stackCount = Mathf.Clamp(layer, 1, config.maxStacks),
+                    caster = caster,
+                };
+                instantInstance.ApplyEffects(_owner);
+                instantInstance.RemoveEffects(_owner);
+                return;
+            }
+
             //如果当前身上有这个 buff，根据策略叠层
             if (_buffs.TryGetValue(config.buffId, out var existing))
             {

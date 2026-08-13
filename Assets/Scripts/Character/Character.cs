@@ -25,6 +25,8 @@ namespace Endfield
         public CharacterAttribute attribute { get; private set; }
         /// <summary>buff 管理器（IBuffTarget 成员）。</summary>
         public BuffManager Buffs { get; private set; }
+        /// <summary>受击结算器（订阅 OnDamaged 处理破防增/消）。</summary>
+        public CharacterAbnormalityReceiver AbnormalityReceiver { get; private set; }
         /// <summary>受击方组件（供 DoT 扣血等读取）。</summary>
 
         // 显式实现 IBuffTarget.Attribute：复用现有 attribute，不改动原有代码的命名
@@ -55,11 +57,13 @@ namespace Endfield
                 _health.OnDead += OnDead;
             }
             Buffs = new BuffManager(this);   // Character 实现了 IBuffTarget，buff 效果经窄接口访问
+            AbnormalityReceiver = new CharacterAbnormalityReceiver(this);
         }
 
 
         protected void OnDestroy()
         {
+            AbnormalityReceiver?.Dispose();
             if (_health != null)
             {
                 _health.OnDamaged -= OnHit;
