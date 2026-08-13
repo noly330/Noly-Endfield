@@ -41,7 +41,7 @@ namespace Endfield
                 if (linkData != null)
                 {
                     _resuableData.currentSkillData = linkData;
-                    _animator.CrossFadeInFixedTime(linkData.TryGetCombatName(0), 0.1555f);
+                    _animator.CrossFadeInFixedTime(linkData.TryGetCombatName(0), 0f);
                 }
                 return;
             }

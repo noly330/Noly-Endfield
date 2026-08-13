@@ -80,9 +80,6 @@ namespace Endfield
             base.Start();
             movementStateMachine.ChangeState(CharacterMovementStateType.Idle);
             combatStateMachine.ChangeState(CharacterCombatStateType.Null);
-
-            //测试:
-            Buffs.Apply(BuffDB.Bleed,this);
         }
 
         protected override void Update()
@@ -191,8 +188,8 @@ namespace Endfield
         /// </summary>
         private void OnHit(DamageInfo damageInfo)
         {
-            // if (Time.time < _nextHitAnimTime) return;
-            // _nextHitAnimTime = Time.time + 0.2f;
+            if (Time.time < _nextHitAnimTime) return;
+            _nextHitAnimTime = Time.time + 0.05f;
 
             if (string.IsNullOrEmpty(damageInfo.hitName)) return;
             if (!attribute.superArmor)

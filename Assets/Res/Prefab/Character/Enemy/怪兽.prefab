@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &330841156982008110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6847995340971887254}
+  m_Layer: 0
+  m_Name: HitPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6847995340971887254
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330841156982008110}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.591, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2328311249455012342}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2865815225988464157
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95,7 +126,11 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: d8e1ff20c927df2428d81ea54c19f407, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: f5255da99f6af944b907e552b710ca49,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6847995340971887254}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f5255da99f6af944b907e552b710ca49,
         type: 3}
@@ -129,7 +164,17 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8671650114670250175}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f5255da99f6af944b907e552b710ca49,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2587595258602922020}
   m_SourcePrefab: {fileID: 100100000, guid: f5255da99f6af944b907e552b710ca49, type: 3}
+--- !u!4 &2328311249455012342 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f5255da99f6af944b907e552b710ca49,
+    type: 3}
+  m_PrefabInstance: {fileID: 2865815225988464157}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3099604721162224460 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f5255da99f6af944b907e552b710ca49,
@@ -295,3 +340,17 @@ MonoBehaviour:
     m_Bits: 1
   _verticalVelocity: 0
   enemySO: {fileID: 11400000, guid: d7bb5427c910db143a54e9be19d5a5b8, type: 2}
+--- !u!114 &-2587595258602922020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3099604721162224460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 922b279bd9859474c88ad248e4ce7287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _config: {fileID: 11400000, guid: 4b9fe71707583264cb64881c73aec8eb, type: 2}
+  _hitVFXName: Hit

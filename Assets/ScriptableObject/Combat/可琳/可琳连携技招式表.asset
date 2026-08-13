@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c62635e55b65e75428c6825501c63d2f, type: 3}
   m_Name: "\u53EF\u7433\u8FDE\u643A\u6280\u62DB\u5F0F\u8868"
   m_EditorClassIdentifier: 
-  _combatConfigs: []
+  _combatConfigs:
+  - {fileID: 11400000, guid: cd0d4485f29f23f4fa88a814084719de, type: 2}

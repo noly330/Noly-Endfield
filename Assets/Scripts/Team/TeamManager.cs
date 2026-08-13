@@ -265,19 +265,12 @@ namespace Endfield
                 return;
             }
 
-            // 非主控：瞬移到主控的缓存目标附近，面朝目标放技能
+            // 非主控：瞬移到主控缓存目标左右侧（按编队奇偶），面朝目标放技能
             var target = ActiveOperator.combatController.GetCurrentTarget();
             if (target == null) return;
+            if (!TeleportToSlotSide(op, target, GetSlotIndex(op), 3f)) return;
 
-            const float castDistance = 2f;   // 距目标的偏移（TODO：按技能范围配置）
-            var toTarget = target.position - ActiveOperator.transform.position;
-            toTarget.y = 0;
-            if (toTarget.sqrMagnitude < 0.0001f) return;
-
-            var pos = target.position - toTarget.normalized * castDistance;
-            pos.y = op.transform.position.y;
-            TeleportTo(op, pos, Quaternion.LookRotation(toTarget.normalized));
-            op.combatController.SetTarget(target); 
+            op.combatController.SetTarget(target);
             op.combatDriver.skillAttack = true;
         }
         #endregion
@@ -315,16 +308,10 @@ namespace Endfield
 
             if (op != ActiveOperator)
             {
-                // 非主控：瞬移到主控缓存目标附近并指目标
+                // 非主控：瞬移到主控缓存目标左右侧（按编队奇偶）并指目标
                 var target = ActiveOperator?.combatController.GetCurrentTarget();
                 if (target == null) return;                 // 无目标保持排队
-                var toTarget = target.position - ActiveOperator.transform.position;
-                toTarget.y = 0;
-                if (toTarget.sqrMagnitude < 0.0001f) return;
-
-                var pos = target.position - toTarget.normalized * 2f;
-                pos.y = op.transform.position.y;
-                TeleportTo(op, pos, Quaternion.LookRotation(toTarget.normalized));
+                if (!TeleportToSlotSide(op, target, slot, 3f)) return;
                 op.combatController.SetTarget(target);
             }
 
@@ -332,6 +319,11 @@ namespace Endfield
             _linkQueuedSlots.Remove(slot);
             op.combatDriver.linkAttack = true;
             op.ResetLinkCooldown();                          // 出队时重置连携 CD
+
+            SlowTimeAsync(0.1f, 1f).Forget();              // 连携慢动作：时间缩到 0.1，持续 1s
+            if (op != ActiveOperator && _thirdPersonCamera != null)
+                LinkCameraAsync(op, ActiveOperator, 1f).Forget();   // 非主控连携 → 镜头短暂以施法干员为视觉中心
+
             EventCenter.DispatchMessage(new Events.OnLinkSkillTriggered());   // 连携链
         }
         #endregion
@@ -352,6 +344,47 @@ namespace Endfield
                 nav.Warp(pos);
                 nav.ResetPath();
             }
+        }
+
+        /// <summary>
+        /// 瞬移到目标敌人左右侧：以 主控干员(A)→目标敌人(B) 的水平线为基准，
+        /// 过 B 点作垂线，干员落在垂线上（敌人左侧或右侧）并面朝敌人。
+        /// 方向按编队位置（1基）奇偶：奇数=左，偶数=右。无目标/方向无效返回 false。
+        /// </summary>
+        private bool TeleportToSlotSide(Operator op, Transform target, int slotIndex, float distance)
+        {
+            if (target == null || ActiveOperator == null) return false;
+
+            var toTarget = target.position - ActiveOperator.transform.position;   // 主控 → 敌人（水平）
+            toTarget.y = 0;
+            if (toTarget.sqrMagnitude < 0.0001f) return false;
+
+            var side = Vector3.Cross(Vector3.up, toTarget.normalized);   // 过敌人的垂线方向（敌人左右）
+            float dir = slotIndex < 0 || (slotIndex + 1) % 2 == 1 ? 1f : -1f;   // 奇数=左(+)，偶数=右(-)
+
+            var pos = target.position + side * dir * distance;
+            pos.y = op.transform.position.y;
+
+            var faceDir = target.position - pos;
+            faceDir.y = 0;
+            TeleportTo(op, pos, Quaternion.LookRotation(faceDir));
+            return true;
+        }
+
+        /// <summary>连携慢动作：把游戏时间缩到 scale，持续 duration（真实秒，不受减速影响）后恢复 1。</summary>
+        private async UniTaskVoid SlowTimeAsync(float scale, float duration)
+        {
+            Time.timeScale = scale;
+            await UniTask.Delay((int)(duration * 1000f), DelayType.UnscaledDeltaTime);
+            Time.timeScale = 1f;
+        }
+
+        /// <summary>非主控连携：镜头短暂切到施法干员为视觉中心，duration 真实秒后切回主控。</summary>
+        private async UniTaskVoid LinkCameraAsync(Operator caster, Operator active, float duration)
+        {
+            ReTargetCamera(caster);
+            await UniTask.Delay((int)(duration * 1000f), DelayType.UnscaledDeltaTime);
+            ReTargetCamera(active);
         }
         #endregion
     }

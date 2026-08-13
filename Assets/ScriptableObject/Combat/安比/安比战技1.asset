@@ -21,10 +21,10 @@ MonoBehaviour:
     damageMul: 2
     attackEffectType: 1
   detectConfigs:
-  - startTime: 0.3
+  - startTime: 0.15
     position: {x: 0, y: 0.5, z: 1}
     rotation: {x: 0, y: 0, z: 0}
-    scale: {x: 2, y: 2, z: 2}
+    scale: {x: 1, y: 1, z: 2}
     detectType: 1
   sfxConfigs: []
   vfxConfigs: []

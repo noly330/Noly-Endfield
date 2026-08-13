@@ -12,12 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a697a12662bcedd4eb9ab0b298531f53, type: 3}
   m_Name: "\u53EF\u7433\u8FDE\u643A\u62801"
   m_EditorClassIdentifier: 
-  combatName: 
+  combatName: LinkSkill
   coldTime: 0
-  rotationTime: 0.3
-  isRotationToTarget: 0
-  interactionConfigs: []
-  detectConfigs: []
+  rotationTime: 0.8
+  isRotationToTarget: 1
+  interactionConfigs:
+  - hitName: Hit2
+    damageMul: 1
+    attackEffectType: 0
+  - hitName: Hit1
+    damageMul: 1
+    attackEffectType: 0
+  - hitName: Hit2
+    damageMul: 1
+    attackEffectType: 2
+  detectConfigs:
+  - startTime: 0.3
+    position: {x: 0, y: 0, z: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1.5}
+    detectType: 1
+  - startTime: 0.38
+    position: {x: 0, y: 0, z: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1.5}
+    detectType: 1
+  - startTime: 0.46
+    position: {x: 0, y: 0, z: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1.5}
+    detectType: 1
   sfxConfigs: []
   vfxConfigs: []
   recoverEnergyConfigs: []

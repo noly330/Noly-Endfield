@@ -20,9 +20,17 @@ MonoBehaviour:
   - hitName: Hit2
     damageMul: 2
     attackEffectType: 1
+  - hitName: Hit2
+    damageMul: 2
+    attackEffectType: 0
   detectConfigs:
-  - startTime: 0.3
-    position: {x: 0, y: 1, z: 1}
+  - startTime: 0.28
+    position: {x: 0, y: 0, z: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: {x: 2, y: 2, z: 2}
+    detectType: 1
+  - startTime: 0.36
+    position: {x: 0, y: -1, z: 1}
     rotation: {x: 0, y: 0, z: 0}
     scale: {x: 2, y: 2, z: 2}
     detectType: 1
