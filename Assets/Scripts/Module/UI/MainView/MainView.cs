@@ -2,7 +2,7 @@ using Endfield.Core;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Endfield.Module
+namespace Endfield.Module.UI
 {
     /// <summary>
     /// 主界面占位视图。

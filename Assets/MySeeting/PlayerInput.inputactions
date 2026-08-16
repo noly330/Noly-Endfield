@@ -273,6 +273,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "UI",
+            "id": "86ad7ba8-7e1c-4787-ac0e-21574319ab32",
+            "actions": [
+                {
+                    "name": "OperatorDisplay",
+                    "type": "Button",
+                    "id": "12f362f9-96fa-4254-85c6-9234d8b3962f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CloseView",
+                    "type": "Button",
+                    "id": "840ed21a-3648-48c5-ae92-921db5f87005",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ebe5dea8-83e4-4ed3-8bd4-7d9cb926043a",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OperatorDisplay",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8740d76f-9f08-4af7-841d-fce0445b1316",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CloseView",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

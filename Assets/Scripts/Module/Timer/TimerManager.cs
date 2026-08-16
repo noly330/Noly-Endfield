@@ -10,8 +10,8 @@ namespace Endfield
     {
         [SerializeField] private int _timerCount = 50;
 
-        private Queue<GameTimer> notWorkTimers = new Queue<GameTimer>();
-        private List<GameTimer> isWorkingTimers = new List<GameTimer>();
+        private Queue<GameTimer> _notWorkTimers = new Queue<GameTimer>();
+        private List<GameTimer> _isWorkingTimers = new List<GameTimer>();
 
 
         protected void Start()
@@ -29,33 +29,33 @@ namespace Endfield
         private void CreateTimer()
         {
             var timer = new GameTimer();
-            notWorkTimers.Enqueue(timer);
+            _notWorkTimers.Enqueue(timer);
         }
 
         private void UpdateTimers()
         {
-            if(isWorkingTimers.Count == 0)  
+            if(_isWorkingTimers.Count == 0)  
                 return;
             // 倒序遍历：清理 DoneWorked 定时器时 RemoveAt 不影响已遍历下标，
             // 修复正序 Remove 会跳过相邻定时器、导致冲刺冷却等定时器偶发不触发的问题
-            for(int i = isWorkingTimers.Count - 1; i >= 0; i--)
+            for(int i = _isWorkingTimers.Count - 1; i >= 0; i--)
             {
-                if(isWorkingTimers[i].timerState == TimerState.DoWorking)
+                if(_isWorkingTimers[i].timerState == TimerState.DoWorking)
                 {
-                    if (isWorkingTimers[i].isRealTime)
+                    if (_isWorkingTimers[i].isRealTime)
                     {
-                        isWorkingTimers[i].UpdateRealTimer();
+                        _isWorkingTimers[i].UpdateRealTimer();
                     }
                     else
                     {
-                        isWorkingTimers[i].UpdateTimer();
+                        _isWorkingTimers[i].UpdateTimer();
                     }
                 }
-                else if(isWorkingTimers[i].timerState == TimerState.DoneWorked)
+                else if(_isWorkingTimers[i].timerState == TimerState.DoneWorked)
                 {
-                    isWorkingTimers[i].InitTimer();
-                    notWorkTimers.Enqueue(isWorkingTimers[i]);
-                    isWorkingTimers.RemoveAt(i);
+                    _isWorkingTimers[i].InitTimer();
+                    _notWorkTimers.Enqueue(_isWorkingTimers[i]);
+                    _isWorkingTimers.RemoveAt(i);
                 }
             }
         }
@@ -67,13 +67,13 @@ namespace Endfield
         /// <param name="action"></param>
         public void GetOneTimer(float time, Action action)
         {
-            if (notWorkTimers.Count == 0)
+            if (_notWorkTimers.Count == 0)
             {
                 CreateTimer();
             }
-            GameTimer gameTimer = notWorkTimers.Dequeue();
+            GameTimer gameTimer = _notWorkTimers.Dequeue();
             gameTimer.StartTimer(false, time, action);
-            isWorkingTimers.Add(gameTimer);
+            _isWorkingTimers.Add(gameTimer);
         }
         /// <summary>
         /// 开启一个游戏时间定时器并且返回定时器对象
@@ -82,10 +82,10 @@ namespace Endfield
         /// <param name="action"></param>
         public GameTimer GetTimer(float time, Action action)
         {
-            if (notWorkTimers.Count == 0) { CreateTimer(); }
-            GameTimer gameTimer = notWorkTimers.Dequeue();
+            if (_notWorkTimers.Count == 0) { CreateTimer(); }
+            GameTimer gameTimer = _notWorkTimers.Dequeue();
             gameTimer.StartTimer(false, time, action);
-            isWorkingTimers.Add(gameTimer);
+            _isWorkingTimers.Add(gameTimer);
             return gameTimer;
         }
         /// <summary>
@@ -95,11 +95,11 @@ namespace Endfield
         /// <param name="action"></param>
         public GameTimer GetRealTimer(float time, Action action)
         {
-            if (notWorkTimers.Count == 0) { CreateTimer(); }
+            if (_notWorkTimers.Count == 0) { CreateTimer(); }
     
-            GameTimer gameTimer = notWorkTimers.Dequeue();
+            GameTimer gameTimer = _notWorkTimers.Dequeue();
             gameTimer.StartTimer(true, time, action);
-            isWorkingTimers.Add(gameTimer);
+            _isWorkingTimers.Add(gameTimer);
             return gameTimer;
         }
 
@@ -112,8 +112,8 @@ namespace Endfield
             if(gameTimer == null)  return; 
             if(gameTimer.timerState != TimerState.DoWorking)  return;
             gameTimer.InitTimer();
-            isWorkingTimers.Remove(gameTimer);
-            notWorkTimers.Enqueue(gameTimer);
+            _isWorkingTimers.Remove(gameTimer);
+            _notWorkTimers.Enqueue(gameTimer);
         }
     }
 }
