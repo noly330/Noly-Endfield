@@ -38,11 +38,13 @@ namespace Endfield.Core
             await UserDataService.Instance.InitializeAsync();  // 1. 玩家数据
             await OperatorCatalog.BuildAsync();                 // 2. 干员图鉴
 
-            // 3. 加载队伍
+            //加载队伍
             var cam = Object.FindObjectOfType<ThirdPersonCamera>();
             await TeamManager.Instance.InitializeAsync(transform, cam);
 
-            UIManager.Instance.OpenView(UIRegister.MainView, UILayer.Top).Forget();
+            //加载UI
+            UIManager.Instance.OpenView(UIRegister.TopToolBarView, layer: UILayer.Middle).Forget();
+            
             // 启动预热：遍历预热表
             var poolRoot = new GameObject("[PoolRoot]").transform;
             PrefabPoolManager.Instance.Initialize(poolRoot);

@@ -17,6 +17,18 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 3a24a341a7b84884bb36c487e0b0d182
   m_SerializeEntries:
+  - m_GUID: 151f8a96e31abfc468896548f103290a
+    m_Address: Assets/Res/Prefab/UI/OperatorDisplay/OperatorDisplayView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Prefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a15975959018569469f15d7680431b80
+    m_Address: Assets/Res/Prefab/UI/TopToolBar/TopToolBarView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Prefab
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e87bb8b70137a4b46818c57da7c1987f
     m_Address: Assets/Res/Prefab/UI/MainView/MainView.prefab
     m_ReadOnly: 0

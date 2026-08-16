@@ -65,6 +65,11 @@ MonoBehaviour:
     <critRate>k__BackingField: 0.1
     <critDamage>k__BackingField: 1.5
     <ultEnergyCost>k__BackingField: 100
+  <displayData>k__BackingField:
+    name: "\u53EF\u7433"
+    avatar: {fileID: 0}
+    starLevel: 6
+    skillDescriptions: []
   <ID>k__BackingField: 102
   <prefabAddress>k__BackingField: "Assets/Res/Prefab/Character/Operator/\u53EF\u7433.prefab"
   <linkTriggerType>k__BackingField: 3
