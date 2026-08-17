@@ -23,6 +23,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - Prefab
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ecb6bb71dcd1f845a4a807ff4eea643
+    m_Address: Assets/Res/Prefab/UI/OperatorDisplay/AvatarItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a15975959018569469f15d7680431b80
     m_Address: Assets/Res/Prefab/UI/TopToolBar/TopToolBarView.prefab
     m_ReadOnly: 0
