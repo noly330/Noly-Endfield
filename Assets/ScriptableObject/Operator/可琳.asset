@@ -67,7 +67,7 @@ MonoBehaviour:
     <ultEnergyCost>k__BackingField: 100
   <displayData>k__BackingField:
     name: "\u53EF\u7433"
-    avatar: {fileID: 0}
+    avatar: {fileID: 21300000, guid: ef0343353f23ef041a63cbe87834ea5c, type: 3}
     starLevel: 6
     skillDescriptions: []
   <ID>k__BackingField: 102

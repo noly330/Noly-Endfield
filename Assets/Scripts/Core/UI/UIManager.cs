@@ -118,7 +118,7 @@ namespace Endfield.Core
         /// </summary>
         /// <param name="view">视图实例</param>
         /// <param name="destroy">如果为 true，则同时销毁视图并从缓存中移除所有对应的缓存条目</param>
-        public void CloseView(IView view,bool destroy = true)
+        public void CloseView(IView view,bool destroy = false)
         {
             if(view == null) return;
             if (destroy)
