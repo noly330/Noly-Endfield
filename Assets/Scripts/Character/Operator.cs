@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.AI;
+using BehaviorDesigner.Runtime;
 using Endfield.Module.Audio;
 
 namespace Endfield
@@ -21,5 +23,34 @@ namespace Endfield
         public override CombatSetSO SkillAttackData => operatorSO.combatData != null ? operatorSO.combatData.skillAttackData : null;
         public override CombatSetSO LinkAttackData => operatorSO.combatData != null ? operatorSO.combatData.linkAttackData : null;
         public override float LinkCooldown => operatorSO.combatData != null ? operatorSO.combatData.linkCooldown : 0f;
+
+        /// <summary>切换玩家/AI 控制：切自己的控制组件（playerCtrl / aiCtrl / BehaviorTree / NavMeshAgent）。</summary>
+        public void SetPlayerControl(bool isPlayer)
+        {
+            var playerCtrl = GetComponent<CharacterPlayerController>();
+            var aiCtrl = GetComponent<CharacterAIController>();
+            var behaviorTree = GetComponent<BehaviorTree>();
+            var navMeshAgent = GetComponent<NavMeshAgent>();
+
+            if (isPlayer)
+            {
+                if (navMeshAgent != null) navMeshAgent.enabled = false;
+                if (behaviorTree != null) behaviorTree.enabled = false;
+                if (aiCtrl != null) aiCtrl.enabled = false;
+                if (playerCtrl != null) playerCtrl.enabled = true;
+            }
+            else
+            {
+                if (playerCtrl != null) playerCtrl.enabled = false;
+                if (navMeshAgent != null)
+                {
+                    navMeshAgent.enabled = true;
+                    navMeshAgent.Warp(transform.position);
+                    navMeshAgent.ResetPath();
+                }
+                if (aiCtrl != null) aiCtrl.enabled = true;
+                if (behaviorTree != null) behaviorTree.enabled = true;
+            }
+        }
     }
 }

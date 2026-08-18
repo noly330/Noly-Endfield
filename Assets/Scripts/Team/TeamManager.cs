@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using BehaviorDesigner.Runtime;
 using Endfield.Core;
 using Cysharp.Threading.Tasks;
 using Endfield.Data.User;
@@ -12,21 +10,23 @@ namespace Endfield
     /// <summary>
     /// 队伍管理器（纯 C# 单例）：读取玩家数据（UserData.teamSlotIds）加载队伍。
     /// 槽 0（队伍第一位）为主控干员，其余为 AI。
-    /// 提供按队伍索引（1=第一位）获取干员的接口，供技能/连携释放使用。
+    /// 提供按队伍索引（1=第一位）获取干员的接口，供技能释放使用。
+    /// 连携子系统在 Links（连携队列/CD/打出/慢动作/镜头）。
     /// 由 GameLauncher 在玩家数据 + 干员图鉴就绪后调用 InitializeAsync。
     /// </summary>
     public class TeamManager : Singleton<TeamManager>
     {
         #region 字段与属性
         private readonly Dictionary<OperatorSO, Operator> _operators = new();
-        private readonly Queue<int> _linkQueue = new();       // 连携队列（槽位 0 基）
-        private readonly HashSet<int> _linkQueuedSlots = new();   // 防重
         private int _activeSlot;
         private ThirdPersonCamera _thirdPersonCamera;
         private Transform _root;
 
         /// <summary>当前玩家控制的干员。</summary>
         public Operator ActiveOperator { get; private set; }
+
+        /// <summary>连携子系统（连携队列 / CD / 打出 / 慢动作 / 连携镜头）。</summary>
+        public LinkSystem Links { get; private set; }
 
         /// <summary>已加载的干员数量（队伍人数）。</summary>
         public int TeamCount => _operators.Count;
@@ -38,6 +38,7 @@ namespace Endfield
         {
             _root = root;
             _thirdPersonCamera = thirdPersonCamera;
+            Links = new LinkSystem(this, thirdPersonCamera);
             await LoadTeamAsync();
             InitActiveSlot();
         }
@@ -99,10 +100,10 @@ namespace Endfield
             for (int i = 0; i < SlotCount(); i++)
             {
                 var op = GetOperatorInSlot(i);
-                if (op != null) SetControl(op, isPlayer: i == 0);
+                if (op != null) op.SetPlayerControl(i == 0);
             }
 
-            ReTargetCamera(ActiveOperator);
+            _thirdPersonCamera?.FocusOn(ActiveOperator.transform);   // 镜头入口（实现在 ThirdPersonCamera）
         }
 
         private int SlotCount() => UserDataService.Instance.Current?.teamSlotIds?.Count ?? 0;
@@ -166,7 +167,7 @@ namespace Endfield
 
             SwapTransforms(ActiveOperator, target);
             SwapControl(ActiveOperator, target);
-            ReTargetCamera(target);
+            _thirdPersonCamera?.FocusOn(target.transform);   // 镜头入口（实现在 ThirdPersonCamera）
 
             _activeSlot = slot;
             ActiveOperator = target;
@@ -198,55 +199,8 @@ namespace Endfield
         /// <summary>旧主控变 AI，新目标变玩家。</summary>
         private void SwapControl(Operator oldActive, Operator newActive)
         {
-            SetControl(oldActive, isPlayer: false);
-            SetControl(newActive, isPlayer: true);
-        }
-
-        private void SetControl(Operator op, bool isPlayer)
-        {
-            var playerCtrl = op.GetComponent<CharacterPlayerController>();
-            var aiCtrl = op.GetComponent<CharacterAIController>();
-            var behaviorTree = op.GetComponent<BehaviorTree>();
-            var navMeshAgent = op.GetComponent<NavMeshAgent>();
-
-            if (isPlayer)
-            {
-                if (navMeshAgent != null) navMeshAgent.enabled = false;
-                if (behaviorTree != null) behaviorTree.enabled = false;
-                if (aiCtrl != null) aiCtrl.enabled = false;
-                if (playerCtrl != null) playerCtrl.enabled = true;
-            }
-            else
-            {
-                if (playerCtrl != null) playerCtrl.enabled = false;
-                if (navMeshAgent != null)
-                {
-                    navMeshAgent.enabled = true;
-                    navMeshAgent.Warp(op.transform.position);
-                    navMeshAgent.ResetPath();
-                }
-                if (aiCtrl != null) aiCtrl.enabled = true;
-                if (behaviorTree != null) behaviorTree.enabled = true;
-            }
-        }
-
-        /// <summary>相机重指主控：只调 ThirdPersonCamera 的统一入口。</summary>
-        private void ReTargetCamera(Operator target)
-        {
-            var point = FindCameraBasePoint(target.transform);
-            if (point == null) return;
-            if (_thirdPersonCamera != null)
-                _thirdPersonCamera.FollowTarget(point);
-        }
-
-        private static Transform FindCameraBasePoint(Transform root)
-        {
-            foreach (Transform child in root)
-            {
-                if (child.name == "CameraBasePoint")
-                    return child;
-            }
-            return root;
+            oldActive.SetPlayerControl(false);
+            newActive.SetPlayerControl(true);
         }
         #endregion
 
@@ -275,83 +229,14 @@ namespace Endfield
         }
         #endregion
 
-        #region 连携技
-        /// <summary>连携入队：连携 CD 已好（LinkReady）+ 未在队 + 队未满（&lt;4）。</summary>
-        public void TryEnqueueLinkAttack(Operator op)
-        {
-            if (op == null) return;
-            int slot = GetSlotIndex(op);
-            if (slot < 0) return;
-            if (!op.LinkReady) return;
-            if (_linkQueuedSlots.Contains(slot)) return;
-            if (_linkQueue.Count >= 4) return;
-            _linkQueue.Enqueue(slot);
-            _linkQueuedSlots.Add(slot);
-        }
-
-        /// <summary>
-        /// 打出队首干员的连携（Link 键）：主控直接放；非主控瞬移到主控缓存目标附近放。
-        /// 队首忙（战技/受击/死亡中）保持排队等下次按键；打出后出队 + 重置该干员连携 CD + 广播连携链事件。
-        /// </summary>
-        public void TryCastLink()
-        {
-            if (_linkQueue.Count == 0) return;
-            int slot = _linkQueue.Peek();
-            var op = GetOperatorInSlot(slot);
-            if (op == null || op.LinkAttackData == null)   // 无效队首直接丢弃，避免卡队列
-            {
-                _linkQueue.Dequeue();
-                _linkQueuedSlots.Remove(slot);
-                return;
-            }
-            if (!op.CanCastLink()) return;                  // 忙：等下次按键
-
-            if (op != ActiveOperator)
-            {
-                // 非主控：瞬移到主控缓存目标左右侧（按编队奇偶）并指目标
-                var target = ActiveOperator?.combatController.GetCurrentTarget();
-                if (target == null) return;                 // 无目标保持排队
-                if (!TeleportToSlotSide(op, target, slot, 3f)) return;
-                op.combatController.SetTarget(target);
-            }
-
-            _linkQueue.Dequeue();
-            _linkQueuedSlots.Remove(slot);
-            op.combatDriver.linkAttack = true;
-            op.ResetLinkCooldown();                          // 出队时重置连携 CD
-
-            SlowTimeAsync(0.1f, 1f).Forget();              // 连携慢动作：时间缩到 0.1，持续 1s
-            if (op != ActiveOperator && _thirdPersonCamera != null)
-                LinkCameraAsync(op, ActiveOperator, 1f).Forget();   // 非主控连携 → 镜头短暂以施法干员为视觉中心
-
-            EventCenter.DispatchMessage(new Events.OnLinkSkillTriggered());   // 连携链
-        }
-        #endregion
-
         #region 通用辅助
-        /// <summary>瞬移干员并同步内部状态（CharacterController / NavMeshAgent）。技能/连携共用。</summary>
-        private void TeleportTo(Operator op, Vector3 pos, Quaternion rot)
-        {
-            var cc = op.GetComponent<CharacterController>();
-            if (cc != null) cc.enabled = false;
-            op.transform.SetPositionAndRotation(pos, rot);
-            if (cc != null) cc.enabled = true;
-
-            var nav = op.GetComponent<NavMeshAgent>();
-            if (nav != null)
-            {
-                nav.enabled = true;
-                nav.Warp(pos);
-                nav.ResetPath();
-            }
-        }
-
         /// <summary>
         /// 瞬移到目标敌人左右侧：以 主控干员(A)→目标敌人(B) 的水平线为基准，
         /// 过 B 点作垂线，干员落在垂线上（敌人左侧或右侧）并面朝敌人。
         /// 方向按编队位置（1基）奇偶：奇数=左，偶数=右。无目标/方向无效返回 false。
+        /// 技能/连携共用（LinkSystem 也调它）。
         /// </summary>
-        private bool TeleportToSlotSide(Operator op, Transform target, int slotIndex, float distance)
+        internal bool TeleportToSlotSide(Operator op, Transform target, int slotIndex, float distance)
         {
             if (target == null || ActiveOperator == null) return false;
 
@@ -367,24 +252,8 @@ namespace Endfield
 
             var faceDir = target.position - pos;
             faceDir.y = 0;
-            TeleportTo(op, pos, Quaternion.LookRotation(faceDir));
+            op.TeleportTo(pos, Quaternion.LookRotation(faceDir));   // 瞬移下沉到 Character，本类不碰组件
             return true;
-        }
-
-        /// <summary>连携慢动作：把游戏时间缩到 scale，持续 duration（真实秒，不受减速影响）后恢复 1。</summary>
-        private async UniTaskVoid SlowTimeAsync(float scale, float duration)
-        {
-            Time.timeScale = scale;
-            await UniTask.Delay((int)(duration * 1000f), DelayType.UnscaledDeltaTime);
-            Time.timeScale = 1f;
-        }
-
-        /// <summary>非主控连携：镜头短暂切到施法干员为视觉中心，duration 真实秒后切回主控。</summary>
-        private async UniTaskVoid LinkCameraAsync(Operator caster, Operator active, float duration)
-        {
-            ReTargetCamera(caster);
-            await UniTask.Delay((int)(duration * 1000f), DelayType.UnscaledDeltaTime);
-            ReTargetCamera(active);
         }
         #endregion
     }

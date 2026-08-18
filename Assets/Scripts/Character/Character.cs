@@ -149,6 +149,26 @@ namespace Endfield
         }
 
         /// <summary>
+        /// 瞬移并同步内部状态（CharacterController / NavMeshAgent）。
+        /// 放本类：谁瞬移谁负责自己的组件同步，调用方不用摸内脏（LoD）。
+        /// </summary>
+        public void TeleportTo(Vector3 pos, Quaternion rot)
+        {
+            var cc = GetComponent<CharacterController>();
+            if (cc != null) cc.enabled = false;
+            transform.SetPositionAndRotation(pos, rot);
+            if (cc != null) cc.enabled = true;
+
+            var nav = GetComponent<NavMeshAgent>();
+            if (nav != null)
+            {
+                nav.enabled = true;
+                nav.Warp(pos);
+                nav.ResetPath();
+            }
+        }
+
+        /// <summary>
         /// 是否允许切人。
         /// </summary>
         public bool CanSwitchOut()
