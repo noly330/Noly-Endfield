@@ -52,7 +52,7 @@ namespace Endfield
         private void OnLinkEvent<T>(T message) where T : struct
         {
             if (_operator == null) return;
-            TeamManager.Instance.TryEnqueueLinkAttack(_operator);
+            TeamManager.Instance.Links.TryEnqueueLinkAttack(_operator);
         }
     }
 }

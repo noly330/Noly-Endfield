@@ -19,10 +19,6 @@ namespace Endfield
         public float MaxHP => _attributeComponent?.Attribute?.MaxHP ?? 0f;
         public bool isDead => _isDead;
 
-        private float _hitClodTime = 0.1f;
-        private float _hitClodTimer;
-        
-
         private void Awake()
         {
             _attributeComponent = GetComponent<CharacterAttributeComponent>();
