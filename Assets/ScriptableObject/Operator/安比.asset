@@ -59,7 +59,7 @@ MonoBehaviour:
       type: 2}
     <linkCooldown>k__BackingField: 10
   <attributeData>k__BackingField:
-    <maxHp>k__BackingField: 3000
+    <maxHp>k__BackingField: 30000
     <atk>k__BackingField: 200
     <def>k__BackingField: 40
     <critRate>k__BackingField: 0.1

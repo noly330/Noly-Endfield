@@ -23,7 +23,7 @@ namespace Endfield
             _character.PlayVoice(SoundStyle.SkillVoice);
             _currentCombatConfig = skillData.combatConfigs[0];
             //TODO:现在就是霸体，以后要改成技能体，霸体，金刚体等复杂状态
-            _character.attribute.superArmor = true;
+            _character.SetState(CharacterState.SuperArmor);
             _combatController.StartAttackDetection(skillData, 0);
         }
 
@@ -66,7 +66,7 @@ namespace Endfield
         public override void Exit()
         {
             base.Exit();
-            _character.attribute.superArmor = false;
+            _character.SetState(CharacterState.Normal);
         }
     }
 }

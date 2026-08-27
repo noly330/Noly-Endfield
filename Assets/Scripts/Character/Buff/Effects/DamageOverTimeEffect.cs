@@ -17,6 +17,7 @@ namespace Endfield
                 {
                     attacker = instance.caster != null ? instance.caster.transform : null,
                     rawDamage = damagePerSecond * instance.stackCount * deltaTime,
+                    damageType = DamageType.Status,   // 状态附着伤害：冲刺不可闪避
                 });
         }
         public void OnRemove(BuffInstance instance, IBuffTarget target) { }

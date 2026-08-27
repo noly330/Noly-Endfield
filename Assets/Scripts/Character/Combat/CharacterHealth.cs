@@ -11,6 +11,7 @@ namespace Endfield
     public class CharacterHealth : MonoBehaviour, IDamageable
     {
         private CharacterAttributeComponent _attributeComponent;
+        private Character _character;
         private float _currentHP;
         private bool _isDead;
         public event Action<DamageInfo> OnDamaged;
@@ -22,6 +23,7 @@ namespace Endfield
         private void Awake()
         {
             _attributeComponent = GetComponent<CharacterAttributeComponent>();
+            _character = GetComponent<Character>();
         }
 
         private void Start()
@@ -37,6 +39,18 @@ namespace Endfield
         public void TakeDamage(DamageInfo damageInfo)
         {
             if (_isDead) return;
+
+            // 角色状态结算（仅直接攻击受闪避影响；DoT/Status 不受）：
+            // 完美闪避 → 无视正常攻击；闪避 → 触发完美闪避（一次冲刺一次由状态切换保证）
+            if (damageInfo.damageType == DamageType.Direct && _character != null)
+            {
+                if (_character.State == CharacterState.PerfectDodging) return;
+                if (_character.State == CharacterState.Dodging)
+                {
+                    _character.TriggerPerfectDodge();
+                    return;
+                }
+            }
 
             // 受击方自行减免防御（属性未初始化时按防御 0），再乘受伤加深（碎甲等）
             var attr = _attributeComponent?.Attribute;

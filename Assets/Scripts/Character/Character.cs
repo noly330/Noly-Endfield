@@ -28,6 +28,7 @@ namespace Endfield
         public CharacterCombatDriver combatDriver { get; private set; }
         public CharacterCombatController combatController { get; private set; }
         public CharacterAttribute attribute { get; private set; }
+        public CharacterState State { get; private set; } = CharacterState.Normal;
         public BuffManager Buffs { get; private set; }  //Buff管理器
         public CharacterAbnormalityReceiver AbnormalityReceiver { get; private set; } //受击结算器(buff用)TODO:设计可能有问题，以后改
         CharacterAttribute IBuffTarget.Attribute => attribute;
@@ -142,6 +143,25 @@ namespace Endfield
             movementDriver.canDash = true;
         }
 
+        /// <summary>切换角色状态（由移动/战斗状态机调用）。</summary>
+        public void SetState(CharacterState state) => State = state;
+
+        /// <summary>闪避中被直接攻击 → 进入完美闪避状态（Enter 触发全局减速）。一次冲刺一次由状态切换保证。</summary>
+        public void TriggerPerfectDodge()
+        {
+            movementStateMachine.ChangeState(CharacterMovementStateType.PerfectDodge);
+        }
+
+        private PerfectDodgeVisual _perfectDodgeVisual;
+
+        /// <summary>触发完美闪避表现（蓝白轮廓 + 残影）。转给 PerfectDodgeVisual 组件，本类不直接碰表现。</summary>
+        public void PlayPerfectDodgeVisual(float duration)
+        {
+            if (_perfectDodgeVisual == null)
+                _perfectDodgeVisual = GetComponent<PerfectDodgeVisual>() ?? gameObject.AddComponent<PerfectDodgeVisual>();
+            _perfectDodgeVisual?.Play(duration);
+        }
+
         /// <summary>攻击冷却结束回调，由 CharacterCombatNullState 调用。</summary>
         public void CancelAttackColdTime()
         {
@@ -204,7 +224,7 @@ namespace Endfield
             _nextHitAnimTime = Time.time + 0.05f;
 
             if (string.IsNullOrEmpty(damageInfo.hitName)) return;
-            if (!attribute.superArmor)
+            if (State != CharacterState.SuperArmor)   // 霸体：受伤但不播受击动画
             {
                 _animator.CrossFadeInFixedTime(damageInfo.hitName, 0.1f, 0);
                 //朝向攻击者
