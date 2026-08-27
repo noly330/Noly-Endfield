@@ -13,6 +13,7 @@ namespace Endfield
             _reusableData.rotationTime = _movementData.dashData.rotationTime;
             _character.movementDriver.canDash = false;
             _animator.SetBool(AnimationID.HasInputID, true);
+            _character.SetState(CharacterState.Dodging);   // 闪避中：被直接攻击触发完美闪避
             //TimerManager.Instance.GetOneTimer(_movementData.dashData.coldTime, _character.ResetDash);
         }
 
@@ -36,6 +37,7 @@ namespace Endfield
         {
             base.Exit();
             _character.movementDriver.canDash = true;
+            _character.SetState(CharacterState.Normal);   // 退出闪避 → 回默认
         }
     }
 }

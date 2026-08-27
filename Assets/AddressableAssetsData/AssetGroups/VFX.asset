@@ -52,6 +52,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc86d318f6340af40804e2c76981aa69
+    m_Address: Assets/Res/VFX/PerfectDodgeGhost/PerfectDodgeGhost.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 7c9683db4bfcaad40943faba0821cdbe, type: 2}
   m_SchemaSet:

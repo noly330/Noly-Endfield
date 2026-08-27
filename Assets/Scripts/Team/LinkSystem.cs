@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
-using UnityEngine;
+using Endfield.Core;
 
 namespace Endfield
 {
@@ -66,19 +65,11 @@ namespace Endfield
             op.combatDriver.linkAttack = true;
             op.ResetLinkCooldown();                          // 出队时重置连携 CD
 
-            SlowTimeAsync(0.25f, 0.8f).Forget();              // 连携慢动作：时间缩到 0.3，持续 0.8s
+            TimeDirector.SlowTo(0.25f, 0.8f);                 // 连携慢动作：时间缩到 0.25，持续 0.8s
             if (op != _team.ActiveOperator && _camera != null)
                 _camera.LinkFocusOn(op.transform, 0.8f);     // 连携镜头：到位 → 固定 → 结束立刻回
 
             EventCenter.DispatchMessage(new Events.OnLinkSkillTriggered());   // 连携链
-        }
-
-        /// <summary>连携慢动作：把游戏时间缩到 scale，持续 duration（真实秒，不受减速影响）后恢复 1。</summary>
-        private async UniTaskVoid SlowTimeAsync(float scale, float duration)
-        {
-            Time.timeScale = scale;
-            await UniTask.Delay((int)(duration * 1000f), DelayType.UnscaledDeltaTime);
-            Time.timeScale = 1f;
         }
     }
 }

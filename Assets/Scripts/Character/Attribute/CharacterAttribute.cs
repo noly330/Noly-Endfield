@@ -17,9 +17,6 @@ namespace Endfield
         private float _atkPercentBonus;
         private float _damageTakenPercentBonus;   // 受伤加深（碎甲用），正值 = 受到伤害增加
 
-        //TODO:现在就是霸体，以后要改成技能体，霸体，金刚体等复杂状态
-        public bool superArmor;  //霸体 
-
         public CharacterAttribute(CharacterAttributeData data)
         {
             _data = data;
