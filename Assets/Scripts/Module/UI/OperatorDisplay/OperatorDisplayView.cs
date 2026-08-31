@@ -22,6 +22,7 @@ namespace Endfield.Module.UI
         private RectTransform _starLevelRoot;
         private RectTransform _starSample;
         private VirtualScrollList<OperatorAvatarItem> _scrollList;
+        private OperatorPreview _preview;
         private bool _escSubscribed;
 
         public OperatorDisplayView(OperatorDisplayModel model)
@@ -39,6 +40,21 @@ namespace Endfield.Module.UI
             }
             Refresh();
             await InitAvatarList();
+            await InitPreview();
+        }
+
+        /// <summary>初始化中区 3D 预览：RawImage → 透明 RT 显示角色模型。</summary>
+        private async UniTask InitPreview()
+        {
+            var rawImage = GetComponent<RawImage>("Mid/ModelImage");
+            if (rawImage == null) return;
+
+            _preview = new OperatorPreview();
+            var rect = rawImage.rectTransform.rect;
+            _preview.SetRenderTextureSize(Mathf.RoundToInt(rect.width), Mathf.RoundToInt(rect.height));
+            rawImage.texture = _preview.TargetTexture;
+
+            await _preview.Display(_model.GetCurrentOperator());
         }
 
         /// <summary>初始化顶部干员头像虚拟滚动列表。</summary>
@@ -70,12 +86,13 @@ namespace Endfield.Module.UI
             return width;
         }
 
-        /// <summary>点击头像 → 切换当前干员 → 刷新左区 + 重跑可见格子更新高亮。</summary>
+        /// <summary>点击头像 → 切换当前干员 → 刷新左区 + 更新高亮 + 换预览模型。</summary>
         private void OnSelectAvatar(int id)
         {
             _model.currentID = id;
             Refresh();
             _scrollList?.RebindVisible();
+            _preview?.Display(_model.GetCurrentOperator()).Forget();
         }
 
         private void Refresh()
@@ -104,6 +121,7 @@ namespace Endfield.Module.UI
                 _escSubscribed = true;
             }
             PlayerInputSystem.Instance?.SetPlayerInputEnabled(false);   // 打开 → 冻结角色输入
+            _preview?.SetVisible(true);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
@@ -113,6 +131,7 @@ namespace Endfield.Module.UI
             base.OnHidden();
             UnsubscribeEscape();
             PlayerInputSystem.Instance?.SetPlayerInputEnabled(true);    // 关闭 → 解冻
+            _preview?.SetVisible(false);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
@@ -121,6 +140,7 @@ namespace Endfield.Module.UI
         {
             base.OnDestroy();
             _scrollList?.Dispose();
+            _preview?.Dispose();
             UnsubscribeEscape();
             PlayerInputSystem.Instance?.SetPlayerInputEnabled(true);
         }
