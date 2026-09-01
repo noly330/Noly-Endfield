@@ -27,4 +27,5 @@ public struct DamageInfo
     public string hitName;       // 受击动画名
     public CombatAttackEffectType attackEffectType; // 攻击效果类型
     public DamageType damageType; // 伤害类型（Direct=可闪避；Status=DoT 不可闪避）
+    public bool isCrit;          // 是否暴击（飘字用）
 }

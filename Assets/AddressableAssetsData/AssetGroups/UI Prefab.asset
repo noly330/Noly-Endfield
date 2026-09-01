@@ -28,14 +28,37 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5d0f9e7db0bbc274e850a2630c11d6b1
+    m_Address: Assets/Res/Prefab/UI/CombatHUDView/CombatHUDView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Prefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c92580060e4df74c968255056d7a828
+    m_Address: Assets/Res/Prefab/UI/CombatHUDView/LinkQueueWidget.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Prefab
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a15975959018569469f15d7680431b80
     m_Address: Assets/Res/Prefab/UI/TopToolBar/TopToolBarView.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - Prefab
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b54d0592c278e2c4888a9944e87bbdf5
+    m_Address: Assets/Res/Prefab/UI/CombatHUDView/DamageText.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e87bb8b70137a4b46818c57da7c1987f
     m_Address: Assets/Res/Prefab/UI/MainView/MainView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Prefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff014eccde18ae84092558d923f0b8b2
+    m_Address: Assets/Res/Prefab/UI/CombatHUDView/LinkBannerWidget.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - Prefab

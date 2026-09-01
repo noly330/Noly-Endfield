@@ -68,6 +68,7 @@ MonoBehaviour:
   <displayData>k__BackingField:
     name: "\u6BD4\u5229"
     avatar: {fileID: 21300000, guid: 4e58656872b648040b6f258f2adf1c8f, type: 3}
+    linkHeadSprite: {fileID: 21300000, guid: 71f8632a9b8dd8c4aa1a1b6f3621f040, type: 3}
     starLevel: 5
     skillDescriptions: []
   <ID>k__BackingField: 103

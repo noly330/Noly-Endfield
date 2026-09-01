@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Endfield.Core;
+using UnityEngine;
 
 namespace Endfield
 {
@@ -21,6 +22,9 @@ namespace Endfield
             _camera = camera;
         }
 
+        /// <summary>当前连携队列（槽位索引 0 基，队首在前）。UI 拉取用。</summary>
+        public IReadOnlyList<int> GetQueuedSlots() => _linkQueue.ToArray();
+
         /// <summary>连携入队：连携 CD 已好（LinkReady）+ 未在队 + 队未满（&lt;4）。</summary>
         public void TryEnqueueLinkAttack(Operator op)
         {
@@ -32,6 +36,7 @@ namespace Endfield
             if (_linkQueue.Count >= 4) return;
             _linkQueue.Enqueue(slot);
             _linkQueuedSlots.Add(slot);
+            EventCenter.DispatchMessage(new Events.LinkSkillQueueChanged());
         }
 
         /// <summary>
@@ -47,6 +52,7 @@ namespace Endfield
             {
                 _linkQueue.Dequeue();
                 _linkQueuedSlots.Remove(slot);
+                EventCenter.DispatchMessage(new Events.LinkSkillQueueChanged());
                 return;
             }
             if (!op.CanCastLink()) return;                  // 忙：等下次按键
@@ -64,12 +70,18 @@ namespace Endfield
             _linkQueuedSlots.Remove(slot);
             op.combatDriver.linkAttack = true;
             op.ResetLinkCooldown();                          // 出队时重置连携 CD
+            EventCenter.DispatchMessage(new Events.LinkSkillQueueChanged());
 
             TimeDirector.SlowTo(0.25f, 0.8f);                 // 连携慢动作：时间缩到 0.25，持续 0.8s
             if (op != _team.ActiveOperator && _camera != null)
                 _camera.LinkFocusOn(op.transform, 0.8f);     // 连携镜头：到位 → 固定 → 结束立刻回
 
-            EventCenter.DispatchMessage(new Events.OnLinkSkillTriggered());   // 连携链
+            // 左侧连携照片：取干员的连携技头像（没配 linkHeadSprite 视为配置错误）
+            var head = op.OperatorData?.displayData?.linkHeadSprite;
+            if (head == null)
+                Debug.LogError($"[LinkSystem] 干员 {op.name} 未配置 displayData.linkHeadSprite（连携技照片）");
+            EventCenter.DispatchMessage(new Events.LinkSkillCast { linkHead = head });      // 左侧横幅
+            EventCenter.DispatchMessage(new Events.OnLinkSkillTriggered());                 // 连携链（让链式干员入队）
         }
     }
 }
