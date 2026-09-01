@@ -14,10 +14,11 @@ namespace Endfield
         /// 出伤（攻击方算）：最终攻击力 × 招式倍率（暴击 × 暴伤）。返回原始伤害，未减防御。
         /// </summary>
         //TODO:增伤倍率/脆弱debuff 以后加，现在是纯倍率。
-        public static float CalculateRawDamage(CharacterAttribute attacker, float damageMul)
+        public static float CalculateRawDamage(CharacterAttribute attacker, float damageMul, out bool isCrit)
         {
+            isCrit = attacker.RollCrit();                      // 若暴击
             float raw = attacker.FinalATK * damageMul;
-            if (attacker.RollCrit())  //如果暴击
+            if (isCrit)
                 raw *= attacker.CritDamage;
             return raw;
         }

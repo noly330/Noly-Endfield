@@ -61,6 +61,12 @@ namespace Endfield
 
             // 受击事件（表现层订阅，本组件不做表现）
             OnDamaged?.Invoke(damageInfo);
+            EventCenter.DispatchMessage(new Events.OnCharacterDamaged
+            {
+                damage = finalDamage,
+                isCrit = damageInfo.isCrit,
+                hitPos = transform.position + Vector3.up * 1f,
+            });
 
             if (_currentHP <= 0f && !_isDead)
             {

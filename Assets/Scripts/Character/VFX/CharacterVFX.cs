@@ -46,7 +46,6 @@ namespace Endfield
             if(string.IsNullOrEmpty(_hitVFXName) == false)
             {
                 PlayVFX(_hitVFXName);
-                Debug.Log("生成受击特效");
             }
         }
 
