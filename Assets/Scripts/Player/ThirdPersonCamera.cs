@@ -25,20 +25,7 @@ public class ThirdPersonCamera : MonoBehaviour
     [SerializeField] private float _fovMin = 30f;
     [SerializeField] private float _fovMax = 70f;
 
-    [Header("平滑")]
-    /// <summary>
-    /// 旋转平滑时间（秒）。值越大旋转越"软"，越小响应越快。
-    /// 传给 SmoothDampAngle 的第三个参数。
-    /// </summary>
-    [SerializeField] private float _rotationSmoothTime = 0.12f;
-
     private Cinemachine.CinemachineVirtualCamera _virtualCamera;
-
-    /// <summary>SmoothDampAngle 的水平角速度缓存</summary>
-    private float _horizontalVelocity;
-
-    /// <summary>SmoothDampAngle 的垂直角速度缓存</summary>
-    private float _verticalVelocity;
 
     /// <summary>当前水平旋转角度</summary>
     private float _horizontalAngle;
@@ -155,16 +142,11 @@ public class ThirdPersonCamera : MonoBehaviour
         Vector2 look   = PlayerInputSystem.Instance.Look;
         Vector2 scroll = PlayerInputSystem.Instance.Scroll;
 
-        //旋转
-        float targetHorizontal = _horizontalAngle + look.x * _mouseSensitivity;
-        float targetVertical   = _verticalAngle   - look.y * _mouseSensitivity * _verticalSensitivity;
-
-        // 连携镜头：快速转向定格目标（~0.1s 到位并固定），窗口结束立刻回主控原位
+        //旋转（即时对称响应，对标 Kingdom：不用 SmoothDampAngle，避免速度惯性造成左右不对称/拖尾）
         if (_linkTimer > 0f)
         {
             _linkTimer -= Time.unscaledDeltaTime;
             _horizontalAngle = Mathf.MoveTowardsAngle(_horizontalAngle, _linkTargetYaw, _linkRotateSpeed * Time.unscaledDeltaTime);
-            targetHorizontal = _horizontalAngle;   // 已直接驱动角度，防止 SmoothDamp 往回拉
             _positionOffset.Offset = Vector3.MoveTowards(_positionOffset.Offset, _linkTargetOffset, _linkMoveSpeed * Time.unscaledDeltaTime);
         }
         else if (_linkTarget != null)
@@ -172,16 +154,18 @@ public class ThirdPersonCamera : MonoBehaviour
             // 时缓结束：立刻回到主控原来的相机位置（清偏移 + 还原角度）
             _positionOffset.Offset = Vector3.zero;
             _horizontalAngle = _preLinkHorizontalAngle;
-            targetHorizontal = _horizontalAngle;
             _linkTarget = null;
         }
+        else
+        {
+            // 常规：鼠标增量直接累加（不经过平滑），左右完全对称
+            _horizontalAngle += look.x * _mouseSensitivity;
+            _verticalAngle   -= look.y * _mouseSensitivity * _verticalSensitivity;
+        }
 
-        targetVertical = ClampAngle(targetVertical, _bottomClamp, _topClamp);  //把垂直旋转角度限制在 _bottomClamp 到 _topClamp 之间
-
-        _horizontalAngle = Mathf.SmoothDampAngle(
-            _horizontalAngle, targetHorizontal, ref _horizontalVelocity, _rotationSmoothTime);
-        _verticalAngle = Mathf.SmoothDampAngle(
-            _verticalAngle,   targetVertical,   ref _verticalVelocity,   _rotationSmoothTime);
+        // 归一：水平角 wrap 到 ±360，垂直角限制俯仰范围
+        _horizontalAngle = ClampAngle(_horizontalAngle, float.MinValue, float.MaxValue);
+        _verticalAngle   = ClampAngle(_verticalAngle, _bottomClamp, _topClamp);
 
         _cameraTarget.rotation = Quaternion.Euler(_verticalAngle, _horizontalAngle, 0f);
 
