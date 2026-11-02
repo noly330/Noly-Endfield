@@ -4,7 +4,6 @@ using Endfield.Core;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 
 namespace Endfield.Module.UI
 {
@@ -25,21 +24,20 @@ namespace Endfield.Module.UI
             _gachaBtn = GetComponent<Button>("Main/Buttoms/OpenGacha");
 
             _operatorBtn.onClick.AddListener(OpenOperatorDisplay);
-            if (PlayerInputSystem.Instance != null)
-                PlayerInputSystem.Instance.OpenOperatorDisplay.performed += OnOpenShortcut;
+            if (InputService.Current != null)
+                InputService.Current.OnOpenOperatorDisplay += OpenOperatorDisplay;
             return UniTask.CompletedTask;
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            if (PlayerInputSystem.Instance != null)
-                PlayerInputSystem.Instance.OpenOperatorDisplay.performed -= OnOpenShortcut;
+            if (InputService.Current != null)
+                InputService.Current.OnOpenOperatorDisplay -= OpenOperatorDisplay;
         }
 
         /// <summary>打开干员展示界面：按钮与 C 键共用入口。</summary>
         private void OpenOperatorDisplay()
             => UIManager.Instance.OpenView(UIRegister.OperatorDisplayView, layer: UILayer.Top).Forget();
-        private void OnOpenShortcut(InputAction.CallbackContext _) => OpenOperatorDisplay();
     }
 }

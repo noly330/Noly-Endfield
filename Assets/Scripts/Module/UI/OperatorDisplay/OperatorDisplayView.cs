@@ -4,7 +4,6 @@ using Endfield.Core.Pool;
 using Endfield.Core.UI;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
@@ -115,12 +114,12 @@ namespace Endfield.Module.UI
         protected override void OnShown(object data)
         {
             base.OnShown(data);
-            if (PlayerInputSystem.Instance != null)
+            if (InputService.Current != null)
             {
-                PlayerInputSystem.Instance.CloseView.performed += OnEscape;
+                InputService.Current.OnCloseView += OnEscape;
                 _escSubscribed = true;
             }
-            PlayerInputSystem.Instance?.SetPlayerInputEnabled(false);   // 打开 → 冻结角色输入
+            InputService.Current?.SetPlayerInputEnabled(false);   // 打开 → 冻结角色输入
             _preview?.SetVisible(true);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -130,7 +129,7 @@ namespace Endfield.Module.UI
         {
             base.OnHidden();
             UnsubscribeEscape();
-            PlayerInputSystem.Instance?.SetPlayerInputEnabled(true);    // 关闭 → 解冻
+            InputService.Current?.SetPlayerInputEnabled(true);    // 关闭 → 解冻
             _preview?.SetVisible(false);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
@@ -142,17 +141,17 @@ namespace Endfield.Module.UI
             _scrollList?.Dispose();
             _preview?.Dispose();
             UnsubscribeEscape();
-            PlayerInputSystem.Instance?.SetPlayerInputEnabled(true);
+            InputService.Current?.SetPlayerInputEnabled(true);
         }
 
         private void UnsubscribeEscape()
         {
-            if (_escSubscribed && PlayerInputSystem.Instance != null)
-                PlayerInputSystem.Instance.CloseView.performed -= OnEscape;
+            if (_escSubscribed && InputService.Current != null)
+                InputService.Current.OnCloseView -= OnEscape;
             _escSubscribed = false;
         }
 
-        private void OnEscape(InputAction.CallbackContext _)
+        private void OnEscape()
             => UIManager.Instance.CloseView(UIRegister.OperatorDisplayView);
 
         /// <summary>

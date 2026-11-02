@@ -139,8 +139,9 @@ public class ThirdPersonCamera : MonoBehaviour
     private void LateUpdate()
     {
         if (_cameraTarget == null) return;   // 防御：目标被销毁/未赋值时跳过
-        Vector2 look   = PlayerInputSystem.Instance.Look;
-        Vector2 scroll = PlayerInputSystem.Instance.Scroll;
+        var input = InputService.Current;    // 每帧读网关：场景对象 Awake 顺序不定，不做字段缓存
+        Vector2 look   = input != null ? input.Look : Vector2.zero;
+        Vector2 scroll = input != null ? input.Scroll : Vector2.zero;
 
         //旋转（即时对称响应，对标 Kingdom：不用 SmoothDampAngle，避免速度惯性造成左右不对称/拖尾）
         if (_linkTimer > 0f)

@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Endfield
 {
@@ -10,6 +8,7 @@ namespace Endfield
         private CharacterMovementData _movementData;
 
         private Character _character;
+        private IInputSource _input;
         private void Awake()
         {
             _cameraTransform = Camera.main.transform;
@@ -19,20 +18,21 @@ namespace Endfield
 
         private void OnEnable()
         {
-            if (PlayerInputSystem.Instance == null)
+            _input ??= InputService.Current;
+            if (_input == null)
                 return;
 
-            PlayerInputSystem.Instance.DashAction.performed += OnDashStart;
-            PlayerInputSystem.Instance.AttackAction.performed += OnAttackStart;
+            _input.OnDash += OnDashStart;
+            _input.OnAttack += OnAttackStart;
         }
 
         private void OnDisable()
         {
-            if (PlayerInputSystem.Instance == null)
+            if (_input == null)
                 return;
 
-            PlayerInputSystem.Instance.DashAction.performed -= OnDashStart;
-            PlayerInputSystem.Instance.AttackAction.performed -= OnAttackStart;
+            _input.OnDash -= OnDashStart;
+            _input.OnAttack -= OnAttackStart;
         }
 
         private void Update()
@@ -40,7 +40,7 @@ namespace Endfield
             UpdateMovementDriver();
         }
 
-        private void OnDashStart(InputAction.CallbackContext context)
+        private void OnDashStart()
         {
             if (!_character.movementDriver.canDash)
                 return;
@@ -50,13 +50,18 @@ namespace Endfield
             else
                 _character.animator.CrossFadeInFixedTime(_movementData.dashData.frontDushAnimationName, _movementData.dashData.fadeTime);
         }
-        private void OnAttackStart(InputAction.CallbackContext context)
+        private void OnAttackStart()
         {
             _character.combatDriver.normalAttack = true;
         }
         public void UpdateMovementDriver()
         {
-            Vector2 input = PlayerInputSystem.Instance.Move;
+            if (_input == null)
+            {
+                _character.movementDriver.worldDirection = Vector3.zero;
+                return;
+            }
+            Vector2 input = _input.Move;
 
             if (input.sqrMagnitude < 0.01f)
             {
