@@ -15,11 +15,12 @@ Docs/
 └─ assets/                ← 笔记引用的截图、示意图
 ```
 
-## 笔记列表
+## 文档列表
 
 | 主题 | 标题 | 日期 | 状态 | 链接 |
 |---|---|---|---|---|
 | Unity / 架构 | 输入系统升级：IInputSource + InputService | 2026-11-04 | 当前版本 | [input-system-upgrade.md](Notes/Unity/input-system-upgrade.md) |
+| 计划 | 资源管理升级计划（ResourceScope） | 2026-11-04 | 进行中 · `feature/resource-upgrade` | [2026-11-04-resource-upgrade-plan.md](Design/2026-11-04-resource-upgrade-plan.md) |
 
 ## 写作约定
 
