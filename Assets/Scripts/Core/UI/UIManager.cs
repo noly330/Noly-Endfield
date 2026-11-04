@@ -39,19 +39,29 @@ namespace Endfield.Core
         }
 
         /// <summary>
-        /// 打开一个视图
+        /// 打开一个视图。
+        /// 缓存命中：复用已有实例，只重新 Show（触发 OnShown），不会再次执行 OnInit。
+        /// 未命中：加载预制体 → 实例化 → 用 VContainer 创建视图对象并注入依赖
+        ///         → Initialize（内部 await OnInit）→ Show（触发 OnShown）。
         /// </summary>
-        /// <param name="entry">Register</param>
-        /// <param name="data">传递的数据</param>
-        /// <param name="layer">界面层级类型</param>
+        /// <param name="entry">视图注册项；缓存以 PrefabPath 为 key，同一 prefab 只会创建一个实例</param>
+        /// <param name="data">传给 OnShown 的数据</param>
+        /// <param name="layer">界面层级；只有 Pop 层会进入 _viewStack</param>
         public async UniTask OpenView(ViewEntry entry, object data = null, UILayer layer = UILayer.Bottom)
         {
+            // 已缓存：只走 Show → OnShown。
+            // 注意：不会重新 Initialize/OnInit；同一 prefab 用不同 layer 再打开会复用旧实例、停留在原层级；
+            // Pop 层会再次入栈，重复打开同一弹窗会在 _viewStack 里留下重复项。
             if (_viewCache.TryGetValue(entry.PrefabPath, out var cachedView))
             {
                 cachedView.Show(data);
                 if (layer == UILayer.Pop) _viewStack.Push(cachedView);
                 return;
             }
+
+            // 未缓存：异步加载预制体（Addressables，引用计数 +1，销毁时需配对 Release），
+            // 然后实例化到目标层级的 Canvas 下。
+            // 注意：同一 entry 并发打开时这里没有去重，可能各自加载实例化，产生重复实例。
             var viewPrefab = await ResourcesLoader.Instance.LoadPrefab(entry);
             if (viewPrefab == null)
             {
@@ -62,22 +72,28 @@ namespace Endfield.Core
             var viewGo = Object.Instantiate(viewPrefab, canvasTrs, false);
             viewGo.name = entry.Name;
 
-            //依赖注入
-            //通过之前用 [Inject] 注入的 IObjectResolver（VContainer 的依赖注入容器）解析视图类型
-            //entry.ViewType 是视图的类类型（比如 LoginView、MainMenuView）
-            //容器会负责：
-            //创建该类型的实例
-            //自动注入该实例中所有标记了 [Inject] 的属性/字段
-            //如果该类型有构造函数依赖，也会自动递归解析
-            //检查解析结果是否实现了 IView 接口，否则报错
+            // 用 VContainer 的容器创建「视图类实例」并注入依赖：
+            // - 视图类（BaseView 子类）是普通 C# 对象，与上面实例化的 viewGo 是两个东西，
+            //   Initialize(viewGo.transform) 时才把两者关联起来；
+            // - 构造函数依赖会被递归解析，标记 [Inject] 的字段/属性在这一步完成注入；
+            // - 注入发生在 Initialize/OnInit 之前，所以 OnInit 里可以直接使用注入的依赖；
+            // - 视图类型必须已在 GameLifetimeScope 注册：未注册时 Resolve 会直接抛异常，
+            //   不会走到下面的 is not IView 判断；entry.ViewType 为 null 时同样会抛异常；
+            //   is not IView 只能兜住「解析成功但类型不是 IView」的情况。
             if (Container.Resolve(entry.ViewType) is not IView viewInstance)
             {
+                // 此分支中已实例化的 viewGo 和预制体引用尚未释放
+                // TODO: Object.Destroy(viewGo); ResourcesLoader.Instance.Release(entry.PrefabPath);
                 Debug.LogError($"[UIManager] Failed to resolve view instanceInit: {entry.ViewType}");
                 return;
             }
+
+            // Initialize 内部会 await OnInit（一次性初始化：找节点、建列表、绑按钮等），
+            // 完成之后才 Show：SetActive(true) 并触发 OnShown。
             await viewInstance.Initialize(viewGo.transform, entry.Name);
             viewInstance.Show(data);
 
+            // 以 PrefabPath 为 key 缓存，后续打开直接复用
             _viewCache[entry.PrefabPath] = viewInstance;
             if (layer == UILayer.Pop) _viewStack.Push(viewInstance);
 

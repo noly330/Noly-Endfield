@@ -15,6 +15,7 @@ namespace Endfield.Core
         {
 
             builder.RegisterInstance<IUserDataProvider>(userData);
+            
             //Assembly.GetExecutingAssembly().GetTypes()：获取当前程序集中所有的类型
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
             {

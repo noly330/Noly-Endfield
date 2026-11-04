@@ -26,10 +26,7 @@ namespace Endfield
             _input.OnLinkSkill -= OnLinkSkill;
         }
 
-        private void OnSwitch()
-        {
-            TeamManager.Instance.SwitchNext();
-        }
+        private void OnSwitch() =>TeamManager.Instance.SwitchNext();
         private void OnSkill(int index) => TeamManager.Instance.TryCastSkill(index);
         private void OnLinkSkill() => TeamManager.Instance.Links.TryCastLink();
     }
