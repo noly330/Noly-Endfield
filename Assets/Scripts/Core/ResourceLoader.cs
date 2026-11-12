@@ -181,6 +181,43 @@ namespace Endfield.Core
         }
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
+        /// <summary>调试面板用：单条资源快照。</summary>
+        public readonly struct DebugEntry
+        {
+            public readonly string Path;
+            public readonly int RefCount;
+            public readonly bool Cached;
+            public readonly AsyncOperationStatus Status;
+
+            public DebugEntry(string path, int refCount, bool cached, AsyncOperationStatus status)
+            {
+                Path = path;
+                RefCount = refCount;
+                Cached = cached;
+                Status = status;
+            }
+        }
+
+        /// <summary>调试面板用：返回当前缓存与引用计数的快照（缓存 key 与计数 key 的并集）。</summary>
+        public List<DebugEntry> DebugGetEntries()
+        {
+            var result = new List<DebugEntry>(_cache.Count + _refCounts.Count);
+
+            foreach (var kvp in _cache)
+            {
+                _refCounts.TryGetValue(kvp.Key, out var count);
+                result.Add(new DebugEntry(kvp.Key, count, true, kvp.Value.Status));
+            }
+
+            foreach (var kvp in _refCounts)
+            {
+                if (!_cache.ContainsKey(kvp.Key))
+                    result.Add(new DebugEntry(kvp.Key, kvp.Value, false, default));
+            }
+
+            return result;
+        }
+
         /// <summary>调试用：打印当前所有资源的引用计数，便于验收「关闭界面后归零」。</summary>
         public string DebugDumpRefCounts()
         {
