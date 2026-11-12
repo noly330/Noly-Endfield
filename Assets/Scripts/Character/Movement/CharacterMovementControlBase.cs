@@ -48,6 +48,8 @@ namespace Endfield
 
         protected virtual void OnAnimatorMove()
         {
+            if(_animator == null) return;
+            if(_characterController == null || !_characterController.enabled)  return;
             _animator.ApplyBuiltinRootMotion();
             UpdateCharacterMoveDirection(_animator.deltaPosition);
         }

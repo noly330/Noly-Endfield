@@ -25,6 +25,7 @@ namespace Endfield.Module.UI
             "CharacterAIController",
             "BehaviorTree",
             "CharacterLink",
+            "Character",
         };
 
         private static bool _mainCamExcluded;

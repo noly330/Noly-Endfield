@@ -9,10 +9,12 @@
 ```
 Docs/
 ├─ README.md              ← 本索引
+├─ NOTES-STYLE.md         ← 笔记规范（写之前先看）
+├─ Templates/             ← 模板
 ├─ Notes/                 ← 学习笔记（按主题分类）
 │  └─ Unity/
-├─ Design/                ← 本项目的架构决策 / 重构记录
-└─ assets/                ← 笔记引用的截图、示意图
+├─ Design/                ← 决策 / 计划 / TODO
+└─ assets/                ← 笔记引用的截图
 ```
 
 ## 文档列表
@@ -20,26 +22,23 @@ Docs/
 | 主题 | 标题 | 日期 | 状态 | 链接 |
 |---|---|---|---|---|
 | Unity / 架构 | 输入系统升级：IInputSource + InputService | 2026-11-04 | 当前版本 | [input-system-upgrade.md](Notes/Unity/input-system-upgrade.md) |
+| Unity / 资源 | 资源管理升级：ResourceScope + 并发加载去重 | 2026-11-05 | 已完成（未提交） | [resource-management-upgrade.md](Notes/Unity/resource-management-upgrade.md) |
 | 计划 | 资源管理升级计划（ResourceScope） | 2026-11-04 | 进行中 · `feature/resource-upgrade` | [2026-11-04-resource-upgrade-plan.md](Design/2026-11-04-resource-upgrade-plan.md) |
+| TODO | 资源管理问题修复 TODO | 2026-11-10 | 待执行 | [2026-11-10-resource-fix-todo.md](Design/2026-11-10-resource-fix-todo.md) |
 
-## 写作约定
+## 笔记规范
 
-- 格式统一用 **Markdown**（`.md`），便于代码高亮、表格、链接和 GitHub 渲染。
-- 文件名用**英文小写 + 连字符**，例如 `input-system-upgrade.md`；内容用中文。
-- 学习笔记按主题命名；设计/重构记录可加日期前缀，例如 `2026-11-04-input-refactor.md`。
-- 图片统一放 `Docs/assets/`，用相对路径引用。
-- 建议每篇笔记的结构：
-  ```
-  # 标题
-  ## 背景 / 问题
-  ## 方案与取舍
-  ## 结论 / 经验
-  ## 附录（相关文件、提交）
-  ```
-- 笔记里不要放账号、密钥、公司内部信息——本仓库是公开的。
+完整规则见 [NOTES-STYLE.md](NOTES-STYLE.md)。核心三条：
+
+1. **结论先行**：开头 3 行说清结论；
+2. **短**：一篇 ≤ 120 行，代码片段 ≤ 15 行；
+3. **可执行**：待办用 `- [ ]`，带验收标准。
+
+模板：[Templates/note-template.md](Templates/note-template.md)。
 
 ## 新增笔记步骤
 
-1. 在 `Notes/<分类>/` 或 `Design/` 下新建 `.md` 文件；
-2. 在上面的「笔记列表」表格中加一行；
-3. 提交时一起提交 `Docs/` 目录。
+1. 复制 `Templates/note-template.md` 到对应目录；
+2. 写完后按规范自检；
+3. 在上面的「文档列表」加一行；
+4. 提交时一起提交 `Docs/`。

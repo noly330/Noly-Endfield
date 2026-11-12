@@ -4,31 +4,45 @@ using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 using Object = UnityEngine.Object;
 
 namespace Endfield.Core
 {
     public abstract class BaseWidget : IView
     {
-        protected virtual int SortOrder => 0;
 
+        protected virtual int SortOrder => 0;
         protected Transform Parent { get; private set; }
         protected abstract ViewEntry ViewEntry { get; }
+        [Inject]
+        protected IObjectResolver Container { get; set; }
+
+        /// <summary>Widget 级资源作用域：Initialize 时创建（或接管），Destroy 时统一释放。</summary>
+        protected ResourceScope Scope { get; private set; }
         private readonly Dictionary<string, Component> _componentCache = new();
         public Transform transform { get; private set; }
         public GameObject gameObject { get; private set; }
         public RectTransform transformRect => transform.GetComponent<RectTransform>();
 
-        public async UniTask Initialize(Transform parent, string _ = "")
+        public async UniTask Initialize(Transform parent, ResourceScope scope = null)
+        {
+            Scope = scope ?? ResourcesLoader.Instance.BeginScope();
+            await InitializeCore(parent);
+        }
+
+        private async UniTask InitializeCore(Transform parent)
         {
             if (parent == null)
             {
                 Debug.LogError("parent empty Use");
                 return;
             }
+
             Parent = parent;
             if (string.IsNullOrEmpty(ViewEntry.PrefabPath)) return;
-            var prefab = await ResourcesLoader.Instance.LoadPrefab(ViewEntry);
+
+            var prefab = await Scope.Load<GameObject>(ViewEntry.PrefabPath);
             if (prefab == null) return;
 
             gameObject = Object.Instantiate(prefab, parent);
@@ -45,6 +59,7 @@ namespace Endfield.Core
                 canvas.overrideSorting = true;
                 canvas.sortingOrder = SortOrder;
             }
+
             gameObject.SetActive(false);
             OnInit();
         }
@@ -71,11 +86,16 @@ namespace Endfield.Core
 
         public void Destroy()
         {
+            if (transform == null && gameObject == null && Scope == null) return;   // 幂等：重复 Destroy 直接忽略
+
             OnHidden();
             OnDestroy();
             if (transform != null) Object.Destroy(transform.gameObject);
             _componentCache.Clear();
-            ResourcesLoader.Instance.Release(ViewEntry.PrefabPath);
+
+            Scope?.Dispose();
+            Scope = null;
+
             transform = null;
             gameObject = null;
         }
@@ -107,6 +127,23 @@ namespace Endfield.Core
 
             _componentCache[cacheKey] = comp;
             return comp;
+        }
+
+        /// <summary>
+        /// 通过 VContainer 解析并初始化一个子 Widget，使其能参与依赖注入。
+        /// 与 BaseView.SetWidget&lt;T&gt; 对称。
+        /// 为了让widget也能创建子widget
+        /// </summary>
+        protected async UniTask<T> CreateWidget<T>(ViewEntry entry, Transform parent) where T : BaseWidget
+        {
+            if (Container.Resolve(entry.ViewType) is T widget)
+            {
+                await widget.Initialize(parent);
+                return widget;
+            }
+
+            Debug.LogError($"[BaseWidget] Widget 类型未注册: {entry.ViewType}");
+            return null;
         }
 
 
