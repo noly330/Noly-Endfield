@@ -61,7 +61,7 @@ namespace Endfield.Module.UI
 
             int version = ++_displayVersion;
             ClearCharacter();
-            _mount.localRotation = Quaternion.identity;
+            _mount.localRotation = Quaternion.identity; 
 
             var prefab = await ResourcesLoader.Instance.Load<GameObject>(so.prefabAddress);
             if (prefab == null) return;
@@ -155,8 +155,13 @@ namespace Endfield.Module.UI
 
         private void ClearCharacter()
         {
+            if(_loadedAddress != null)
+            {
+                ResourcesLoader.Instance.Release(_loadedAddress);
+            }
             if (_character != null) Object.Destroy(_character);
             _character = null;
+
         }
 
         private static void SetLayerRecursive(Transform t, int layer)
