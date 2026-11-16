@@ -1,6 +1,8 @@
 using Endfield.Tools;
 using UnityEngine;
 using Endfield.Module.Audio;
+using Endfield.Core;
+using Endfield.Module.Timer;
 
 namespace Endfield
 {

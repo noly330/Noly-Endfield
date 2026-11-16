@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Endfield.Core.UI
+namespace Endfield.Core
 {
     /// <summary>
     /// 通用虚拟滚动列表：只渲染可见区间内的格子，滚动时池化回收/补齐。

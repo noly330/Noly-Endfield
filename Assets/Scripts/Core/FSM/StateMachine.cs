@@ -1,6 +1,6 @@
-using Tools;
+using Endfield.Core.Reactive;
 
-namespace Endfield
+namespace Endfield.Core
 {
     public abstract class StateMachine
     {

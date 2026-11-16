@@ -4,7 +4,7 @@ using UnityEngine;
 using Endfield.Module.Timer;
 using Endfield.Core;
 
-namespace Endfield
+namespace Endfield.Module.Timer
 {
     public class TimerManager : SingletonMono<TimerManager>
     {

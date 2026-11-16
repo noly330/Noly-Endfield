@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Endfield.Tools;
 using UnityEngine;
+using Endfield.Core;
 
 namespace Endfield
 {

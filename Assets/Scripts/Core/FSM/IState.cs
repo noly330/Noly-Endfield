@@ -1,4 +1,4 @@
-namespace Endfield
+namespace Endfield.Core
 {
 
 

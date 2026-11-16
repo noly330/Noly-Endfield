@@ -1,6 +1,6 @@
 using System;
 
-namespace Tools
+namespace Endfield.Core.Reactive
 {
 
     public class BindableProperty<T>

@@ -1,5 +1,6 @@
 using Endfield.Module.Timer;
 using UnityEngine;
+using Endfield.Core;
 
 namespace Endfield
 {

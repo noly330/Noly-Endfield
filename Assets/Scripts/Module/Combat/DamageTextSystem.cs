@@ -5,7 +5,7 @@ using Endfield.Core.Pool;
 using TMPro;
 using UnityEngine;
 
-namespace Endfield
+namespace Endfield.Module.Combat
 {
     /// <summary>
     /// 伤害飘字系统（纯 C# 单例）：订阅 Events.OnCharacterDamaged，

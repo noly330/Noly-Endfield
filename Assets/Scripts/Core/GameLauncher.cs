@@ -6,6 +6,7 @@ using Endfield.Data.User;
 using Endfield.Data.Catalog;
 using Endfield.Core.Pool;
 using Endfield.Module.Audio;
+using Endfield.Module.Combat;
 
 namespace Endfield.Core
 {

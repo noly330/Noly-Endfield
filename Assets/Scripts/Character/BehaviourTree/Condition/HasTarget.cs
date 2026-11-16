@@ -1,18 +1,20 @@
 using BehaviorDesigner.Runtime.Tasks;
-using Endfield;
 using UnityEngine;
 
-[TaskCategory("Character")]
-
-public class HasTarget : Conditional
+namespace Endfield
 {
-    private CharacterAIController _controller;
-    public override void OnAwake() => _controller = GetComponent<CharacterAIController>();
+    [TaskCategory("Character")]
 
-    public override TaskStatus OnUpdate()
+    public class HasTarget : Conditional
     {
-        return _controller.CurrentTarget != null
-            ? TaskStatus.Success : TaskStatus.Failure;
-    }
+        private CharacterAIController _controller;
+        public override void OnAwake() => _controller = GetComponent<CharacterAIController>();
 
+        public override TaskStatus OnUpdate()
+        {
+            return _controller.CurrentTarget != null
+                ? TaskStatus.Success : TaskStatus.Failure;
+        }
+
+    }
 }

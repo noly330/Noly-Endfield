@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Endfield
+namespace Endfield.Core
 {
     public static class EventCenter
     {

@@ -1,7 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Endfield.Core;
 using Endfield.Core.Pool;
-using Endfield.Core.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

@@ -5,7 +5,7 @@ using Endfield.Core;
 using UnityEditor;
 using UnityEngine;
 
-namespace Endfield.EditorTools
+namespace Endfield.Editor
 {
     /// <summary>
     /// 资源调试面板：查看 ResourcesLoader 当前的缓存与引用计数。

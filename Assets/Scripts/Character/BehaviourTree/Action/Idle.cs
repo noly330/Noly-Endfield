@@ -1,17 +1,18 @@
 using BehaviorDesigner.Runtime.Tasks;
-using Endfield;
-
-[TaskCategory("Character")]
-public class Idle : Action
+namespace Endfield
 {
-    private CharacterAIController _controller;
-
-    public override void OnAwake() => _controller = GetComponent<CharacterAIController>();
-
-    public override TaskStatus OnUpdate()
+    [TaskCategory("Character")]
+    public class Idle : Action
     {
-        _controller.Stop();
+        private CharacterAIController _controller;
 
-        return TaskStatus.Running;
+        public override void OnAwake() => _controller = GetComponent<CharacterAIController>();
+
+        public override TaskStatus OnUpdate()
+        {
+            _controller.Stop();
+
+            return TaskStatus.Running;
+        }
     }
 }

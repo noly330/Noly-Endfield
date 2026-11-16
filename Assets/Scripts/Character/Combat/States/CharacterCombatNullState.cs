@@ -1,4 +1,5 @@
 using UnityEngine;
+using Endfield.Core;
 
 namespace Endfield
 {

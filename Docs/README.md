@@ -23,8 +23,10 @@ Docs/
 |---|---|---|---|---|
 | Unity / 架构 | 输入系统升级：IInputSource + InputService | 2026-11-04 | 当前版本 | [input-system-upgrade.md](Notes/Unity/input-system-upgrade.md) |
 | Unity / 资源 | 资源管理升级：ResourceScope + 并发加载去重 | 2026-11-05 | 已完成（未提交） | [resource-management-upgrade.md](Notes/Unity/resource-management-upgrade.md) |
+| Unity / 架构 | 命名空间与文件归属约定 | 2026-11-16 | 当前版本 | [namespace-convention.md](Notes/Unity/namespace-convention.md) |
 | 计划 | 资源管理升级计划（ResourceScope） | 2026-11-04 | 进行中 · `feature/resource-upgrade` | [2026-11-04-resource-upgrade-plan.md](Design/2026-11-04-resource-upgrade-plan.md) |
 | TODO | 资源管理问题修复 TODO | 2026-11-10 | 待执行 | [2026-11-10-resource-fix-todo.md](Design/2026-11-10-resource-fix-todo.md) |
+| 计划 | UI 层 MVVM 改造计划 | 2026-11-16 | 草稿 · `refactor/mvvm-ui` | [2026-11-16-mvvm-refactor-plan.md](Design/2026-11-16-mvvm-refactor-plan.md) |
 
 ## 笔记规范
 

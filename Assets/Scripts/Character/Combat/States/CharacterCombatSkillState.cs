@@ -1,5 +1,6 @@
 using UnityEngine;
 using Endfield.Module.Audio;
+using Endfield.Core;
 namespace Endfield
 {
     /// <summary>
